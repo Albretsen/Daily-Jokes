@@ -11,7 +11,7 @@ export default function LoadingIndicatorGlobal() {
     if (!visible) return null
 
     return (
-        <Modal modalVisible={true}>
+        <Modal noExit modalVisible={true}>
             <ActivityIndicator size="large" color={colors.blue.medium} />
         </Modal>
     );

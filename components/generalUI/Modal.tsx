@@ -24,7 +24,7 @@ export default function Modal(props: ModalProps) {
                     {children}
                 </View>
             </View>
-            {noExit && (
+            {!noExit && (
                 <View style={styles.closeButton}>
                     <CircularButton size={36} variant="close" onPress={onRequestClose} />
                 </View>

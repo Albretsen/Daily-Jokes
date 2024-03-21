@@ -75,7 +75,7 @@ export default function Profile() {
                 <View style={{ alignSelf: "center", width: "86%", marginVertical: 10 }}>
                     <View style={{ justifyContent: "space-between", alignItems: "center", flexDirection: "row" }}>
                         <CircularButton variant="back" onPress={() => customizeDrawer.current?.closeDrawer()} />
-                        <CoinCount />
+                        <CoinCount onPress={() => customizeDrawer.current?.closeDrawer()} />
                     </View>
                 </View>
                 <ContentTab
