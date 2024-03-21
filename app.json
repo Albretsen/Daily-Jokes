@@ -38,6 +38,14 @@
           ]
         }
       ],
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static"
+          }
+        }
+      ],
       "expo-secure-store"
     ],
     "extra": {
@@ -45,5 +53,9 @@
         "projectId": "7ac90e81-d289-493f-9b05-7230b49d59b6"
       }
     }
+  },
+  "react-native-google-mobile-ads": {
+    "android_app_id": "ca-app-pub-1354741235649835~2307627151",
+    "ios_app_id": "ca-app-pub-1354741235649835~7216338903"
   }
 }
