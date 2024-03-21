@@ -7,6 +7,7 @@ import { initialize } from "./services/initialize";
 import { Provider as ReduxProvider } from 'react-redux';
 import { store } from "./state-management/reduxStore";
 import { Toast } from "./components/misc/Toast";
+import LoadingIndicatorGlobal from "./components/misc/LoadingIndicatorGlobal";
 
 export default function App() {
     initialize();
@@ -16,8 +17,9 @@ export default function App() {
             <View style={styles.container}>
                 <NavigationContainer>
                     <StatusBar style="auto" />
-                    <Toast />
                     <AppNavigationStack />
+                    <Toast />
+                    <LoadingIndicatorGlobal />
                 </NavigationContainer>
             </View>
         </ReduxProvider>
