@@ -28,10 +28,10 @@ export default function JokeListItem(props: JokeListItemProps) {
 
     const [modalVisible, setModalVisible] = useState(false);
 
-    return(
+    return (
         <>
-            <ListItem 
-                left={<Avatar id={joke.avatarId} />}
+            <ListItem
+                left={<Avatar size={60} id={joke.avatarId} />}
                 useDefaultCenter
                 centerTitle={joke.username}
                 centerText={joke.text}
@@ -49,13 +49,13 @@ export default function JokeListItem(props: JokeListItemProps) {
                         <Text shadow={false} color={componentColors.contentBox.text}>{joke.text}</Text>
                     </ScrollView>
                     <ListItem
-                            left={<Avatar id={joke.avatarId} />}
-                            useDefaultCenter
-                            centerTitle={joke.username}
-                            rightArrow={false}
-                            useDefaultRight
-                            rightText={"#" + joke.position}
-                        />
+                        left={<Avatar size={60} id={joke.avatarId} />}
+                        useDefaultCenter
+                        centerTitle={joke.username}
+                        rightArrow={false}
+                        useDefaultRight
+                        rightText={"#" + joke.position}
+                    />
                 </ContentBox>
             </Modal>
         </>

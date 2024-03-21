@@ -4,7 +4,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { useSelector } from 'react-redux';
 import { RootState } from "../../state-management/reduxStore";
 import Button from "../buttons/Button";
-import { ProfilePicture } from './Avatar';
+import Avatar from './Avatar';
 import PriceDisplay from '../misc/PriceDisplay';
 import { buyAvatar, selectAvatar } from '../../state-management/profile';
 
@@ -18,7 +18,7 @@ export default function AvatarSelection() {
                 <View style={styles.sectionContainer}>
                     {ownedAvatars.map((id) => (
                         <View key={id} style={styles.avatarContainer}>
-                            <ProfilePicture size={100} id={id} />
+                            <Avatar size={100} id={id} />
                             {id == avatarId ? (
                                 <Button disabled={true} height={34} label="Selected" variant="pink" />
                             ) : (
@@ -32,7 +32,7 @@ export default function AvatarSelection() {
                 <View style={styles.sectionContainer}>
                     {remainingAvatars.map((id) => (
                         <View key={id} style={styles.avatarContainer}>
-                            <ProfilePicture size={100} id={id} />
+                            <Avatar size={100} id={id} />
                             <PriceDisplay price={avatarPrice} />
                             <Button onPress={() => buyAvatar(id)} height={34} label="Buy" variant="blue" />
                         </View>

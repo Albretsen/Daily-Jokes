@@ -1,4 +1,5 @@
-import { View, Image, StyleSheet, StyleProp, ImageStyle } from "react-native";
+import { View, Image, StyleSheet } from "react-native";
+import { percentageOf } from "../../utils/utils";
 
 type AvatarSource = ReturnType<typeof require>;
 const avatars: Record<number, AvatarSource> = {
@@ -19,26 +20,6 @@ const avatars: Record<number, AvatarSource> = {
 
 interface AvatarProps {
     id: number;
-    size?: number;
-}
-
-export default function Avatar(props: AvatarProps) {
-    const { id, size = 48 } = props;
-
-    return(
-        <Image style={[avatarStyles.image, {height: size, width: size}]} source={avatars[id]} />
-    )
-}
-
-const avatarStyles = StyleSheet.create({
-    image: {
-        borderRadius: 100,
-    },
-})
-
-
-interface ProfilePictureProps {
-    id: number;
     backgroundColor?: string;
     size?: number;
     borderWidth?: number;
@@ -50,27 +31,28 @@ interface ProfilePictureProps {
     offset?: number;
 }
 
-export function ProfilePicture(props:ProfilePictureProps) {
-    const { id, backgroundColor = "#FDBC66", size = 120, borderWidth = 2, offset = 0 } = props;
-    return(
+export default function Avatar(props: AvatarProps) {
+    const { id, backgroundColor = "#FDBC66", size = 120, borderWidth = 2 } = props;
+    let offset = borderWidth - borderWidth * 2
+    return (
         <View style={[
-            profileStyles.fullCircle,
+            styles.fullCircle,
             {
                 backgroundColor: backgroundColor,
                 borderWidth: borderWidth,
-                height: size - 10,
-                width: size - 10
+                height: size - percentageOf(6, size),
+                width: size - percentageOf(6, size)
             }
         ]}>
             <View style={[
-                profileStyles.lowerCircle,
+                styles.lowerCircle,
                 {
                     height: size + 20, // Allows room for image overflow without cutoff
                     width: size - borderWidth * 2
                 }
             ]}>
                 <Image style={[
-                    profileStyles.image,
+                    styles.image,
                     {
                         height: size,
                         width: size,
@@ -82,12 +64,13 @@ export function ProfilePicture(props:ProfilePictureProps) {
     )
 }
 
-const profileStyles = StyleSheet.create({
+const styles = StyleSheet.create({
     fullCircle: {
         borderRadius: 100,
         justifyContent: "flex-end",
         alignItems: "center",
         borderColor: "white",
+        borderWidth: 2,
     },
 
     lowerCircle: {
