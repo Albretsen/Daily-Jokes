@@ -16,6 +16,7 @@ import BackgroundSelection from '../components/profile/BackgroundSelection';
 import { RootState } from '../state-management/reduxStore';
 import { useSelector } from 'react-redux';
 import { useProfile } from '../hooks/useProfile';
+import CoinCount from '../components/misc/CoinCount';
 
 
 type DrawerRef = {
@@ -72,8 +73,9 @@ export default function Profile() {
 
             <Drawer width="94%" ref={customizeDrawer}>
                 <View style={{ alignSelf: "center", width: "86%", marginVertical: 10 }}>
-                    <View style={{ alignItems: "flex-start" }}>
+                    <View style={{ justifyContent: "space-between", alignItems: "center", flexDirection: "row" }}>
                         <CircularButton variant="back" onPress={() => customizeDrawer.current?.closeDrawer()} />
+                        <CoinCount />
                     </View>
                 </View>
                 <ContentTab

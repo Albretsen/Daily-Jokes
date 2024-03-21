@@ -29,7 +29,7 @@ export default function Rate() {
                 top: -220,
                 left: 25,
             }}>
-                <RoundButtonWithLabel onPress={() => { setShowHistory(!showHistory) }} label="Tap to view jokes you've rated" variant="history" />
+                <RoundButtonWithLabel onPress={() => { setShowHistory(!showHistory) }} label={showHistory ? "Tap to rate jokes" : "Tap to view jokes you've rated"} variant="history" />
             </View>
         </View >
     )
