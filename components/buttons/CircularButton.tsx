@@ -3,9 +3,11 @@ import { TouchableOpacity, View, StyleSheet, Image } from "react-native";
 import { componentColors } from "../misc/Colors";
 import { percentageOf as p } from "../../utils/utils";
 
+export type VariantType = "yes" | "no" | "close" | "back" | "hamburger" | "superlike" | "no-ads" | "chest" | "boost" | "history"
+
 interface CircularButtonProps {
     onPress?: () => void;
-    variant?: "yes" | "no" | "close" | "back" | "hamburger" | "superlike" | "no-ads" | "chest" | "boost";
+    variant?: VariantType;
     iconComponent?: ReactNode;
     backgroundColor?: string;
     highlightColor?: string;
@@ -66,6 +68,12 @@ const variants = {
         icon: require("../../assets/icons/boost.png"),
         backgroundColor: componentColors.yesButton.background,
         highlightColor: componentColors.yesButton.highlight,
+    },
+
+    history: {
+        icon: require("../../assets/icons/history.png"),
+        backgroundColor: componentColors.superlikeButton.background,
+        highlightColor: componentColors.superlikeButton.highlight,
     },
 }
 
