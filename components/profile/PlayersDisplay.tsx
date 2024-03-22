@@ -14,7 +14,7 @@ interface PlayersDisplayProps {
 }
 
 export default function PlayersDisplay(props: PlayersDisplayProps) {
-    const { users, totalPlayers } = props; 
+    const { users, totalPlayers } = props;
     const displayedUsers = users.slice(0, totalPlayers <= 5 ? totalPlayers : 4);
     const remainingCount = totalPlayers > 5 ? totalPlayers - 4 : 0;
 
@@ -25,7 +25,7 @@ export default function PlayersDisplay(props: PlayersDisplayProps) {
             <Text shadow={false} color={colors.purple.dark}>Players</Text>
             <View style={styles.avatarContainer}>
                 {displayedUsers.map((user) => (
-                    <Avatar key={user.id} id={user.avatarId} />
+                    <Avatar size={60} key={user.id} id={user.avatarId} />
                 ))}
                 {remainingCount > 0 && (
                     <View style={styles.remainingCircle}>
