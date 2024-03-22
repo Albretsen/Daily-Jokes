@@ -1,4 +1,5 @@
 export const environment = "production";
+export const useTestAds = true;
 
 const config = {
     production: {
