@@ -17,9 +17,9 @@ interface CardProps {
 }
 
 function Card({ text, animateCardAway }: CardProps) {
-    return(
-        <ContentBox title={"Rate"} headerColor={colors.green.dark} style={{overflow: "hidden"}}>
-            <ScrollView style={{maxHeight: SCREEN_HEIGHT - 250}}>
+    return (
+        <ContentBox title={"Rate"} headerColor={colors.green.dark} containerStyle={{ marginTop: 50 }} style={{ overflow: "hidden" }}>
+            <ScrollView style={{ maxHeight: SCREEN_HEIGHT - 250 }}>
                 <Text shadow={false} color={componentColors.text.contentBox}>
                     {text}
                 </Text>
@@ -68,8 +68,8 @@ export default function SwipePicker() {
     const onNext = () => {
         if (currentIndex % 5 == 0) {
             const newCriteria = {
-                ...criteria, 
-                pagination: { ...criteria.pagination, page: page } 
+                ...criteria,
+                pagination: { ...criteria.pagination, page: page }
             };
             setCriteria(newCriteria);
             const nextPage = page + 1;
@@ -151,7 +151,7 @@ export default function SwipePicker() {
     const animateCardAway = (direction: number, action: string) => {
         const toValue = direction !== 0 ? (direction > 0 ? 500 : -500) : 0; // For superlike, we don't move the card to the sides.
         const jokeId = jokes[currentIndex] ? jokes[currentIndex].id : null;
-    
+
         if (jokeId) {
             rate(jokeId, action).then(() => {
                 Animated.timing(translateX, {

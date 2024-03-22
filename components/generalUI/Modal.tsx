@@ -7,10 +7,11 @@ interface ModalProps {
     children?: ReactNode;
     modalVisible: boolean;
     onRequestClose?: () => void;
+    noExit?: boolean;
 }
 
 export default function Modal(props: ModalProps) {
-    const { children, modalVisible, onRequestClose } = props;
+    const { children, modalVisible, onRequestClose, noExit } = props;
 
     return (
         <RNModal
@@ -23,9 +24,11 @@ export default function Modal(props: ModalProps) {
                     {children}
                 </View>
             </View>
-            <View style={styles.closeButton}>
-                <CircularButton size={36} variant="close" onPress={onRequestClose} />
-            </View>
+            {!noExit && (
+                <View style={styles.closeButton}>
+                    <CircularButton size={36} variant="close" onPress={onRequestClose} />
+                </View>
+            )}
         </RNModal>
     );
 }
