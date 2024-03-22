@@ -9,15 +9,15 @@ import ActiveTabContext from '../../context/ActiveTabContext';
 
 export default function MyJokes() {
     const { activeTab } = useContext(ActiveTabContext);
-    const [criteria, setCriteria] = useState({ filters: { userId: -1, contestId: -1 } }); 
-    
+    const [criteria, setCriteria] = useState({ filters: { userId: -1, contestId: -1 } });
+
     const contest = useContest();
 
     useEffect(() => {
-        if(activeTab === 2) {
+        if (activeTab === 2) {
             const fetchUserId = async () => {
                 const userDetails = await UserDataManager.getUserDetails();
-                setCriteria({ filters: { userId: userDetails.id, contestId: contest.id } }); 
+                setCriteria({ filters: { userId: userDetails.id, contestId: contest.id } });
             };
 
             fetchUserId();
@@ -26,7 +26,7 @@ export default function MyJokes() {
 
     return (
         <View>
-            <JokeListManager initialCriteria={criteria}></JokeListManager>
+            <JokeListManager noJokesMessage="When you post a joke, it will appear here!" initialCriteria={criteria}></JokeListManager>
         </View>
     );
 }

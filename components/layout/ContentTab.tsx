@@ -29,7 +29,7 @@ export default function ContentTab(props: ContentTabProps) {
     useEffect(() => {
         // Calculate the new position based on the activeTab
         const newPosition = activeTab * tabWidthPercent;
-        
+
         Animated.spring(position, {
             toValue: newPosition,
             useNativeDriver: false,

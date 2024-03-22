@@ -29,9 +29,10 @@ interface JokeListManagerProps {
         exclude?: object;
         searchQuery?: string;
     };
+    noJokesMessage?: string;
 }
 
-export default function JokeListManager({ initialCriteria = { sortBy: "-createTimeStamp", pagination: { page: 1 } } }: JokeListManagerProps) {
+export default function JokeListManager({ initialCriteria = { sortBy: "-createTimeStamp", pagination: { page: 1 } }, noJokesMessage = "No jokes found." }: JokeListManagerProps) {
     const [localJokes, setLocalJokes] = useState<joke[]>([]);
     const [page, setPage] = useState(1);
     const [criteria, setCriteria] = useState(initialCriteria);
@@ -55,16 +56,16 @@ export default function JokeListManager({ initialCriteria = { sortBy: "-createTi
 
     useEffect(() => {
         const newCriteria = {
-            ...criteria, 
-            pagination: { ...criteria.pagination, page: page } 
+            ...criteria,
+            pagination: { ...criteria.pagination, page: page }
         };
         setCriteria(newCriteria);
     }, [page]);
 
     const loadMoreJokes = () => {
         const nextPage = page + 1;
-        setPage(nextPage); 
-    
+        setPage(nextPage);
+
         const newCriteria = {
             ...criteria,
             pagination: { ...criteria.pagination, page: nextPage },
@@ -94,13 +95,13 @@ export default function JokeListManager({ initialCriteria = { sortBy: "-createTi
                 </>
             ) : (
                 !isLoading && initialFetchCompleted ? (
-                    <Text shadow={false} style={{ textAlign: "center" }} color={colors.purple.dark}>No jokes found.</Text>
+                    <Text shadow={false} style={{ textAlign: "center", maxWidth: "70%", alignSelf: "center" }}>{noJokesMessage}</Text>
                 ) : (
                     <View style={{ height: 50 }}><LoadingIndicator isLoading={isLoading} /></View>
                 )
             )}
-            {!isLoading && (
-                <Button style={{alignSelf: "center", marginTop: 20}} width={200} label="Load More" onPress={loadMoreJokes} />
+            {(!isLoading && localJokes.length > 0) && (
+                <Button style={{ alignSelf: "center", marginTop: 20 }} width={200} label="Load More" onPress={loadMoreJokes} />
             )}
         </View>
     );

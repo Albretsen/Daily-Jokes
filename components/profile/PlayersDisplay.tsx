@@ -25,7 +25,7 @@ export default function PlayersDisplay(props: PlayersDisplayProps) {
             <Text shadow={false} color={colors.purple.dark}>Players</Text>
             <View style={styles.avatarContainer}>
                 {displayedUsers.map((user) => (
-                    <Avatar size={60} key={user.id} id={user.avatarId} />
+                    <Avatar size={54} key={user.id} id={user.avatarId} />
                 ))}
                 {remainingCount > 0 && (
                     <View style={styles.remainingCircle}>
@@ -45,13 +45,13 @@ const styles = StyleSheet.create({
     avatarContainer: {
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "center",
-        gap: 10,
+        justifyContent: "flex-start",
+        gap: 15,
     },
     remainingCircle: {
         width: 48,
         height: 48,
-        borderRadius: 24, // Adjusted for a circular shape
+        borderRadius: 100,
         backgroundColor: "#9F51FE",
         justifyContent: "center",
         alignItems: "center",
