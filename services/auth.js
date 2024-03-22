@@ -3,6 +3,7 @@ import { UserDataManager } from "./userDataManager";
 import { generateRandomCredentials } from "../utils/random";
 import { registerForPushNotificationsAsync } from "./notification";
 import { loadProfileToState } from "../state-management/profile";
+import { Alert } from "react-native";
 
 export const login = async (email, password) => {
     try {
@@ -100,20 +101,23 @@ export const initialize = async () => {
     let token = await UserDataManager.getToken();
 
     if (token && await validateToken(token)) {
+        Alert.alert('Token exists and is valid.');
         return;
     }
 
     if (token) {
-        console.log("COULD NOT VALIDATE LOCAL TOKEN");
+        Alert.alert('Token is not valid.');
         return;
     }
 
     let localDeviceID = await UserDataManager.getDeviceID();
 
     if (!localDeviceID) {
+        Alert.alert('Auto registering new device...');
         await autoRegisterDevice();
         return;
     } else {
+        Alert.alert('This device has already been registered.');
         //await UserDataManager.clearAllData();
         //await autoRegisterDevice();
     }
