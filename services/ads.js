@@ -1,5 +1,5 @@
 import { Platform } from "react-native";
-import { MobileAds, AdsConsent } from "react-native-google-mobile-ads";
+import { MobileAds, AdsConsent, AppOpenAd, InterstitialAd, RewardedAd, BannerAd, TestIds } from "react-native-google-mobile-ads";
 import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 
 export const initialize = async () => {
@@ -10,6 +10,7 @@ export const initialize = async () => {
 
     await MobileAds().initialize().then(adapterStatus => {
         console.log("Mobile ads initialized");
+        AppOpenAd.createForAdRequest(TestIds.APP_OPEN);
     })
 }
 
