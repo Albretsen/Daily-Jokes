@@ -4,17 +4,42 @@ import Button from "../buttons/Button";
 import Text from "../generalUI/Text";
 import { colors } from "./Colors";
 import PulseAnimation from "../animations/PulseAnimation";
+import { purchaseProduct } from "../../services/IAP";
 
 interface StoreListingProps {
     title: string;
     icon: "coins-small" | "coins-medium" | "coins-big" | "coins-chest" | "info";
     price: string;
+    productIdentifier: string;
     discount?: string;
     oldPrice?: string;
+    onPurchase?: (success: boolean, message: string) => void;
 }
 
 export default function StoreListing(props: StoreListingProps) {
-    const { title, icon, price, discount, oldPrice } = props;
+    let { title, icon, price, productIdentifier, discount, oldPrice, onPurchase } = props;
+
+    const handlePurchase = async () => {
+        try {
+            const result = await purchaseProduct(productIdentifier);
+            if (onPurchase) {
+                onPurchase(true, "Purchase successful");
+            }
+        } catch (error) {
+            if (onPurchase) {
+                onPurchase(false, error.message);
+            }
+        }
+    };
+
+    const productToIconMap = {
+        "100_coins": "coins-small",
+        "200_coins": "coins-medium",
+        "500_coins": "coins-big",
+        "1000_coins": "coins-chest",
+    };
+
+    if (!icon) icon = productToIconMap[productIdentifier] || "info";
 
     const images = {
         "coins-small": require("../../assets/images/coins-small.png"),
@@ -38,7 +63,7 @@ export default function StoreListing(props: StoreListingProps) {
                     )}
                     <Text shadow={false} color={colors.purple.medium}>{price}</Text>
                 </View>
-                <Button height={36} label="Buy" variant="blue" />
+                <Button height={36} label="Buy" variant="blue" onPress={handlePurchase} />
             </View>
             {discount && (
                 <View style={styles.discountContainer}>
