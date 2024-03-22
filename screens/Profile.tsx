@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import ScreenView, { HEADER_HEIGHT, SCREEN_HEIGHT } from '../components/layout/ScreenView';
 import Text from '../components/generalUI/Text';
-import { ProfilePicture } from '../components/profile/Avatar';
+import Avatar from '../components/profile/Avatar';
 import ContentBox from '../components/layout/ContentBox';
 import ContestListItem from '../components/listItem/ContestListItem';
 import ProfileBackground from '../components/profile/ProfileBackground';
@@ -49,7 +49,7 @@ export default function Profile() {
                 </ProfileBackground>
                 <View style={styles.profilePictureContainer}>
                     <View style={styles.profilePictureInner}>
-                        <ProfilePicture id={avatarId} />
+                        <Avatar id={avatarId} />
                         <Text size={20}>{profile.user.name}</Text>
                     </View>
                 </View>
