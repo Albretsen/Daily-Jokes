@@ -7,36 +7,48 @@ import ContentTab from "../../components/layout/ContentTab";
 export default function Rate() {
     const [showHistory, setShowHistory] = useState(false);
     return (
-        <View style={styles.container}>
-            {showHistory ? (
-                <ContentTab contentSpacing={0}
-                    tabs={[
-                        {
-                            name: "Liked",
-                            component: <>{/* TODO: Add ListItems here */}</>
-                        },
-                        {
-                            name: "Disliked",
-                            component: <>{/* TODO: Add ListItems here */}</>
-                        },
-                    ]}
-                />
-            ) : (
-                <SwipePicker />
-            )}
+        <View style={{
+            justifyContent: "flex-start",
+            flex: 1,
+        }}>
             <View style={{
-                position: "absolute",
-                top: -220,
-                left: 25,
+                paddingTop: 10,
+                alignSelf: "center",
+                width: "88%",
+                zIndex: 1
             }}>
                 <RoundButtonWithLabel onPress={() => { setShowHistory(!showHistory) }} label={showHistory ? "Tap to rate jokes" : "Tap to view jokes you've rated"} variant="history" />
             </View>
-        </View >
+            <View style={styles.container}>
+                {showHistory ? (
+                    <ContentTab contentSpacing={0}
+                        tabs={[
+                            {
+                                name: "Liked",
+                                component: <>{/* TODO: Add ListItems here */}</>
+                            },
+                            {
+                                name: "Disliked",
+                                component: <>{/* TODO: Add ListItems here */}</>
+                            },
+                        ]}
+                    />
+                ) : (
+                    <View style={{
+                        flex: 1,
+                        marginTop: -60,
+                    }}>
+                        <SwipePicker />
+                    </View>
+                )}
+            </View >
+        </View>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        width: "100%",
+        flex: 1,
+        marginTop: 10
     }
 })
