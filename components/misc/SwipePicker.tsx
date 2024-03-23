@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Animated, Modal } from 'react-native';
+import { View, StyleSheet, Animated } from 'react-native';
 import { PanGestureHandler, State, GestureHandlerStateChangeEvent, ScrollView } from 'react-native-gesture-handler';
 import ContentBox from "../layout/ContentBox";
 import Text from "../generalUI/Text";
 import CircularButton from '../buttons/CircularButton';
 import { componentColors, colors } from './Colors';
-import { SCREEN_HEIGHT, TAB_BAR_HEIGHT } from '../layout/ScreenView';
-import Button from '../buttons/Button';
+import { SCREEN_HEIGHT } from '../layout/ScreenView';
 import { useJokesSearchSwipe } from '../../hooks/useJokesSearchSwipe';
 import { api } from '../../api/api';
 import { UserDataManager } from '../../services/userDataManager';
@@ -16,18 +15,45 @@ interface CardProps {
     animateCardAway: (arg0: number, arg1: string) => void;
 }
 
+export type ScrollViewRef = ScrollView & {
+    flashScrollIndicators: () => void;
+};
+
 function Card({ text, animateCardAway }: CardProps) {
+
+    const scrollViewRef = React.useRef<ScrollViewRef | null>(null);
+
+    // Briefly shows the scrollbar to let the user know the text is scrollable
+    const flashScrollbar = () => {
+        setTimeout(function () {
+            scrollViewRef.current?.flashScrollIndicators();
+        }, 1000);
+    }
+
+    useEffect(() => {
+        flashScrollbar();
+    }, []);
+
     return (
         <ContentBox title={"Rate"} headerColor={colors.green.dark} containerStyle={{ marginTop: 50 }} style={{ overflow: "hidden" }}>
-            <ScrollView style={{ maxHeight: SCREEN_HEIGHT - 250 }}>
+            <ScrollView persistentScrollbar={true} ref={scrollViewRef} style={{ maxHeight: SCREEN_HEIGHT - 250 }}>
                 <Text shadow={false} color={componentColors.text.contentBox}>
                     {text}
                 </Text>
             </ScrollView>
             <View style={styles.buttonsContainer}>
-                <CircularButton variant="no" onPress={() => animateCardAway(-200, 'dislike')} />
-                <CircularButton variant="superlike" onPress={() => animateCardAway(0, 'superlike')} />
-                <CircularButton variant="yes" onPress={() => animateCardAway(200, 'like')} />
+                <CircularButton variant="no" onPress={() => {
+                    animateCardAway(-200, 'dislike');
+                    flashScrollbar();
+                }} />
+                <CircularButton variant="superlike" onPress={() => {
+                    animateCardAway(0, 'superlike');
+                    flashScrollbar();
+                }} />
+                <CircularButton variant="yes" onPress={() => {
+                    animateCardAway(200, 'like');
+                    flashScrollbar();
+                }} />
             </View>
         </ContentBox>
     )
