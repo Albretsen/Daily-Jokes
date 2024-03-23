@@ -20,6 +20,11 @@ export default function Store() {
         fetchOfferings();
     }, []);
 
+    const onPurchase = (success, message) => {
+        if (success)
+            console.log(message);
+    }
+
     return (
         <ScreenView style={{ justifyContent: "flex-start" }}>
             <ContentTab
@@ -36,9 +41,7 @@ export default function Store() {
                                             title={pkg.product.title}
                                             price={pkg.product.priceString}
                                             productIdentifier={pkg.identifier} 
-                                            onPurchase={(success, message) => {
-                                                console.log(message);
-                                            }}
+                                            onPurchase={onPurchase}
                                         />
                                     ))}
                                 </View>

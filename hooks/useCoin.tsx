@@ -14,12 +14,6 @@ export const useCoin = () => {
         let isMounted = true;
 
         const fetchCoin = async () => {
-            const storedCoin = await getData('coin');
-            if (storedCoin && isMounted) {
-                setCoin(storedCoin);
-                store.dispatch(updateCoins(storedCoin.coins));
-            }
-
             if (isFocused && isMounted) {
                 try {
                     const coin_result = await api("GET", "/coin", undefined, await UserDataManager.getToken());
@@ -30,6 +24,11 @@ export const useCoin = () => {
                         await storeData('coin', coin_result);
                     }
                 } catch (error) {
+                    const storedCoin = await getData('coin');
+                    if (storedCoin && isMounted) {
+                        setCoin(storedCoin);
+                        store.dispatch(updateCoins(storedCoin.coins));
+                    }
                     console.error("Failed to fetch coin:", error);
                 }
             }

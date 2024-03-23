@@ -5,6 +5,8 @@ import Text from "../generalUI/Text";
 import { colors } from "./Colors";
 import PulseAnimation from "../animations/PulseAnimation";
 import { purchaseProduct } from "../../services/IAP";
+import { store } from "../../state-management/reduxStore";
+import { incrementCoins } from "../../state-management/coinSlice";
 
 interface StoreListingProps {
     title: string;
@@ -22,8 +24,13 @@ export default function StoreListing(props: StoreListingProps) {
     const handlePurchase = async () => {
         try {
             const result = await purchaseProduct(productIdentifier);
+            const match = productIdentifier.match(/^(\d+)_coins$/);
+            if (match) {
+                const amount = parseInt(match[1], 10);
+                store.dispatch(incrementCoins(amount));
+            }
             if (onPurchase) {
-                onPurchase(true, "Purchase successful");
+                onPurchase(true, result);
             }
         } catch (error) {
             if (onPurchase) {
