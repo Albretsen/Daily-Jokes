@@ -101,7 +101,7 @@ export const initialize = async () => {
     let token = await UserDataManager.getToken();
 
     if (token && await validateToken(token)) {
-        Alert.alert('Token exists and is valid.');
+        //Alert.alert('Token exists and is valid.');
         return;
     }
 

@@ -1,5 +1,6 @@
 import { Platform } from 'react-native';
 import Purchases, { LOG_LEVEL } from 'react-native-purchases';
+import { UserDataManager } from './userDataManager';
 
 const APIKeys = {
     google: "goog_StXAnSKrfsHDKiLFViYdoaKkCGC",
@@ -10,19 +11,23 @@ export const initialize = async () => {
     try {
         Purchases.setLogLevel(LOG_LEVEL.VERBOSE);
 
+        let userDetails = await UserDataManager.getUserDetails();
+
         if (Platform.OS == "android") {
-            await Purchases.configure({ apiKey: APIKeys.google });
+            await Purchases.configure({ apiKey: APIKeys.google, appUserID: userDetails.id + "" });
         } else if (Platform.OS == "ios") {
-            await Purchases.configure({ apiKey: APIKeys.apple });
+            await Purchases.configure({ apiKey: APIKeys.apple, appUserID: userDetails.id + "" });
         } else {
             return;
         }
-
-        //const customerInfo = await Purchases.getCustomerInfo();
-        //const offerings = await Purchases.getOfferings();
     } catch {
 
     }
+}
+
+export const IAPLogin = async () => {
+    let userDetails = await UserDataManager.getUserDetails();
+    await Purchases.logIn(userDetails.id + "");
 }
 
 export const getOfferings = async () => {
@@ -47,7 +52,7 @@ export const purchaseProduct = async (productIdentifier) => {
 
         const customerInfo = await Purchases.purchasePackage(productPackage);
 
-        return { success: true, customerInfo };
+        return { success: customerInfo?.transaction?.productIdentifier == productIdentifier, customerInfo };
     } catch (error) {
         console.error("Purchase error: ", error.message);
         return { success: false, error: error.message };

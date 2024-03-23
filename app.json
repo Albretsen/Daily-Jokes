@@ -16,7 +16,8 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "buildNumber": "2"
+      "buildNumber": "2",
+      "bundleIdentifier": "com.asgalb.dailyjokes"
     },
     "android": {
       "adaptiveIcon": {
