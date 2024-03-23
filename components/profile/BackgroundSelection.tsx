@@ -7,6 +7,7 @@ import Button from "../buttons/Button";
 import ProfileBackground from './ProfileBackground';
 import PriceDisplay from '../misc/PriceDisplay';
 import { buyBackground, selectBackground } from '../../state-management/profile';
+import Text from '../generalUI/Text';
 
 export default function BackgroundSelection() {
     const { ownedBackgrounds, remainingBackgrounds, backgroundId, backgroundPrice } = useSelector((state: RootState) => state.profile);
@@ -15,6 +16,7 @@ export default function BackgroundSelection() {
         <ScrollView contentContainerStyle={{ paddingBottom: 50 }}>
             <View style={styles.container}>
 
+                <Text size={24}>Owned backgrounds</Text>
                 <View style={styles.sectionContainer}>
                     {ownedBackgrounds.map((id) => (
                         <View key={id} style={styles.backgroundContainer}>
@@ -28,6 +30,7 @@ export default function BackgroundSelection() {
                     ))}
                 </View>
 
+                <Text size={24}>Buy backgrounds</Text>
                 <View style={styles.sectionContainer}>
                     {remainingBackgrounds.map((id) => (
                         <View key={id} style={styles.backgroundContainer}>
@@ -45,6 +48,8 @@ export default function BackgroundSelection() {
 const styles = StyleSheet.create({
     container: {
         gap: 10,
+        alignItems: "center",
+        marginTop: 10,
     },
 
     sectionContainer: {
@@ -57,7 +62,6 @@ const styles = StyleSheet.create({
     backgroundContainer: {
         gap: 10,
         margin: 5,
-        flex: 1,
         alignItems: "center",
     },
 });
