@@ -36,6 +36,7 @@ export default function ScrollToTopView(props: ScrollToTopViewProps) {
                 onScroll={handleScroll}
                 scrollEventThrottle={16} // Adjust as needed for smoother or more responsive scrolling
                 contentContainerStyle={[{ paddingBottom: 100 }, containerStyle]}
+                style={{ flex: 1, width: "100%" }}
             >
                 {children}
             </ScrollView>

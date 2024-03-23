@@ -20,6 +20,7 @@ export const SCREEN_HEIGHT = Dimensions.get("screen").height - (HEADER_HEIGHT + 
 export default function ScreenView(props: ScreenViewProps) {
     const { children, style, scrollView = true, hideTabBar = false } = props;
 
+
     return (
         <View style={styles.container}>
             <GradientBackground />
