@@ -23,7 +23,7 @@ export default function Home({ navigation }: HomeProps) {
     const timeLeft = useTimeLeft(contest.date);
 
     return (
-        <ScreenView style={styles.container}>
+        <ScreenView scrollView={false} style={styles.container}>
             <StylizedTitle />
             <ContentBox
                 title="Daily contest"

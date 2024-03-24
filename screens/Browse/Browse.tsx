@@ -6,7 +6,7 @@ import ContentTab from "../../components/layout/ContentTab";
 export default function Browse() {
 
     return (
-        <ScreenView style={{justifyContent: "flex-start"}}>
+        <ScreenView scrollView={false} style={{ justifyContent: "flex-start" }}>
             <ContentTab
                 contentSpacing={10}
                 tabs={[

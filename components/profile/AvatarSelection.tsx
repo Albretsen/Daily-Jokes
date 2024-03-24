@@ -7,6 +7,7 @@ import Button from "../buttons/Button";
 import Avatar from './Avatar';
 import PriceDisplay from '../misc/PriceDisplay';
 import { buyAvatar, selectAvatar } from '../../state-management/profile';
+import Text from '../generalUI/Text';
 
 export default function AvatarSelection() {
     const { ownedAvatars, remainingAvatars, avatarId, avatarPrice } = useSelector((state: RootState) => state.profile);
@@ -14,7 +15,8 @@ export default function AvatarSelection() {
     return (
         <ScrollView contentContainerStyle={{ paddingBottom: 50 }}>
             <View style={styles.container}>
-                {/* Loop through ownedAvatars */}
+
+                <Text size={24}>Owned avatars</Text>
                 <View style={styles.sectionContainer}>
                     {ownedAvatars.map((id) => (
                         <View key={id} style={styles.avatarContainer}>
@@ -28,7 +30,7 @@ export default function AvatarSelection() {
                     ))}
                 </View>
 
-                {/* Loop through remainingAvatars */}
+                <Text size={24}>Buy avatars</Text>
                 <View style={styles.sectionContainer}>
                     {remainingAvatars.map((id) => (
                         <View key={id} style={styles.avatarContainer}>
@@ -46,6 +48,8 @@ export default function AvatarSelection() {
 const styles = StyleSheet.create({
     container: {
         gap: 10,
+        alignItems: "center",
+        marginTop: 10,
     },
 
     sectionContainer: {
