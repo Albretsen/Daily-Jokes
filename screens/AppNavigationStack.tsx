@@ -8,7 +8,7 @@ import Profile from "./Profile";
 import Notifications from "./Notifications";
 import Store from "./Store";
 import ContestResultChecker from "../components/misc/ContestResultChecker";
-import { BannerAdWrapper } from "../services/ads";
+import { AdsWrapper } from "../services/ads";
 
 export type StackParamsList = {
     Home: undefined;
@@ -63,7 +63,7 @@ export default function AppNavigationStack() {
                     options={({ navigation, route }) => HeaderOptions({ navigation, route })}
                 />
             </Stack.Navigator>
-            <BannerAdWrapper />
+            <AdsWrapper />
         </ContestResultChecker>
     )
 }
