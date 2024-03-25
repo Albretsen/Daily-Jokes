@@ -6,14 +6,12 @@ import PremiumStoreListing from "../components/misc/PremiumStoreListing";
 import { View, StyleSheet } from "react-native";
 import ContentTab from "../components/layout/ContentTab";
 import { getOfferings } from "../services/IAP";
-import { showInterstitialAd } from '../services/ads';
 
 export default function Store() {
 
     const [offerings, setOfferings] = useState(null);
 
     useEffect(() => {
-        showInterstitialAd();
         const fetchOfferings = async () => {
             const fetchedOfferings = await getOfferings();
             setOfferings(fetchedOfferings);
