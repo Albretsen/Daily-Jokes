@@ -55,8 +55,11 @@ let appOpenAdLoaded = false;
 let interstitialAd = null;
 let lastLoadTime = null;
 let interstitialLoaded = false;
+const AdState = {
+  canShowAppOpenAd: true
+};
 
-let retryInterval = 30000; 
+let retryInterval = 30000;
 
 const loadInterstitialAd = (interstitialId) => {
   if (!interstitialAd) {
@@ -68,7 +71,6 @@ const loadInterstitialAd = (interstitialId) => {
   const loadAd = () => interstitialAd.load();
 
   const onAdLoaded = () => {
-    console.log('Interstitial ad loaded');
     interstitialLoaded = true;
   };
 
@@ -78,10 +80,52 @@ const loadInterstitialAd = (interstitialId) => {
     setTimeout(loadAd, retryInterval);
   };
 
+  const onAdClosed = () => {
+    AdState.canShowAppOpenAd = false;
+  };
+
   const loadedListener = interstitialAd.addAdEventListener(AdEventType.LOADED, onAdLoaded);
   const errorListener = interstitialAd.addAdEventListener(AdEventType.ERROR, onAdFailedToLoad);
+  const closedListener = interstitialAd.addAdEventListener(AdEventType.CLOSED, onAdClosed);
 
   loadAd();
+
+  return () => {
+    loadedListener();
+    errorListener();
+    closedListener();
+  };
+};
+
+export const showInterstitialAd = () => {
+  if (interstitialLoaded && interstitialAd) {
+    interstitialAd.show();
+    interstitialLoaded = false;
+
+    interstitialAd.load();
+  }
+};
+
+const loadAppOpenAd = (appOpenId) => {
+  if (!appOpenAd) {
+    appOpenAd = AppOpenAd.createForAdRequest(appOpenId, { requestNonPersonalizedAdsOnly: true });
+  }
+
+  const onAdLoaded = () => {
+    appOpenAdLoaded = true;
+    lastLoadTime = new Date();
+  };
+
+  const onAdFailedToLoad = (error) => {
+    console.error('App Open ad failed to load: ', error);
+    appOpenAdLoaded = false;
+    setTimeout(() => appOpenAd.load(), retryInterval);
+  };
+
+  const loadedListener = appOpenAd.addAdEventListener(AdEventType.LOADED, onAdLoaded);
+  const errorListener = appOpenAd.addAdEventListener(AdEventType.ERROR, onAdFailedToLoad);
+
+  appOpenAd.load();
 
   return () => {
     loadedListener();
@@ -89,96 +133,66 @@ const loadInterstitialAd = (interstitialId) => {
   };
 };
 
-export const showInterstitialAd = () => {
-    if (interstitialLoaded && interstitialAd) {
-        interstitialAd.show();
-        interstitialLoaded = false; 
-        
-        interstitialAd.load();
-    }
-};
-
-const loadAppOpenAd = (appOpenId) => {
-    if (!appOpenAd) {
-        appOpenAd = AppOpenAd.createForAdRequest(appOpenId, { requestNonPersonalizedAdsOnly: true });
-    }
-
-    const onAdLoaded = () => {
-        console.log('App Open ad loaded');
-        appOpenAdLoaded = true;
-        lastLoadTime = new Date(); 
-    };
-
-    const onAdFailedToLoad = (error) => {
-        console.error('App Open ad failed to load: ', error);
-        appOpenAdLoaded = false;
-        setTimeout(() => appOpenAd.load(), retryInterval);
-    };
-
-    const loadedListener = appOpenAd.addAdEventListener(AdEventType.LOADED, onAdLoaded);
-    const errorListener = appOpenAd.addAdEventListener(AdEventType.ERROR, onAdFailedToLoad);
-
-    appOpenAd.load();
-
-    return () => {
-        loadedListener();
-        errorListener();
-    };
-};
-
 const showAppOpenAdIfNeeded = () => {
-    const now = new Date();
-    if (appOpenAdLoaded && lastLoadTime && (now - lastLoadTime) < 4 * 3600 * 1000) {
-        appOpenAd.show().then(() => {
-            appOpenAdLoaded = false;
-            appOpenAd.load();
-        }).catch(error => {
-            console.error('Failed to show app open ad:', error);
-        });
-    } else if (!appOpenAdLoaded) {
-        appOpenAd.load();
-    }
+  const now = new Date();
+  if (appOpenAdLoaded && lastLoadTime && (now - lastLoadTime) < 4 * 3600 * 1000) {
+    appOpenAd.show().then(() => {
+      appOpenAdLoaded = false;
+      appOpenAd.load();
+    }).catch(error => {
+      console.error('Failed to show app open ad:', error);
+    });
+  } else if (!appOpenAdLoaded) {
+    appOpenAd.load();
+  }
 };
 
 export const AdsWrapper = () => {
-    const { bannerId, interstitialId, appOpenId } = useAdIds();
-  
-    useEffect(() => {
-      const initialize = async () => {
-        await requestConsent();
-        await MobileAds().initialize();
-        console.log('Mobile ads initialized');
-  
-        const cleanupAppOpenAd = loadAppOpenAd(appOpenId);
-        const unsubscribeInterstitial = loadInterstitialAd(interstitialId);
-  
-        const subscription = AppState.addEventListener('change', (nextAppState) => {
-          if (nextAppState === 'active') {
+  const { bannerId, interstitialId, appOpenId } = useAdIds();
+
+  useEffect(() => {
+    const initialize = async () => {
+      await requestConsent();
+      await MobileAds().initialize();
+      console.log('Mobile ads initialized');
+
+      const cleanupAppOpenAd = loadAppOpenAd(appOpenId);
+      const unsubscribeInterstitial = loadInterstitialAd(interstitialId);
+
+      const subscription = AppState.addEventListener('change', (nextAppState) => {
+        if (nextAppState === "active") {
+          if (
+            appOpenAdLoaded &&
+            AdState.canShowAppOpenAd
+          ) {
             showAppOpenAdIfNeeded();
+          } else {
+            AdState.canShowAppOpenAd = true;
           }
-        });
-  
-        return () => {
-          subscription.remove();
-          cleanupAppOpenAd();
-          unsubscribeInterstitial();
-        };
+        }
+      });
+
+      return () => {
+        subscription.remove();
+        cleanupAppOpenAd();
+        unsubscribeInterstitial();
       };
-  
-      initialize();
-    }, [appOpenId, interstitialId]);
-  
-    return (
-      <View style={styles.container}>
-        <BannerAd unitId={bannerId} size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} />
-      </View>
-    );
-  };
+    };
+
+    initialize();
+  }, [appOpenId, interstitialId]);
+
+  return (
+    <View style={styles.container}>
+      <BannerAd unitId={bannerId} size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} />
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 0, 
+    paddingTop: 0,
   },
 });
