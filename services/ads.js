@@ -107,6 +107,7 @@ export const showInterstitialAd = () => {
 };
 
 const loadAppOpenAd = (appOpenId) => {
+  return;
   if (!appOpenAd) {
     appOpenAd = AppOpenAd.createForAdRequest(appOpenId, { requestNonPersonalizedAdsOnly: true });
   }
@@ -134,6 +135,7 @@ const loadAppOpenAd = (appOpenId) => {
 };
 
 const showAppOpenAdIfNeeded = () => {
+  return;
   const now = new Date();
   if (appOpenAdLoaded && lastLoadTime && (now - lastLoadTime) < 4 * 3600 * 1000) {
     appOpenAd.show().then(() => {

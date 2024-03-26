@@ -42,19 +42,19 @@ export const purchaseProduct = async (productIdentifier) => {
     try {
         const offerings = await getOfferings();
         if (!offerings || !offerings.current || offerings.current.availablePackages.length === 0) {
-            throw new Error("No offerings available");
+            throw new Error("Purchase failed.");
         }
 
         const productPackage = offerings.current.availablePackages.find(p => p.product.identifier === productIdentifier);
         if (!productPackage) {
-            throw new Error(`Product with ID ${productIdentifier} not found.`);
+            throw new Error(`Purchase failed.`);
         }
 
         const customerInfo = await Purchases.purchasePackage(productPackage);
 
-        return { success: customerInfo?.transaction?.productIdentifier == productIdentifier, customerInfo };
+        return { success: customerInfo?.transaction?.productIdentifier == productIdentifier, customerInfo, message: `Your purchase of ${productPackage.product.title} was successful.` };
     } catch (error) {
-        console.error("Purchase error: ", error.message);
-        return { success: false, error: error.message };
+        console.log("Purchase error: ", error.message);
+        throw { success: false, message: error.message };
     }
 };

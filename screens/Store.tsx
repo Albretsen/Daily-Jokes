@@ -6,6 +6,7 @@ import PremiumStoreListing from "../components/misc/PremiumStoreListing";
 import { View, StyleSheet } from "react-native";
 import ContentTab from "../components/layout/ContentTab";
 import { getOfferings } from "../services/IAP";
+import { showToast } from '../state-management/toast';
 
 export default function Store() {
 
@@ -21,8 +22,9 @@ export default function Store() {
     }, []);
 
     const onPurchase = (success, message) => {
-        if (success)
-            console.log(message);
+        if (success) {
+        }
+        showToast(message);
     }
 
     return (

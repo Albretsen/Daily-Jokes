@@ -5,7 +5,7 @@ const apiUrl = getApiUrl();
 const MAX_RETRIES = 3;
 const RETRY_DELAY = 500;
 
-export const api = async (method, endpoint, body, token, useCache = true, cacheDuration = 3, retry = true) => {
+export const api = async (method, endpoint, body, token, useCache = true, cacheDuration = 3) => {
     console.log(method, endpoint, body, token);
 
     const serializedBody = body ? JSON.stringify(body) : '';
@@ -23,46 +23,32 @@ export const api = async (method, endpoint, body, token, useCache = true, cacheD
         }
     }
 
-    let attempts = 0;
+    try {
+        const headers = {
+            'Content-Type': 'application/json',
+            ...(token && { 'Authorization': 'Bearer ' + token }),
+        };
 
-    const makeRequest = async () => {
-        try {
-            const headers = {
-                'Content-Type': 'application/json',
-                ...(token && { 'Authorization': 'Bearer ' + token }),
-            };
+        const fetchOptions = {
+            method: method,
+            headers: headers,
+            ...(body && { body: JSON.stringify(body) }),
+        };
 
-            const fetchOptions = {
-                method: method,
-                headers: headers,
-                ...(body && { body: JSON.stringify(body) }),
-            };
+        const response = await fetch(`${apiUrl}${endpoint}`, fetchOptions);
 
-            const response = await fetch(`${apiUrl}${endpoint}`, fetchOptions);
-
-            if (response.ok) {
-                const jsonResponse = await response.json();
-                if (useCache) {
-                    await storeData(cacheKey, { response: jsonResponse, timestamp: Date.now() });
-                }
-                return jsonResponse;
-            } else {
-                const jsonResponse = await response.json();
-                throw jsonResponse;
+        if (response.ok) {
+            const jsonResponse = await response.json();
+            if (useCache) {
+                await storeData(cacheKey, { response: jsonResponse, timestamp: Date.now() });
             }
-        } catch (error) {
-            if (attempts < MAX_RETRIES && retry) {
-                const backoff = RETRY_DELAY * Math.pow(2, attempts) + Math.random() * RETRY_DELAY;
-                console.log(`Attempt ${attempts + 1}: ${error.message}. Retrying in ${backoff}ms...`);
-                attempts++;
-                await new Promise(resolve => setTimeout(resolve, backoff));
-                return makeRequest();
-            } else {
-                console.log(error);
-                throw error; 
-            }
+            return jsonResponse;
+        } else {
+            const jsonResponse = await response.json();
+            throw jsonResponse;
         }
-    };
-
-    return makeRequest();
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
 };

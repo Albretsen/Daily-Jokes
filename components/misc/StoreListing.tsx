@@ -22,18 +22,21 @@ export default function StoreListing(props: StoreListingProps) {
     let { title, icon, price, productIdentifier, discount, oldPrice, onPurchase } = props;
 
     const handlePurchase = async () => {
+        let result = { message: "Purchase error." };
         try {
-            const result = await purchaseProduct(productIdentifier);
+            result = await purchaseProduct(productIdentifier);
             const match = productIdentifier.match(/^(\d+)_coins$/);
             if (match) {
                 const amount = parseInt(match[1], 10);
                 store.dispatch(incrementCoins(amount));
             }
             if (onPurchase) {
-                onPurchase(true, result);
+                onPurchase(true, result.message);
             }
         } catch (error) {
-            if (onPurchase) {
+            if (error.message == "The payment is pending.") error.message = "Payment pending. Purchase will be added to your account soon.";
+            if (error.message == "The device or user is not allowed to make the purchase.") error.message = "Purchase did not go through.";
+            if (onPurchase && error.message != "Purchase was cancelled.") {
                 onPurchase(false, error.message);
             }
         }
