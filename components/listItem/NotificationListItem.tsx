@@ -1,4 +1,4 @@
-import ListItem from "./ListItem";
+import ListItem, { ListItemCenter, ListItemRight } from "./ListItem";
 import { View, Image, StyleSheet } from "react-native";
 import { colors } from "../misc/Colors";
 import { useNavigation, NavigationProp, ParamListBase } from "@react-navigation/native";
@@ -47,12 +47,22 @@ export default function NotificationListItem(props: NotificationListItemProps) {
                     <Image style={styles.image} source={images[icon]} />
                 </View>
             }
-            useDefaultCenter
-            centerTitle={title}
-            centerText={text}
-            centerBottomText={date}
-            onPress={onPress}
-            useDefaultRight
+            center={
+                <ListItemCenter
+                    title={title}
+                    text={text}
+                    bottomText={date}
+                    button={{
+                        label: "Check out",
+                        onPress: onPress,
+                    }}
+                />
+            }
+            right={
+                <ListItemRight
+                    displayArrow
+                />
+            }
         />
     )
 }

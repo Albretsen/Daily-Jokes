@@ -1,11 +1,10 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { View } from "react-native";
-import ContentBox from "../../components/layout/ContentBox";
-import { colors } from "../../components/misc/Colors";
 import { UserDataManager } from '../../services/userDataManager';
 import { useContest } from '../../hooks/useContest';
 import JokeListManager from '../../components/managers/JokeListManager';
 import ActiveTabContext from '../../context/ActiveTabContext';
+import ScrollToTopView from '../../components/layout/ScrollToTopView';
 
 export default function MyJokes() {
     const { activeTab } = useContext(ActiveTabContext);
@@ -25,8 +24,8 @@ export default function MyJokes() {
     }, [activeTab, contest]);
 
     return (
-        <View>
-            <JokeListManager noJokesMessage="When you post a joke, it will appear here!" initialCriteria={criteria}></JokeListManager>
-        </View>
+        <ScrollToTopView>
+            <JokeListManager noJokesMessage="When you post a joke, it will appear here!" initialCriteria={criteria} />
+        </ScrollToTopView>
     );
 }

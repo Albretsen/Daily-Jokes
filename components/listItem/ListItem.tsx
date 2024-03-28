@@ -108,7 +108,7 @@ const centerStyles = StyleSheet.create({
     centerContainer: {
         gap: 2,
         justifyContent: "space-evenly",
-        flex: 1
+        // flex: 1
     },
 
     statsContainer: {
