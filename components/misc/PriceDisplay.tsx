@@ -3,12 +3,13 @@ import Text from "../generalUI/Text";
 
 interface PriceDisplayProps {
     price: number | string;
+    textColor?: string;
 }
 
-export default function PriceDisplay({ price }: PriceDisplayProps) {
+export default function PriceDisplay({ price, textColor }: PriceDisplayProps) {
     return (
         <View style={styles.container}>
-            <Text size={16}>{price}</Text>
+            <Text color={textColor} size={16}>{price}</Text>
             <Image style={styles.image} source={require("../../assets/icons/coin.png")} />
         </View>
     )

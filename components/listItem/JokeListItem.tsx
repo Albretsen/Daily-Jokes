@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ScrollView, TouchableOpacity } from "react-native";
+import { View, ScrollView, TouchableOpacity } from "react-native";
 import ListItem, { ListItemCenter, ListItemRight } from "./ListItem";
 import Avatar from "../profile/Avatar";
 import Modal from "../generalUI/Modal";
@@ -7,6 +7,9 @@ import ContentBox from "../layout/ContentBox";
 import { SCREEN_HEIGHT } from "../layout/ScreenView";
 import Text from "../generalUI/Text";
 import { componentColors } from "../misc/Colors";
+import Button from "../buttons/Button";
+import PriceDisplay from "../misc/PriceDisplay";
+import { colors } from "../misc/Colors";
 
 interface JokeListItemProps {
     joke: {
@@ -24,12 +27,13 @@ interface JokeListItemProps {
     * @property Whether the list item should have a content box container or not
     */
     noBox?: boolean;
+    boostable?: boolean;
     onAvatarPress?: () => void;
     onMenuPress: () => void;
 }
 
 export default function JokeListItem(props: JokeListItemProps) {
-    const { joke, titleColor, textColor, noBox, onAvatarPress, onMenuPress } = props;
+    const { joke, titleColor, textColor, noBox, boostable, onAvatarPress, onMenuPress } = props;
 
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -52,7 +56,21 @@ export default function JokeListItem(props: JokeListItemProps) {
                             onPress: () => setModalVisible(true),
                         }}
                         stats={joke.stats}
-                    />
+                    >
+                        {boostable && (
+                            <>
+                                <Text size={14} shadow={false} color={colors.purple.dark}>Boosting your joke for makes every like count as two likes!</Text>
+                                <View style={{
+                                    flexDirection: "row",
+                                    flexWrap: "wrap",
+                                    gap: 4,
+                                }}>
+                                    <Button height={30} shadowHeight={0} fontSize={15} borderRadius={12} variant="play" label="Boost joke" />
+                                    <PriceDisplay textColor={colors.purple.medium} price={50} />
+                                </View>
+                            </>
+                        )}
+                    </ListItemCenter>
                 }
                 right={
                     <ListItemRight

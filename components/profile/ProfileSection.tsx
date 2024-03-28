@@ -24,14 +24,14 @@ interface ProfileSectionProps {
     customizeButton?: boolean;
 }
 
-export default function ProfileSection({ avatarId, backgroundId, name, backgroundHeight = 200, customizeButton }: ProfileSectionProps) {
+export default function ProfileSection({ avatarId, backgroundId, name, backgroundHeight, customizeButton }: ProfileSectionProps) {
     const customizeDrawer = useRef<DrawerRef>(null);
     return (
         <View style={{
             position: "absolute",
             top: 0,
         }}>
-            <ProfileBackground height={backgroundHeight} imageId={backgroundId}>
+            <ProfileBackground height={backgroundHeight ? backgroundHeight : null} imageId={backgroundId}>
                 {customizeButton && (
                     <Button
                         label="Customize your profile"

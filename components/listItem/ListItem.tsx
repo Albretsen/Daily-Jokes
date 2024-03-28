@@ -64,10 +64,12 @@ interface ListItemCenterProps {
         likes?: number;
         participants?: number;
     }
+
+    children?: ReactNode;
 }
 
 export function ListItemCenter(props: ListItemCenterProps) {
-    const { title, text, bottomText, titleColor = componentColors.text.black, textColor = componentColors.text.dark, stats, button } = props;
+    const { title, text, bottomText, titleColor = componentColors.text.black, textColor = componentColors.text.dark, stats, button, children } = props;
     return (
         <View style={centerStyles.centerContainer}>
             <Text shadow={false} numberOfLines={1} color={titleColor}>{title}</Text>
@@ -100,6 +102,7 @@ export function ListItemCenter(props: ListItemCenterProps) {
                     )}
                 </View>
             )}
+            {children}
         </View>
     )
 }
