@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { View } from "react-native";
 import Text from '../generalUI/Text';
 import JokeListItem from "../../components/listItem/JokeListItem";
 import { useJokesSearch } from "../../hooks/useJokesSearch";
-import { colors } from '../misc/Colors';
 import LoadingIndicator from '../generalUI/LoadingIndicator';
 import Button from '../buttons/Button';
-import ContentBox from '../layout/ContentBox';
+import { BottomSheetView, BottomSheetModal } from '@gorhom/bottom-sheet';
+import BottomSheetBackground from '../profile/ProfileBottomSheetBackground';
+import CircularButton from '../buttons/CircularButton';
+import { updateViewingUser } from "../../state-management/viewingUser";
 
 interface joke {
     user?: {
@@ -73,6 +75,8 @@ export default function JokeListManager({ initialCriteria = { sortBy: "-createTi
         setCriteria(newCriteria);
     };
 
+    const bottomSheetRef = useRef<BottomSheetModal>(null);
+
     return (
         <View>
             {localJokes.length > 0 ? (
@@ -89,6 +93,15 @@ export default function JokeListManager({ initialCriteria = { sortBy: "-createTi
                                     likes: joke.score,
                                 }
                             }}
+                            onAvatarPress={() => {
+                                bottomSheetRef.current?.present();
+                                // TODO: Add background id
+                                updateViewingUser(joke.user?.name ? joke.user.name : "", joke.user?.profile ? joke.user.profile : 0, 0);
+                            }}
+                            onMenuPress={() => {
+                                bottomSheetRef.current?.present();
+                                updateViewingUser(joke.user?.name ? joke.user.name : "", joke.user?.profile ? joke.user.profile : 0, 0);
+                            }}
                         />
                     ))}
                     {isLoading && <View style={{ height: 50 }}><LoadingIndicator isLoading={isLoading} /></View>}
@@ -103,6 +116,23 @@ export default function JokeListManager({ initialCriteria = { sortBy: "-createTi
             {(!isLoading && localJokes.length > 0) && (
                 <Button style={{ alignSelf: "center", marginTop: 20 }} width={200} label="Load More" onPress={loadMoreJokes} />
             )}
+
+            <BottomSheetModal
+                ref={bottomSheetRef}
+                index={0}
+                snapPoints={["50%"]}
+                enablePanDownToClose
+                backgroundComponent={BottomSheetBackground}
+            >
+                <BottomSheetView>
+                    <View style={{
+                        alignSelf: "flex-end",
+                        marginHorizontal: 20,
+                    }}>
+                        <CircularButton onPress={() => bottomSheetRef.current?.close()} variant="close" />
+                    </View>
+                </BottomSheetView>
+            </BottomSheetModal>
         </View>
     );
 }

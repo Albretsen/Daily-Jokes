@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { ImageBackground, View, StyleSheet, Dimensions, StatusBar, Platform } from "react-native";
+import { ImageBackground, View, StyleSheet, Dimensions, StatusBar, Platform, DimensionValue } from "react-native";
 import { getPercentage, percentageOf } from "../../utils/utils";
 
 const backgrounds: Record<number, ReturnType<typeof require>> = {
@@ -12,6 +12,7 @@ interface ProfileBackgroundProps {
     imageId: number;
     children?: ReactNode;
     sizePercentage?: number;
+    height?: DimensionValue
 }
 
 const screenWidth = Dimensions.get("window").width;
@@ -27,11 +28,19 @@ const statusBarHeight = (StatusBar.currentHeight ? StatusBar.currentHeight : 0);
 export const backgroundImageHeight = Platform.OS === "ios" ? 250 : 225 - statusBarHeight;
 
 export default function ProfileBackground(props: ProfileBackgroundProps) {
-    const { imageId, children, sizePercentage } = props;
+    const { imageId, children, sizePercentage, height } = props;
 
     return (
         <View>
-            <ImageBackground style={{ height: sizePercentage ? percentageOf(sizePercentage, backgroundImageHeight) : backgroundImageHeight, width: sizePercentage ? percentageOf(sizePercentage, imageWidth) : imageWidth, justifyContent: "center", alignItems: "center" }} source={backgrounds[imageId]}>
+            <ImageBackground
+                style={{
+                    height: height ? height : sizePercentage ? percentageOf(sizePercentage, backgroundImageHeight) : backgroundImageHeight,
+                    width: sizePercentage ? percentageOf(sizePercentage, imageWidth) : imageWidth,
+                    justifyContent: "center",
+                    alignItems: "center"
+                }}
+                source={backgrounds[imageId]}
+            >
                 {children}
             </ImageBackground>
         </View>

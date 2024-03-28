@@ -3,6 +3,7 @@ import profileSlice from './profileSlice';
 import coinSlice from './coinSlice';
 import toastSlice from './toastSlice';
 import loadingSlice from './loadingSlice';
+import viewingUserSlice from './viewingUserSlice';
 
 export const store = configureStore({
     reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
         coins: coinSlice,
         toast: toastSlice,
         loading: loadingSlice,
+        viewingUser: viewingUserSlice,
     },
 });
 

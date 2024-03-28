@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { ScrollView } from "react-native";
-import ListItem from "./ListItem";
+import { ScrollView, TouchableOpacity } from "react-native";
+import ListItem, { ListItemCenter, ListItemRight } from "./ListItem";
 import Avatar from "../profile/Avatar";
 import Modal from "../generalUI/Modal";
 import ContentBox from "../layout/ContentBox";
@@ -20,27 +20,48 @@ interface JokeListItemProps {
     };
     titleColor?: string;
     textColor?: string;
+    /** 
+    * @property Whether the list item should have a content box container or not
+    */
     noBox?: boolean;
+    onAvatarPress?: () => void;
+    onMenuPress: () => void;
 }
 
 export default function JokeListItem(props: JokeListItemProps) {
-    const { joke, titleColor, textColor, noBox } = props;
+    const { joke, titleColor, textColor, noBox, onAvatarPress, onMenuPress } = props;
 
     const [modalVisible, setModalVisible] = useState(false);
 
     return (
         <>
             <ListItem
-                left={<Avatar size={60} id={joke.avatarId} />}
-                useDefaultCenter
-                centerTitle={joke.username}
-                centerText={joke.text}
-                centerTitleColor={titleColor}
-                centerTextColor={textColor}
-                stats={joke.stats}
-                useDefaultRight
-                rightText={"#" + joke.position}
-                onPress={() => setModalVisible(true)}
+                left={
+                    <TouchableOpacity onPress={onAvatarPress}>
+                        <Avatar size={60} id={joke.avatarId} />
+                    </TouchableOpacity>
+                }
+                center={
+                    <ListItemCenter
+                        title={joke.username}
+                        text={joke.text}
+                        titleColor={titleColor}
+                        textColor={textColor}
+                        button={{
+                            label: "Read joke",
+                            onPress: () => setModalVisible(true),
+                        }}
+                        stats={joke.stats}
+                    />
+                }
+                right={
+                    <ListItemRight
+                        text={"#" + joke.position}
+                        menu={{
+                            onPress: onMenuPress,
+                        }}
+                    />
+                }
                 noBox={noBox}
             />
             <Modal modalVisible={modalVisible} onRequestClose={() => setModalVisible(false)}>
@@ -50,11 +71,9 @@ export default function JokeListItem(props: JokeListItemProps) {
                     </ScrollView>
                     <ListItem
                         left={<Avatar size={60} id={joke.avatarId} />}
-                        useDefaultCenter
-                        centerTitle={joke.username}
-                        rightArrow={false}
-                        useDefaultRight
-                        rightText={"#" + joke.position}
+                        center={<ListItemCenter title={joke.username} />}
+                        right={<ListItemRight text={"#" + joke.position} />}
+                        noBox
                     />
                 </ContentBox>
             </Modal>

@@ -1,7 +1,12 @@
-import { View, StyleSheet } from "react-native";
+import { View, Pressable, StyleSheet } from "react-native";
 import Avatar from "./Avatar";
 import Text from "../generalUI/Text";
 import { colors } from "../misc/Colors";
+import { BottomSheetView, BottomSheetModal } from '@gorhom/bottom-sheet';
+import BottomSheetBackground from './ProfileBottomSheetBackground';
+import CircularButton from '../buttons/CircularButton';
+import { useRef } from "react";
+import { updateViewingUser } from "../../state-management/viewingUser";
 
 interface User {
     id: number;
@@ -20,12 +25,19 @@ export default function PlayersDisplay(props: PlayersDisplayProps) {
 
     if (totalPlayers <= 0) return null;
 
+    const bottomSheetRef = useRef<BottomSheetModal>(null);
+
     return (
         <View style={styles.container}>
             <Text shadow={false} color={colors.purple.dark}>Players</Text>
             <View style={styles.avatarContainer}>
                 {displayedUsers.map((user) => (
-                    <Avatar size={54} key={user.id} id={user.avatarId} />
+                    <Pressable key={user.id} onPress={() => {
+                        updateViewingUser("TODO: Add username and background", user.avatarId, 0);
+                        bottomSheetRef.current?.present();
+                    }}>
+                        <Avatar size={54} id={user.avatarId} />
+                    </Pressable>
                 ))}
                 {remainingCount > 0 && (
                     <View style={styles.remainingCircle}>
@@ -33,11 +45,27 @@ export default function PlayersDisplay(props: PlayersDisplayProps) {
                     </View>
                 )}
             </View>
+
+            <BottomSheetModal
+                ref={bottomSheetRef}
+                index={0}
+                snapPoints={["50%"]}
+                enablePanDownToClose
+                backgroundComponent={BottomSheetBackground}
+            >
+                <BottomSheetView>
+                    <View style={{
+                        alignSelf: "flex-end",
+                        marginHorizontal: 20,
+                    }}>
+                        <CircularButton onPress={() => bottomSheetRef.current?.close()} variant="close" />
+                    </View>
+                </BottomSheetView>
+            </BottomSheetModal>
         </View>
     );
 }
 
-// Example styling
 const styles = StyleSheet.create({
     container: {
         gap: 6,

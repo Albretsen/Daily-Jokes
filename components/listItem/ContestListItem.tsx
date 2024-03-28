@@ -1,5 +1,4 @@
-import { StyleSheet } from "react-native";
-import ListItem from "./ListItem";
+import ListItem, { ListItemCenter, ListItemRight } from "./ListItem";
 import Text from "../generalUI/Text";
 import { colors } from "../misc/Colors";
 import SquareButton from "../buttons/SquareButton";
@@ -21,35 +20,37 @@ interface ContestListItemProps {
     noBox?: boolean;
 }
 
-
 export default function ContestListItem(props: ContestListItemProps) {
     const { contest, noBox } = props;
 
     const navigation = useNavigation<NavigationProp<ParamListBase>>();
 
-    return(
-        <ListItem 
+    return (
+        <ListItem
             left={
                 <SquareButton width={56} height={56} borderRadius={10} borderWidth={0} highlightColor={colors.purple.highlight} backgroundColor={colors.purple.dark}>
-                    <Text shadow={false} size={21} style={{textAlign: "center", lineHeight: 18}}>{formatTimestampToShortDate(contest.date)}</Text>
+                    <Text shadow={false} size={21} style={{ textAlign: "center", lineHeight: 18 }}>{formatTimestampToShortDate(contest.date)}</Text>
                 </SquareButton>
             }
-            useDefaultCenter
-            centerTitle={contest.name}
-            centerText={contest.winner ? `#1 ${contest.winner}` : null}
-            stats={contest.stats}
-            useDefaultRight
-            rightText={contest.position ? "#" + contest.position : null}
+            center={
+                <ListItemCenter
+                    title={contest.name}
+                    text={contest.winner ? `#1 ${contest.winner}` : "TODO: Add text here"}
+                    stats={contest.stats}
+                    button={{
+                        label: "See contest",
+                        onPress: () => {
+                            navigation.navigate("Results", { contestId: contest.id });
+                        }
+                    }}
+                />
+            }
+            right={
+                <ListItemRight
+                    text={contest.position ? "#" + contest.position : undefined}
+                />
+            }
             noBox={noBox}
-            onPress={() => {
-                navigation.navigate("Results", { contestId: contest.id });
-            }}
         />
     )
 }
-
-const styles = StyleSheet.create({
-    centerContainer: {
-
-    }
-})
