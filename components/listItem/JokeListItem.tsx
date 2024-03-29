@@ -89,8 +89,8 @@ export default function JokeListItem(props: JokeListItemProps) {
                     </ScrollView>
                     <ListItem
                         left={<Avatar size={60} id={joke.avatarId} />}
-                        center={<ListItemCenter title={joke.username} />}
-                        right={<ListItemRight text={"#" + joke.position} />}
+                        center={<ListItemCenter style={{ justifyContent: "center" }} title={joke.username} />}
+                        right={<ListItemRight style={{ justifyContent: "center" }} text={"#" + joke.position} />}
                         noBox
                     />
                 </ContentBox>

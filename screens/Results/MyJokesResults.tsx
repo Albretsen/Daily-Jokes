@@ -6,10 +6,10 @@ import { useProfile } from "../../hooks/useProfile";
 export default function MyJokesResults({ contestId }: { contestId: Date }) {
     const profile = useProfile();
 
-    return(
+    return (
         <View style={{ flex: 1 }}>
             <ScrollToTopView>
-                <JokeListManager initialCriteria={{ filters: { contestId: contestId, userId: profile?.user?.id }, sortBy: "-createTimeStamp"}}/>
+                <JokeListManager noJokesMessage="You did not participate in this challenge" initialCriteria={{ filters: { contestId: contestId, userId: profile?.user?.id }, sortBy: "-createTimeStamp" }} />
             </ScrollToTopView>
         </View>
     )

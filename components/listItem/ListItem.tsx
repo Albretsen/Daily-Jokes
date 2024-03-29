@@ -1,11 +1,12 @@
 import { ReactNode } from "react";
-import { View, TouchableOpacity, Image, StyleSheet } from "react-native";
+import { View, TouchableOpacity, Image, StyleSheet, ViewStyle, StyleProp } from "react-native";
 import Text from "../generalUI/Text";
 import { componentColors } from "../misc/Colors";
 import ContentBox from "../layout/ContentBox";
 import Button from "../buttons/Button";
 import { ButtonVariantType } from "../buttons/Button";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { colors } from "../misc/Colors";
 
 interface ListItemRightProps {
     text?: string;
@@ -13,12 +14,13 @@ interface ListItemRightProps {
     menu?: {
         onPress: () => void;
     }
+    style?: StyleProp<ViewStyle>;
 }
 
 export function ListItemRight(props: ListItemRightProps) {
-    const { text, displayArrow, menu } = props;
+    const { text, displayArrow, menu, style } = props;
     return (
-        <View style={rightStyles.container}>
+        <View style={[rightStyles.container, style]}>
             {menu && (
                 <TouchableOpacity onPress={menu.onPress}>
                     <MaterialCommunityIcons name="dots-vertical" size={24} color="black" />
@@ -66,12 +68,14 @@ interface ListItemCenterProps {
     }
 
     children?: ReactNode;
+
+    style?: StyleProp<ViewStyle>;
 }
 
 export function ListItemCenter(props: ListItemCenterProps) {
-    const { title, text, bottomText, titleColor = componentColors.text.black, textColor = componentColors.text.dark, stats, button, children } = props;
+    const { title, text, bottomText, titleColor = componentColors.text.black, textColor = componentColors.text.dark, stats, button, children, style } = props;
     return (
-        <View style={centerStyles.centerContainer}>
+        <View style={[centerStyles.centerContainer, style]}>
             <Text shadow={false} numberOfLines={1} color={titleColor}>{title}</Text>
             {text && (
                 <Text shadow={false} numberOfLines={2} size={15} style={{ letterSpacing: 0.5 }} color={textColor}>{text}</Text>
@@ -111,7 +115,7 @@ const centerStyles = StyleSheet.create({
     centerContainer: {
         gap: 2,
         justifyContent: "space-evenly",
-        // flex: 1
+        flex: 1
     },
 
     statsContainer: {
