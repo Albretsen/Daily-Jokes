@@ -9,6 +9,8 @@ import { BottomSheetView, BottomSheetModal } from '@gorhom/bottom-sheet';
 import BottomSheetBackground from '../profile/ProfileBottomSheetBackground';
 import CircularButton from '../buttons/CircularButton';
 import { updateViewingUser } from "../../state-management/viewingUser";
+import { useContest } from '../../hooks/useContest';
+import { UserDataManager } from '../../services/userDataManager';
 
 interface joke {
     user?: {
@@ -40,13 +42,22 @@ export default function JokeListManager({ initialCriteria = { sortBy: "-createTi
     const [criteria, setCriteria] = useState(initialCriteria);
     const [initialFetchCompleted, setInitialFetchCompleted] = useState(false);
 
-    const { jokes, isLoading } = useJokesSearch(criteria);
+    const contest = useContest();
+
+    const { jokes, isLoading } = useJokesSearch<joke[]>(criteria);
 
     useEffect(() => {
-        if (jokes) {
-            setLocalJokes(prev => [...prev, ...jokes]);
-            if (!initialFetchCompleted) setInitialFetchCompleted(true);
+        const setJokes = async () => {
+            const userData = await UserDataManager.getUserDetails();
+            if (jokes) {
+                for (let i = 0; i < jokes.length; i++) {
+                    jokes[i].boostable = contest.id == jokes[i].contestId && jokes[i].userId == userData.id
+                }
+                setLocalJokes(prev => [...prev, ...jokes]);
+                if (!initialFetchCompleted) setInitialFetchCompleted(true);
+            }
         }
+        setJokes();
     }, [jokes]);
 
     useEffect(() => {
@@ -84,6 +95,7 @@ export default function JokeListManager({ initialCriteria = { sortBy: "-createTi
                     {localJokes.map((joke, index) => (
                         <JokeListItem
                             key={index}
+                            boostable={joke.boostable}
                             joke={{
                                 avatarId: joke.user?.profile ? joke.user.profile : 0,
                                 username: joke.user?.name ? joke.user.name : "",

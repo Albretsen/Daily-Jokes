@@ -59,15 +59,15 @@ export default function JokeListItem(props: JokeListItemProps) {
                     >
                         {boostable && (
                             <>
-                                <Text size={14} shadow={false} color={colors.purple.dark}>Boosting your joke for makes every like count as two likes!</Text>
                                 <View style={{
                                     flexDirection: "row",
                                     flexWrap: "wrap",
-                                    gap: 4,
+                                    gap: 10,
                                 }}>
                                     <Button height={30} shadowHeight={0} fontSize={15} borderRadius={12} variant="play" label="Boost joke" />
                                     <PriceDisplay textColor={colors.purple.medium} price={50} />
                                 </View>
+                                <Text size={14} shadow={false} color={colors.purple.dark}>Boosting a joke makes every like it gets count double!</Text>
                             </>
                         )}
                     </ListItemCenter>
