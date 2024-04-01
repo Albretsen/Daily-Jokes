@@ -2,7 +2,7 @@ export interface Joke {
     user: {
         profile: number;
         name: string;
-        backgroundId: string;
+        backgroundId: number;
     };
     userId: string;
     textBody: string;

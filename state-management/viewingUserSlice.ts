@@ -2,8 +2,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface InitialState {
     username: string;
-    avatarId: number | string,
-    backgroundId: number | string
+    avatarId: number,
+    backgroundId: number,
 }
 
 const initialState: InitialState = {
@@ -19,10 +19,10 @@ export const viewingUserSlice = createSlice({
         updateUsername: (state, action: PayloadAction<string>) => {
             state.username = action.payload;
         },
-        updateAvatarId: (state, action: PayloadAction<number | string>) => {
+        updateAvatarId: (state, action: PayloadAction<number>) => {
             state.avatarId = action.payload;
         },
-        updateBackgroundId: (state, action: PayloadAction<number | string>) => {
+        updateBackgroundId: (state, action: PayloadAction<number>) => {
             state.backgroundId = action.payload;
         },
         resetState: (state) => {

@@ -1,6 +1,4 @@
-import React, { useEffect, useRef } from "react";
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import AppNavigationStack from './screens/AppNavigationStack';
 import { initialize } from "./services/initialize";
@@ -10,6 +8,7 @@ import { Toast } from "./components/misc/Toast";
 import LoadingIndicatorGlobal from "./components/misc/LoadingIndicatorGlobal";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+import GoToStoreModal from './components/misc/GoToStoreModal';
 
 export default function App() {
     initialize();
@@ -18,25 +17,15 @@ export default function App() {
         <ReduxProvider store={store}>
             <GestureHandlerRootView style={{ flex: 1 }}>
                 <BottomSheetModalProvider>
-                    <View style={styles.container}>
-                        <NavigationContainer>
-                            <StatusBar style="auto" />
-                            <AppNavigationStack />
-                            <Toast />
-                            <LoadingIndicatorGlobal />
-                        </NavigationContainer>
-                    </View>
+                    <NavigationContainer>
+                        <StatusBar style="auto" />
+                        <AppNavigationStack />
+                        <Toast />
+                        <LoadingIndicatorGlobal />
+                        <GoToStoreModal />
+                    </NavigationContainer>
                 </BottomSheetModalProvider>
             </GestureHandlerRootView>
         </ReduxProvider>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: 'gray',
-        // alignItems: 'center',
-        // justifyContent: 'center',
-    },
-});

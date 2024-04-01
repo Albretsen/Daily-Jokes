@@ -5,7 +5,7 @@ export interface Contest {
     participants: [{
         id: number,
         /**
-        * @type proile: Avatar id (who knows why...)
+        * @property profile: Avatar id (who knows why...)
         **/
         profile: number,
         name: string;
