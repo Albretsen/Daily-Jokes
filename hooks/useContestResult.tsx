@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react';
 import { api } from "../api/api";
 import { useIsFocused } from '@react-navigation/native';
 import { UserDataManager } from '../services/userDataManager';
+import { Contest } from '../types/Contest';
 
 export const useContestResult = () => {
-    const [contestResult, setContestResult] = useState([{}]);
+    const [contestResult, setContestResult] = useState<Contest[]>([]);
     const isFocused = useIsFocused();
 
     useEffect(() => {

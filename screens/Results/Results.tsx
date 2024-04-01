@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useRoute } from '@react-navigation/native'; // Import useRoute
+import { useRoute, RouteProp } from '@react-navigation/native';
 import ScreenView from "../../components/layout/ScreenView";
 import ContentTab from "../../components/layout/ContentTab";
 import AllJokesResults from "./AllJokesResults";
@@ -9,10 +9,22 @@ import { View } from 'react-native';
 import { useContestSearch } from '../../hooks/useContestSearch';
 import { formatTimestampToShortDate } from '../../utils/date';
 
+interface Criteria {
+    filters: {
+        id: number;
+    };
+}
+
+type ResultsRouteProp = {
+    Results: {
+        contestId?: number;
+    };
+};
+
 export default function Results() {
-    const route = useRoute();
+    const route = useRoute<RouteProp<ResultsRouteProp, 'Results'>>();
     const contestId = route.params?.contestId ? route.params.contestId : 50;
-    const [criteria, setCriteria] = useState({ filters: { id: contestId } });
+    const [criteria, setCriteria] = useState<Criteria>({ filters: { id: contestId } });
     const { contests, isLoading } = useContestSearch(criteria);
 
     useEffect(() => {

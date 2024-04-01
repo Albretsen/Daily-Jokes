@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { api } from "../api/api";
 import { useIsFocused } from '@react-navigation/native';
 import { storeData, getData } from '../utils/storage';
+import { Contest } from '../types/Contest';
 
 /**
  *
@@ -10,11 +11,11 @@ import { storeData, getData } from '../utils/storage';
  * @return The contest information.
  */
 export const useContest = (date?: Date, fetchEnabled: boolean = true) => {
-    const [contest, setContest] = useState({
+    const [contest, setContest] = useState<Contest>({
         topic: "",
         date: new Date().toDateString(),
         id: -1,
-        participants: [{ id: 0, profile: 0 }],
+        participants: [{ id: 0, profile: 0, name: "", backgroundId: 0, }],
         totalParticipants: 0,
     });
     const isFocused = useIsFocused();

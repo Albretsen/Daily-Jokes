@@ -3,7 +3,7 @@ import ScrollToTopView from "../../components/layout/ScrollToTopView";
 import JokeListManager from "../../components/managers/JokeListManager";
 import { useProfile } from "../../hooks/useProfile";
 
-export default function MyJokesResults({ contestId }: { contestId: Date }) {
+export default function MyJokesResults({ contestId }: { contestId: number }) {
     const profile = useProfile();
 
     return (

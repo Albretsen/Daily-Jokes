@@ -11,17 +11,7 @@ import CircularButton from '../buttons/CircularButton';
 import { updateViewingUser } from "../../state-management/viewingUser";
 import { useContest } from '../../hooks/useContest';
 import { UserDataManager } from '../../services/userDataManager';
-
-interface joke {
-    user?: {
-        profile?: number;
-        name?: string;
-    };
-    userId: string;
-    textBody: string;
-    position: number;
-    score?: number;
-}
+import { Joke } from '../../types/Joke';
 
 interface JokeListManagerProps {
     initialCriteria: {
@@ -37,14 +27,14 @@ interface JokeListManagerProps {
 }
 
 export default function JokeListManager({ initialCriteria = { sortBy: "-createTimeStamp", pagination: { page: 1 } }, noJokesMessage = "No jokes found." }: JokeListManagerProps) {
-    const [localJokes, setLocalJokes] = useState<joke[]>([]);
+    const [localJokes, setLocalJokes] = useState<Joke[]>([]);
     const [page, setPage] = useState(1);
     const [criteria, setCriteria] = useState(initialCriteria);
     const [initialFetchCompleted, setInitialFetchCompleted] = useState(false);
 
     const contest = useContest();
 
-    const { jokes, isLoading } = useJokesSearch<joke[]>(criteria);
+    const { jokes, isLoading } = useJokesSearch(criteria);
 
     useEffect(() => {
         const setJokes = async () => {

@@ -15,7 +15,7 @@ interface JokeListItemProps {
     joke: {
         avatarId: number;
         username: string;
-        text: string;
+        text?: string;
         position: number;
         stats?: {
             likes?: number;
@@ -48,7 +48,7 @@ export default function JokeListItem(props: JokeListItemProps) {
                 center={
                     <ListItemCenter
                         title={joke.username}
-                        text={joke.text}
+                        text={joke.text ? joke.text : ""}
                         titleColor={titleColor}
                         textColor={textColor}
                         button={{

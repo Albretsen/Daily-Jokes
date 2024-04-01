@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { api } from "../api/api";
 import { useIsFocused } from '@react-navigation/native';
-import { storeData, getData } from '../utils/storage'; 
+import { storeData, getData } from '../utils/storage';
 import { UserDataManager } from '../services/userDataManager';
 
 export const useProfile = () => {
-    const [profile, setProfile] = useState({ user: { id: -1 }, userId: -1, profile: { id: -1 } });
+    const [profile, setProfile] = useState({ user: { id: -1, name: "", }, userId: -1, profile: { id: -1 } });
     const isFocused = useIsFocused();
 
     useEffect(() => {
