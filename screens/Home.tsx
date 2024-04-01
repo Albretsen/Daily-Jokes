@@ -42,7 +42,9 @@ export default function Home({ navigation }: HomeProps) {
                     {contest.participants && (
                         <PlayersDisplay totalPlayers={contest.totalParticipants} users={contest.participants.map(participant => ({
                             id: participant.id,
+                            name: participant.name,
                             avatarId: participant.profile,
+                            backgroundId: participant.backgroundId,
                         }))} />
                     )}
                     <ContentBoxBottom>

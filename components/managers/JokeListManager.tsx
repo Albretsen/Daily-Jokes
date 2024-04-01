@@ -107,12 +107,11 @@ export default function JokeListManager({ initialCriteria = { sortBy: "-createTi
                             }}
                             onAvatarPress={() => {
                                 bottomSheetRef.current?.present();
-                                // TODO: Add background id
-                                updateViewingUser(joke.user?.name ? joke.user.name : "", joke.user?.profile ? joke.user.profile : 0, 0);
+                                updateViewingUser(joke.user?.name ? joke.user.name : "", joke.user?.profile ? joke.user.profile : 0, joke.user?.backgroundId ? joke.user.backgroundId : 0);
                             }}
                             onMenuPress={() => {
                                 bottomSheetRef.current?.present();
-                                updateViewingUser(joke.user?.name ? joke.user.name : "", joke.user?.profile ? joke.user.profile : 0, 0);
+                                updateViewingUser(joke.user?.name ? joke.user.name : "", joke.user?.profile ? joke.user.profile : 0, joke.user?.backgroundId ? joke.user.backgroundId : 0);
                             }}
                         />
                     ))}

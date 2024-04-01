@@ -9,7 +9,9 @@ import { useRef } from "react";
 import { updateViewingUser } from "../../state-management/viewingUser";
 
 interface User {
+    name: string,
     id: number;
+    backgroundId: number;
     avatarId: number;
 }
 
@@ -32,8 +34,8 @@ export default function PlayersDisplay(props: PlayersDisplayProps) {
             <Text shadow={false} color={colors.purple.dark}>Players</Text>
             <View style={styles.avatarContainer}>
                 {displayedUsers.map((user) => (
-                    <Pressable key={user.id} onPress={() => {
-                        updateViewingUser("TODO: Add username and background", user.avatarId, 0);
+                    <Pressable key={user.id} onPress={async () => {
+                        updateViewingUser(user.name, user.avatarId, user.backgroundId);
                         bottomSheetRef.current?.present();
                     }}>
                         <Avatar size={54} id={user.avatarId} />
