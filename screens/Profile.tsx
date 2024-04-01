@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { View } from 'react-native';
 import ScreenView from '../components/layout/ScreenView';
 import ContentBox from '../components/layout/ContentBox';
@@ -9,12 +9,21 @@ import { RootState } from '../state-management/reduxStore';
 import { useSelector } from 'react-redux';
 import { useProfile } from '../hooks/useProfile';
 import ProfileSection from '../components/profile/ProfileSection';
+import JokeListManager from '../components/managers/JokeListManager';
+import Text from '../components/generalUI/Text';
+import FilterToggle from '../components/generalUI/FilterToggle';
 
 export default function Profile() {
 
     const profile = useProfile();
 
+    useEffect(() => {
+        console.log(JSON.stringify(profile));
+    }, [profile])
+
     const { avatarId } = useSelector((state: RootState) => state.profile);
+
+    const [activeFilter, setActiveFilter] = useState(0);
 
     return (
         <View style={{ flex: 1 }}>
@@ -35,6 +44,25 @@ export default function Profile() {
                             }
                         }} />
                     </ContentBox>
+                    <View style={{
+                        justifyContent: "center",
+                        width: "100%",
+                        alignItems: "center",
+                        marginTop: 40,
+                        marginBottom: 10,
+                    }}>
+                        <Text size={24}>Jokes by {profile.user.name}</Text>
+                    </View>
+                    <FilterToggle
+                        options={[
+                            { label: "recent" },
+                            { label: "top" },
+                        ]}
+                        activeFilter={activeFilter}
+                        setActiveFilter={setActiveFilter}
+                    />
+                    <JokeListManager initialCriteria={{ filters: { userId: profile.user.id }, sortBy: activeFilter == 0 ? "-createTimeStamp" : "-score" }} />
+
                 </ScrollToTopView>
 
             </ScreenView >
