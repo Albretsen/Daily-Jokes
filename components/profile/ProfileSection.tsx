@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { View, StyleSheet } from "react-native";
 import ProfileBackground from "./ProfileBackground";
 import Button from "../buttons/Button";
-import Drawer from "../drawer/Drawer";
+import Drawer, { DrawerRef } from "../drawer/Drawer";
 import AvatarSelection from "./AvatarSelection";
 import BackgroundSelection from "./BackgroundSelection";
 import Avatar from "./Avatar";
@@ -10,11 +10,6 @@ import Text from "../generalUI/Text";
 import CoinCount from "../misc/CoinCount";
 import CircularButton from "../buttons/CircularButton";
 import ContentTab from "../layout/ContentTab";
-
-type DrawerRef = {
-    openDrawer: () => void;
-    closeDrawer: () => void;
-};
 
 interface ProfileSectionProps {
     avatarId: number;

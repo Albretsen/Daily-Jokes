@@ -3,6 +3,11 @@ import { Animated, Easing, Dimensions, Modal, View, Pressable, SafeAreaView, Sty
 import { PanGestureHandler, State, GestureHandlerRootView } from "react-native-gesture-handler";
 import GradientBackground from "../layout/GradientBackground";
 
+export type DrawerRef = {
+    openDrawer: () => void;
+    closeDrawer: () => void;
+};
+
 interface DrawerProps {
     children?: ReactNode;
     side?: "left" | "right";
