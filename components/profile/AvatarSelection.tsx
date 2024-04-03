@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
     avatarContainer: {
         gap: 10,
         justifyContent: "center",
+        alignItems: "center",
         margin: 5,
     },
 });

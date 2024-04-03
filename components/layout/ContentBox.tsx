@@ -117,7 +117,7 @@ export function ContentBoxBottom({ children }: ContentBoxBottomProps) {
 const styles = StyleSheet.create({
     container: {
         width: "100%",
-        alignItems: "center"
+        alignItems: "center",
     },
 
     contentBoxContainer: {

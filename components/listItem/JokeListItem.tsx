@@ -106,7 +106,7 @@ export default function JokeListItem(props: JokeListItemProps) {
                 noBox={noBox}
             />
             <Modal modalVisible={modalVisible} onRequestClose={() => setModalVisible(false)}>
-                <ContentBox width={"100%"}>
+                <ContentBox width={"105%"}>
                     <ScrollView style={{ maxHeight: SCREEN_HEIGHT - 100 }}>
                         <Text shadow={false} color={componentColors.contentBox.text}>{joke.text}</Text>
                     </ScrollView>
