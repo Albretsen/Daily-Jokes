@@ -15,6 +15,8 @@ import { UserDataManager } from "../../services/userDataManager";
 import { showToast } from "../../state-management/toast";
 import { store } from "../../state-management/reduxStore";
 import { decrementCoins } from "../../state-management/coinSlice";
+import { deleteJoke } from "../../services/joke";
+import CircularButton from "../buttons/CircularButton";
 
 interface JokeListItemProps {
     joke: {
@@ -81,7 +83,7 @@ export default function JokeListItem(props: JokeListItemProps) {
                                     flexWrap: "wrap",
                                     gap: 10,
                                 }}>
-                                    <Button height={30} shadowHeight={0} fontSize={15} borderRadius={12} variant="play" label="Boost joke" onPress={onBoost}/>
+                                    <Button height={30} shadowHeight={0} fontSize={15} borderRadius={12} variant="play" label="Boost joke" onPress={onBoost} />
                                     <PriceDisplay textColor={colors.purple.medium} price={50} />
                                 </View>
                                 <Text size={14} shadow={false} color={colors.purple.dark}>Boosting a joke makes every like it gets count double!</Text>
@@ -90,12 +92,16 @@ export default function JokeListItem(props: JokeListItemProps) {
                     </ListItemCenter>
                 }
                 right={
-                    <ListItemRight
-                        text={""} // TODO: add listitem position here.
-                        menu={{
-                            onPress: onMenuPress,
-                        }}
-                    />
+                    <>
+                        <ListItemRight
+                            text={""} // TODO: add listitem position here.
+                            menu={{
+                                onPress: onMenuPress,
+                            }}
+                        >
+                            <CircularButton onPress={() => deleteJoke(joke.id)} size={30} variant="delete" />
+                        </ListItemRight>
+                    </>
                 }
                 noBox={noBox}
             />

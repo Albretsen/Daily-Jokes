@@ -15,10 +15,11 @@ interface ListItemRightProps {
         onPress: () => void;
     }
     style?: StyleProp<ViewStyle>;
+    children?: ReactNode;
 }
 
 export function ListItemRight(props: ListItemRightProps) {
-    const { text, displayArrow, menu, style } = props;
+    const { text, displayArrow, menu, style, children } = props;
     return (
         <View style={[rightStyles.container, style]}>
             {menu && (
@@ -30,6 +31,7 @@ export function ListItemRight(props: ListItemRightProps) {
                 <Image style={rightStyles.icon} source={require("../../assets/icons/arrow-right.png")} />
             )}
             <Text shadow={false} color={"black"}>{text}</Text>
+            {children}
         </View>
     )
 }
@@ -188,6 +190,6 @@ const listItemStyles = StyleSheet.create({
     },
 
     right: {
-        flexBasis: 26,
+        flexBasis: 35,
     },
 })

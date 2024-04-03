@@ -10,4 +10,6 @@ export interface Joke {
     score: number;
     boostable: boolean;
     contestId: number;
+    id: number;
+    boost: number;
 }
