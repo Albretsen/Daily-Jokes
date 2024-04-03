@@ -91,7 +91,7 @@ export default function JokeListItem(props: JokeListItemProps) {
                 }
                 right={
                     <ListItemRight
-                        text={"#" + joke.position}
+                        text={""} // TODO: add listitem position here.
                         menu={{
                             onPress: onMenuPress,
                         }}

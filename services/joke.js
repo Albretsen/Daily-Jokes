@@ -14,3 +14,12 @@ export const create = async (joke) => {
         throw error;
     }
 };
+
+export const deleteJoke = async (id) => {
+    try {
+        return await api("DELETE", `/joke/${id}`, undefined, await UserDataManager.getToken());
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}

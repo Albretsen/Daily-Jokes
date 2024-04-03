@@ -15,7 +15,6 @@ export default function BottomSheetBackground() {
                 name={username}
                 backgroundHeight={120}
             />
-
         </View>
     )
 }
