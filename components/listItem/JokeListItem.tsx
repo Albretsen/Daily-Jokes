@@ -10,6 +10,11 @@ import { componentColors } from "../misc/Colors";
 import Button from "../buttons/Button";
 import PriceDisplay from "../misc/PriceDisplay";
 import { colors } from "../misc/Colors";
+import { api } from "../../api/api";
+import { UserDataManager } from "../../services/userDataManager";
+import { showToast } from "../../state-management/toast";
+import { store } from "../../state-management/reduxStore";
+import { decrementCoins } from "../../state-management/coinSlice";
 
 interface JokeListItemProps {
     joke: {
@@ -20,6 +25,7 @@ interface JokeListItemProps {
         stats?: {
             likes?: number;
         }
+        id: number;
     };
     titleColor?: string;
     textColor?: string;
@@ -33,9 +39,20 @@ interface JokeListItemProps {
 }
 
 export default function JokeListItem(props: JokeListItemProps) {
-    const { joke, titleColor, textColor, noBox, boostable, onAvatarPress, onMenuPress } = props;
+    let { joke, titleColor, textColor, noBox, boostable, onAvatarPress, onMenuPress } = props;
 
     const [modalVisible, setModalVisible] = useState(false);
+
+    const onBoost = async () => {
+        try {
+            let result = await api("POST", `/joke/boost/${joke.id}`, undefined, await UserDataManager.getToken());
+            if (result.price)
+                store.dispatch(decrementCoins(parseInt(result.price)))
+            showToast("Joke boosted.");
+        } catch {
+            showToast("Error boosting joke.");
+        }
+    }
 
     return (
         <>
@@ -64,7 +81,7 @@ export default function JokeListItem(props: JokeListItemProps) {
                                     flexWrap: "wrap",
                                     gap: 10,
                                 }}>
-                                    <Button height={30} shadowHeight={0} fontSize={15} borderRadius={12} variant="play" label="Boost joke" />
+                                    <Button height={30} shadowHeight={0} fontSize={15} borderRadius={12} variant="play" label="Boost joke" onPress={onBoost}/>
                                     <PriceDisplay textColor={colors.purple.medium} price={50} />
                                 </View>
                                 <Text size={14} shadow={false} color={colors.purple.dark}>Boosting a joke makes every like it gets count double!</Text>

@@ -17,10 +17,6 @@ export default function Profile() {
 
     const profile = useProfile();
 
-    useEffect(() => {
-        console.log(JSON.stringify(profile));
-    }, [profile])
-
     const { avatarId } = useSelector((state: RootState) => state.profile);
 
     const [activeFilter, setActiveFilter] = useState(0);

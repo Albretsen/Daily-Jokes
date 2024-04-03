@@ -41,7 +41,7 @@ export default function JokeListManager({ initialCriteria = { sortBy: "-createTi
             const userData = await UserDataManager.getUserDetails();
             if (jokes) {
                 for (let i = 0; i < jokes.length; i++) {
-                    jokes[i].boostable = contest.id == jokes[i].contestId && jokes[i].userId == userData.id
+                    jokes[i].boostable = contest.id == jokes[i].contestId && jokes[i].userId == userData.id && jokes[i].boost == 0
                 }
                 setLocalJokes(prev => [...prev, ...jokes]);
                 if (!initialFetchCompleted) setInitialFetchCompleted(true);
@@ -93,7 +93,8 @@ export default function JokeListManager({ initialCriteria = { sortBy: "-createTi
                                 position: 1,
                                 stats: {
                                     likes: joke.score,
-                                }
+                                },
+                                id: joke.id,
                             }}
                             onAvatarPress={() => {
                                 bottomSheetRef.current?.present();
