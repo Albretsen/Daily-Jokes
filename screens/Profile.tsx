@@ -25,7 +25,7 @@ export default function Profile() {
         <View style={{ flex: 1 }}>
             <ScreenView scrollView={false}>
                 <ScrollToTopView scrollToTopThreshold={Infinity} containerStyle={{ paddingTop: backgroundImageHeight + 15 }}>
-                    <ContentBox ribbonTitle={{
+                    {/* <ContentBox ribbonTitle={{
                         topText: "Top",
                         bottomText: "Results",
                     }}>
@@ -39,7 +39,7 @@ export default function Profile() {
                                 participants: 32,
                             }
                         }} />
-                    </ContentBox>
+                    </ContentBox> */}
                     <View style={{
                         justifyContent: "center",
                         width: "100%",
@@ -63,7 +63,7 @@ export default function Profile() {
 
             </ScreenView >
 
-            <ProfileSection customizeButton avatarId={avatarId} backgroundId={0} name={profile.user.name} />
+            <ProfileSection customizeButton avatarId={profile.user.profile} backgroundId={profile.user.backgroundId} name={profile.user.name} />
         </View>
     )
 }
