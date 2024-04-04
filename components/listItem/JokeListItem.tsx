@@ -51,7 +51,6 @@ export default function JokeListItem(props: JokeListItemProps) {
 
     useEffect(() => {
         const fetchUserData = async () => {
-            console.log("the async");
             const userData_ = await UserDataManager.getUserDetails();
             setUserData(userData_);
         }
