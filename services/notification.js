@@ -23,7 +23,7 @@ export async function registerForPushNotificationsAsync() {
         }
         if (finalStatus !== 'granted') {
             console.log('User denied push notifications!');
-            return;
+            return "denied";
         }
         token = (await Notifications.getExpoPushTokenAsync({ projectId: Constants.expoConfig.extra.eas.projectId })).data;
     } else {
