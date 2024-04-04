@@ -96,6 +96,7 @@ export const update = async (data) => {
 };
 
 export const initialize = async () => {
+    //await UserDataManager.storeToken("eUGlqdtZFnWhJ3mj.k.De62fnCFM5AWjxQSirUSOKAgyDu7K8.X56Ko2TGoF5VuC");
     let token = await UserDataManager.getToken();
 
     if (token && await validateToken(token)) {

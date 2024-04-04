@@ -95,6 +95,7 @@ export default function JokeListManager({ initialCriteria = { sortBy: "-createTi
                                     likes: joke.score,
                                 },
                                 id: joke.id,
+                                userId: joke.userId,
                             }}
                             onAvatarPress={() => {
                                 bottomSheetRef.current?.present();
