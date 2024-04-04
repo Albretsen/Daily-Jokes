@@ -12,7 +12,6 @@ export const initialize = async () => {
         Purchases.setLogLevel(LOG_LEVEL.VERBOSE);
 
         let userDetails = await UserDataManager.getUserDetails();
-
         if (Platform.OS == "android") {
             await Purchases.configure({ apiKey: APIKeys.google, appUserID: userDetails.id + "" });
         } else if (Platform.OS == "ios") {
