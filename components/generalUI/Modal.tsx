@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     modalView: {
         borderRadius: 20,
         alignItems: "center",
-        width: '80%',
+        width: '88%',
     },
     closeButton: {
         position: "absolute",

@@ -1,29 +1,44 @@
 import { ReactNode } from "react";
-import { View, TouchableOpacity, Image, StyleSheet } from "react-native";
+import { View, TouchableOpacity, Image, StyleSheet, ViewStyle, StyleProp } from "react-native";
 import Text from "../generalUI/Text";
 import { componentColors } from "../misc/Colors";
 import ContentBox from "../layout/ContentBox";
+import Button from "../buttons/Button";
+import { ButtonVariantType } from "../buttons/Button";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { colors } from "../misc/Colors";
 
-interface RightComponentProps {
-    text: string;
-    displayArrow: boolean;
+interface ListItemRightProps {
+    text?: string;
+    displayArrow?: boolean;
+    menu?: {
+        onPress: () => void;
+    }
+    style?: StyleProp<ViewStyle>;
+    children?: ReactNode;
 }
 
-function RightComponent(props: RightComponentProps) {
-    const { text, displayArrow } = props;
-    return(
-        <View style={rightStyles.container}>
+export function ListItemRight(props: ListItemRightProps) {
+    const { text, displayArrow, menu, style, children } = props;
+    return (
+        <View style={[rightStyles.container, style]}>
+            {menu && (
+                <TouchableOpacity onPress={menu.onPress}>
+                    <MaterialCommunityIcons name="dots-vertical" size={24} color="black" />
+                </TouchableOpacity>
+            )}
             {displayArrow && (
                 <Image style={rightStyles.icon} source={require("../../assets/icons/arrow-right.png")} />
             )}
             <Text shadow={false} color={"black"}>{text}</Text>
+            {children}
         </View>
     )
 }
 
 const rightStyles = StyleSheet.create({
     container: {
-        justifyContent: "center",
+        // justifyContent: "center",
         gap: 10,
         alignItems: "center",
         flex: 1,
@@ -36,45 +51,64 @@ const rightStyles = StyleSheet.create({
 })
 
 
-interface CenterComponentProps {
+interface ListItemCenterProps {
     title?: string;
     text?: string;
     bottomText?: string;
     titleColor?: string;
     textColor?: string;
+
+    button?: {
+        label: string;
+        variant?: ButtonVariantType;
+        onPress: () => void;
+    }
+
     stats?: {
         likes?: number;
         participants?: number;
     }
+
+    children?: ReactNode;
+
+    style?: StyleProp<ViewStyle>;
 }
 
-function CenterComponent(props: CenterComponentProps) {
-    const { title, text, bottomText, titleColor = componentColors.text.black, textColor = componentColors.text.dark, stats } = props;
-    return(
-        <View style={centerStyles.centerContainer}>
+export function ListItemCenter(props: ListItemCenterProps) {
+    const { title, text, bottomText, titleColor = componentColors.text.black, textColor = componentColors.text.dark, stats, button, children, style } = props;
+    return (
+        <View style={[centerStyles.centerContainer, style]}>
             <Text shadow={false} numberOfLines={1} color={titleColor}>{title}</Text>
             {text && (
-                <Text shadow={false} numberOfLines={2} size={15} style={{letterSpacing: 0.5}} color={textColor}>{text}</Text>
+                <Text shadow={false} numberOfLines={2} size={15} style={{ letterSpacing: 0.5 }} color={textColor}>{text}</Text>
             )}
             {bottomText && (
                 <Text color="rgba(73, 69, 79, 0.5)" size={15} shadow={false}>{bottomText}</Text>
             )}
-            {stats && (
+            {(stats || button) && (
                 <View style={centerStyles.statsContainer}>
-                    {stats.likes !== undefined && stats.likes !== null && (
-                        <View style={centerStyles.stat}>
-                            <Image style={centerStyles.icon} source={require("../../assets/icons/likes.png")} />
-                            <Text shadow={false} color="#49454F" size={16}>{stats.likes}</Text>
-                        </View>
+                    {button && (
+                        <Button onPress={button.onPress} height={30} shadowHeight={0} fontSize={15} borderRadius={12} variant={button.variant ? button.variant : "toggle"} label={button.label} />
                     )}
-                    {stats.participants && (
-                        <View style={centerStyles.stat}>
-                            <Image style={centerStyles.icon} source={require("../../assets/icons/participants.png")} />
-                            <Text shadow={false} color="#49454F" size={16}>{stats.participants}</Text>
-                        </View>
+                    {stats && (
+                        <>
+                            {stats.likes !== undefined && stats.likes !== null && (
+                                <View style={centerStyles.stat}>
+                                    <Image style={centerStyles.icon} source={require("../../assets/icons/likes.png")} />
+                                    <Text shadow={false} color="#49454F" size={16}>{stats.likes}</Text>
+                                </View>
+                            )}
+                            {stats.participants && (
+                                <View style={centerStyles.stat}>
+                                    <Image style={centerStyles.icon} source={require("../../assets/icons/participants.png")} />
+                                    <Text shadow={false} color="#49454F" size={16}>{stats.participants}</Text>
+                                </View>
+                            )}
+                        </>
                     )}
                 </View>
             )}
+            {children}
         </View>
     )
 }
@@ -107,69 +141,35 @@ const centerStyles = StyleSheet.create({
 interface ListItemProps {
     left?: ReactNode;
     center?: ReactNode;
-    useDefaultCenter?: boolean;
-    centerTitle?: string;
-    centerText?: string | null;
-    centerBottomText?: string;
-    centerTitleColor?: string;
-    centerTextColor?: string;
-    stats?: {
-        likes?: number;
-        participants?: number;
-    }
     right?: ReactNode;
-    useDefaultRight?: boolean;
-    rightText?: string | null;
-    rightArrow?: boolean;
+    /** 
+    * @property Whether the list item should have a content box container or not
+    */
     noBox?: boolean;
-    onPress?: () => void;
 }
 
 export default function ListItem(props: ListItemProps) {
-    const { 
+    const {
         left,
         center,
-        useDefaultCenter,
-        centerTitle,
-        centerText,
-        centerBottomText,
-        centerTitleColor,
-        centerTextColor,
-        stats,
         right,
-        useDefaultRight,
-        rightText = "",
-        rightArrow = true,
         noBox,
-        onPress
     } = props;
 
     const ParentTag = noBox ? View : ContentBox;
-    return(
-        <ParentTag style={{marginBottom: 18}} fetchEnabled={false} >
-            <TouchableOpacity onPress={onPress} style={listItemStyles.container}>
+    return (
+        <ParentTag style={{ marginBottom: 18 }} fetchEnabled={false} >
+            <View style={listItemStyles.container}>
                 <View style={listItemStyles.left}>
                     {left}
                 </View>
                 <View style={listItemStyles.center}>
-                    {useDefaultCenter ? (
-                        <CenterComponent title={centerTitle} text={centerText ? centerText : ""} bottomText={centerBottomText} textColor={centerTextColor} titleColor={centerTitleColor} stats={stats} />
-                    ) : (
-                        <>
-                            {center}
-                        </>
-                    )}
+                    {center}
                 </View>
                 <View style={listItemStyles.right}>
-                    {useDefaultRight ? (
-                        <RightComponent displayArrow={rightArrow} text={rightText ? rightText : ""} />
-                    ) : (
-                        <>
-                            {right}
-                        </>
-                    )}
+                    {right}
                 </View>
-            </TouchableOpacity>
+            </View>
         </ParentTag>
     )
 }
@@ -190,6 +190,6 @@ const listItemStyles = StyleSheet.create({
     },
 
     right: {
-        flexBasis: 26,
+        flexBasis: 35,
     },
 })

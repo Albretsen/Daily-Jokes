@@ -3,7 +3,7 @@ import { TouchableOpacity, View, StyleSheet, Image } from "react-native";
 import { componentColors } from "../misc/Colors";
 import { percentageOf as p } from "../../utils/utils";
 
-export type VariantType = "yes" | "no" | "close" | "back" | "hamburger" | "superlike" | "no-ads" | "chest" | "boost" | "history" | "add"
+export type VariantType = "yes" | "no" | "close" | "back" | "hamburger" | "superlike" | "no-ads" | "chest" | "boost" | "history" | "add" | "delete"
 
 interface CircularButtonProps {
     onPress?: () => void;
@@ -81,6 +81,12 @@ const variants = {
         backgroundColor: componentColors.backButton.background,
         highlightColor: componentColors.backButton.highlight,
     },
+
+    delete: {
+        icon: require("../../assets/icons/delete.png"),
+        backgroundColor: componentColors.noButton.background,
+        highlightColor: componentColors.noButton.highlight,
+    }
 }
 
 export default function CircularButton(props: CircularButtonProps) {

@@ -1,51 +1,51 @@
 export const colors = {
-        // Base colors
-        purple: {
-            light: "#C16DFE",
-            medium: "#A75CF4",
-            dark: "#9F51FE",
-            highlight: "#7054FE",
-        },
-    
-        blue: {
-            light: "#94E7FC",
-            medium: "#4CDAFE",
-            dark: "#09B9FF",
-        },
-    
-        pink: {
-            light: "#FDC0FF",
-            medium: "#FC8AFF",
-            dark: "#DA57F0",
-            highlight: "#B20D78"
-        },
-    
-        yellow: {
-            light: "#FFDD17",
-            medium: "#FFC715",
-            dark: "#FFB213",
-            highlight: "#FF8413",
-        },
+    // Base colors
+    purple: {
+        light: "#C16DFE",
+        medium: "#A75CF4",
+        dark: "#9F51FE",
+        highlight: "#7054FE",
+    },
 
-        green: {
-            light: "#92F200",
-            medium: "#86EE04",
-            dark: "#67EB00",
-            highlight: "#4EC307",
-        },
+    blue: {
+        light: "#94E7FC",
+        medium: "#4CDAFE",
+        dark: "#09B9FF",
+    },
 
-        red: {
-            medium: "#FF4672",
-            dark: "#E90038",
-        },
+    pink: {
+        light: "#FDC0FF",
+        medium: "#FC8AFF",
+        dark: "#DA57F0",
+        highlight: "#B20D78"
+    },
 
-        metals: {
-            gold: "#AE824E",
-            silver: "#BCBABE",
-            bronze: "#824F14",
-        },
+    yellow: {
+        light: "#FFDD17",
+        medium: "#FFC715",
+        dark: "#FFB213",
+        highlight: "#FF8413",
+    },
 
-        border: "white",
+    green: {
+        light: "#92F200",
+        medium: "#86EE04",
+        dark: "#67EB00",
+        highlight: "#4EC307",
+    },
+
+    red: {
+        medium: "#FF4672",
+        dark: "#E90038",
+    },
+
+    metals: {
+        gold: "#AE824E",
+        silver: "#BCBABE",
+        bronze: "#824F14",
+    },
+
+    border: "white",
 }
 
 // Colors named "highlight" for buttons denote the bottom section of an element, used to create a 3d effect

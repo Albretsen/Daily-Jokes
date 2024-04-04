@@ -13,7 +13,7 @@ interface ResultsProps {
         date?: string;
         theme?: string;
         rank?: string;
-        reward?: number | string;
+        reward?: number;
         contestId?: number;
     }
 }
@@ -23,7 +23,7 @@ export default function Results(props: ResultsProps) {
 
     const navigation = useNavigation<NavigationProp<ParamListBase>>();
 
-    return(
+    return (
         <Modal modalVisible={visible} onRequestClose={onRequestClose} >
             <ContentBox ribbonTitle={{
                 topText: results.date ? results.date : "",
@@ -43,17 +43,23 @@ export default function Results(props: ResultsProps) {
                             <Text shadow={false} style={[styles.text, styles.textFieldText]}>{results.rank}</Text>
                         </View>
                     </View>
-                    <View style={styles.section}>
-                        <Text shadow={false} style={styles.text}>Reward</Text>
-                        <View style={styles.rewardContainer}>
-                            <Image style={styles.rewardImage} source={require("../../assets/images/coins-medium.png")} />
-                            <Text shadow={false} style={[styles.text, styles.textFieldText, {fontSize: 24}]}>{results.reward}</Text>
+                    {results.reward ? (
+                        <View style={styles.section}>
+                            <Text shadow={false} style={styles.text}>Reward</Text>
+                            <View style={styles.rewardContainer}>
+                                <Image style={styles.rewardImage} source={require("../../assets/images/coins-medium.png")} />
+                                <Text shadow={false} style={[styles.text, styles.textFieldText, { fontSize: 24 }]}>{results.reward}</Text>
+                            </View>
                         </View>
+                    ) : null}
+                    <View style={{
+                        marginTop: 20,
+                    }}>
+                        <Button variant="toggle" fontSize={24} label="View" onPress={() => {
+                            navigation.navigate("Results", { contestId: results.contestId });
+                            onRequestClose();
+                        }}></Button>
                     </View>
-                    <Button variant="toggle" fontSize={24} label="View" onPress={() => {
-                        navigation.navigate("Results", { contestId: results.contestId });
-                        onRequestClose();
-                    }}></Button>
                 </View>
             </ContentBox>
         </Modal>

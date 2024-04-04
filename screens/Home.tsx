@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { StyleSheet } from "react-native";
 import ScreenView from "../components/layout/ScreenView";
 import Button from "../components/buttons/Button";
@@ -23,33 +22,38 @@ export default function Home({ navigation }: HomeProps) {
     const timeLeft = useTimeLeft(contest.date);
 
     return (
-        <ScreenView scrollView={false} style={styles.container}>
-            <StylizedTitle />
-            <ContentBox
-                title="Daily contest"
-                headerColor={colors.purple.dark}
-                text={
-                    <Text shadow={false}>
-                        <Text shadow={false} color={colors.purple.medium}>{"The theme for today is \n" + contest.topic}</Text>
-                        <PulseAnimation>
-                            <Text shadow={false} color={colors.purple.dark}></Text>
-                        </PulseAnimation>
-                    </Text>
-                }
-                isLoading={contest.topic == ""}
-            >
-                {contest.participants && (
-                    <PlayersDisplay totalPlayers={contest.totalParticipants} users={contest.participants.map(participant => ({
-                        id: participant.id,
-                        avatarId: participant.profile,
-                    }))} />
-                )}
-                <ContentBoxBottom>
-                    <Button height={36} variant="play" onPress={() => navigation.navigate("Daily")} label="Play" />
-                    <Text shadow={false} color={colors.purple.dark}>{timeLeft}</Text>
-                </ContentBoxBottom>
-            </ContentBox>
-        </ScreenView>
+        <>
+            <ScreenView scrollView={false} style={styles.container}>
+                <StylizedTitle />
+                <ContentBox
+                    title="Daily contest"
+                    headerColor={colors.purple.dark}
+                    text={
+                        <Text shadow={false}>
+                            <Text shadow={false} color={colors.purple.medium}>{"The theme for today is \n" + contest.topic}</Text>
+                            <PulseAnimation>
+                                <Text shadow={false} color={colors.purple.dark}></Text>
+                            </PulseAnimation>
+                        </Text>
+                    }
+                    isLoading={contest.topic == ""}
+                >
+                    {contest.participants && (
+                        <PlayersDisplay totalPlayers={contest.totalParticipants} users={contest.participants.map(participant => ({
+                            id: participant.id,
+                            name: participant.name,
+                            avatarId: participant.profile,
+                            backgroundId: participant.backgroundId,
+                        }))} />
+                    )}
+                    <ContentBoxBottom>
+                        <Button height={36} variant="play" onPress={() => navigation.navigate("Daily")} label="Play" />
+                        <Text shadow={false} color={colors.purple.dark}>{timeLeft}</Text>
+                    </ContentBoxBottom>
+                </ContentBox>
+
+            </ScreenView>
+        </>
     )
 }
 

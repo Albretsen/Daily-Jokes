@@ -1,14 +1,9 @@
 import { useRef } from "react";
 import CircularButton from "../buttons/CircularButton";
-import Drawer from "../drawer/Drawer";
+import Drawer, { DrawerRef } from "../drawer/Drawer";
 import DrawerLink from "../drawer/DrawerLink";
 import { AntDesign, Ionicons } from '@expo/vector-icons';
-import { colors } from "../misc/Colors";
 
-type DrawerRef = {
-    openDrawer: () => void;
-    closeDrawer: () => void;
-};
 
 export default function HomeNavigation() {
     const navigationDrawerRef = useRef<DrawerRef>(null);

@@ -2,6 +2,8 @@ import { StyleProp, ViewStyle } from "react-native";
 import BaseButton from "./BaseButton";
 import { componentColors, colors } from "../misc/Colors";
 
+export type ButtonVariantType = "play" | "toggle" | "submit" | "blue" | "pink";
+
 interface ButtonProps {
     label?: string;
     onPress?: () => void;
@@ -11,7 +13,7 @@ interface ButtonProps {
     shadowHeight?: number;
     style?: StyleProp<ViewStyle>;
     borderRadius?: number;
-    variant?: "play" | "toggle" | "submit" | "blue" | "pink";
+    variant?: ButtonVariantType;
     disabled?: boolean;
 }
 

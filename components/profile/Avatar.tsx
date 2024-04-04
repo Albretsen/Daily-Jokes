@@ -22,7 +22,6 @@ interface AvatarProps {
     id: number;
     backgroundColor?: string;
     size?: number;
-    borderWidth?: number;
     /** 
     * @property Determines how far the avatar should be offset
     * positive values for right, negative for left
@@ -32,14 +31,12 @@ interface AvatarProps {
 }
 
 export default function Avatar(props: AvatarProps) {
-    const { id, backgroundColor = "#FDBC66", size = 120, borderWidth = 2 } = props;
-    let offset = borderWidth - borderWidth * 2
+    const { id, backgroundColor = "#FDBC66", size = 120 } = props;
     return (
         <View style={[
             styles.fullCircle,
             {
                 backgroundColor: backgroundColor,
-                borderWidth: borderWidth,
                 height: size - percentageOf(6, size),
                 width: size - percentageOf(6, size)
             }
@@ -48,7 +45,7 @@ export default function Avatar(props: AvatarProps) {
                 styles.lowerCircle,
                 {
                     height: size + 20, // Allows room for image overflow without cutoff
-                    width: size - borderWidth * 2
+                    width: size - percentageOf(6, size)
                 }
             ]}>
                 <Image style={[
@@ -56,7 +53,6 @@ export default function Avatar(props: AvatarProps) {
                     {
                         height: size,
                         width: size,
-                        left: offset
                     }
                 ]} source={avatars[id]} />
             </View>
@@ -69,14 +65,13 @@ const styles = StyleSheet.create({
         borderRadius: 100,
         justifyContent: "flex-end",
         alignItems: "center",
-        borderColor: "white",
-        borderWidth: 2,
     },
 
     lowerCircle: {
         borderBottomRightRadius: 100,
         borderBottomLeftRadius: 100,
         overflow: "hidden",
+        alignItems: "center",
     },
 
     image: {

@@ -9,9 +9,9 @@ interface InputFieldProps extends TextInputProps {
 
 export default function InputField(props: InputFieldProps) {
     const { placeholderTextColor = componentColors.text.placeholder, style, ...rest } = props;
-    return(
+    return (
         <TextInput
-            style={[textStyles.text, textStyles.shadow, {color: componentColors.text.contentBox}, styles.input, style]}
+            style={[textStyles.text, { color: componentColors.text.contentBox }, styles.input, style]}
             placeholderTextColor={placeholderTextColor}
             multiline
             {...rest}
