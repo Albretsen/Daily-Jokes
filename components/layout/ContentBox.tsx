@@ -105,7 +105,7 @@ export default function ContentBox(props: ContentBoxProps) {
                                     <Text shadow={false} color={textColor} style={{ textAlign: "center" }}>{text}</Text>
                                 </View>
                             )}
-                            <View style={[ribbonTitle ? { marginTop: 40 } : null, { gap: 10 }]}>
+                            <View style={[ribbonTitle ? { marginTop: 40 } : null, { gap: 10 }, { paddingTop: 10 }]}>
                                 {children}
                             </View>
                         </>
