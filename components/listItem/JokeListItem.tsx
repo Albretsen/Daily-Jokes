@@ -37,6 +37,7 @@ interface JokeListItemProps {
     */
     noBox?: boolean;
     boostable?: boolean;
+    boosted?: boolean;
     onAvatarPress?: () => void;
     onMenuPress: () => void;
 }
@@ -47,7 +48,7 @@ type UserData = {
 }
 
 export default function JokeListItem(props: JokeListItemProps) {
-    let { joke, titleColor, textColor, noBox, boostable, onAvatarPress, onMenuPress } = props;
+    let { joke, titleColor, textColor, noBox, boostable, boosted, onAvatarPress, onMenuPress } = props;
 
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -122,6 +123,9 @@ export default function JokeListItem(props: JokeListItemProps) {
                                 <Text size={14} shadow={false} color={colors.purple.dark}>Boosting a joke makes every like it gets count double!</Text>
                             </>
                         )}
+                        {boosted && (
+                            <Button noPress height={30} shadowHeight={0} fontSize={15} borderRadius={16} variant="play" label="Boosted" />
+                        )}
                     </ListItemCenter>
                 }
                 right={
@@ -137,6 +141,7 @@ export default function JokeListItem(props: JokeListItemProps) {
                     </>
                 }
                 noBox={noBox}
+                boosted={boosted}
             />
             <Modal modalVisible={modalVisible} onRequestClose={() => setModalVisible(false)}>
                 <ContentBox width={"105%"}>

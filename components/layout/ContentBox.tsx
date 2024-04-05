@@ -9,6 +9,7 @@ import Text from "../generalUI/Text";
 import Shadow from "../misc/Shadow";
 import { useContest } from "../../hooks/useContest";
 import RibbonTitle from "../generalUI/RibbonTitle";
+import { LinearGradient } from "expo-linear-gradient";
 
 interface ContentBoxProps {
     children?: ReactNode;
@@ -33,6 +34,10 @@ interface ContentBoxProps {
     width?: DimensionValue;
     fetchEnabled?: boolean;
     containerStyle?: StyleProp<ViewStyle>;
+    /** 
+    * @property Adds a rainbow border to the box
+    */
+    rainbowBorder?: boolean;
 }
 
 export default function ContentBox(props: ContentBoxProps) {
@@ -49,6 +54,7 @@ export default function ContentBox(props: ContentBoxProps) {
         width = "88%",
         fetchEnabled = true,
         containerStyle,
+        rainbowBorder,
     } = props;
 
     const [containerHeight, setContainerHeight] = useState(200); // Default minHeight
@@ -64,14 +70,22 @@ export default function ContentBox(props: ContentBoxProps) {
 
     return (
         <View style={[styles.container, ribbonTitle ? { marginTop: 25 } : null, containerStyle]}>
-            <Shadow height={containerHeight} shadowHeight={8} width={width} borderRadius={20} />
+            <Shadow height={containerHeight} shadowHeight={rainbowBorder ? 4 : 8} width={width} borderRadius={20} />
             <View style={[
                 styles.background,
-                { height: containerHeight + 4 },
+                { height: containerHeight + (rainbowBorder ? 0 : 4) },
                 { width: width }
             ]} />
-            <View style={[styles.contentBoxContainer, { width: width }, style]} onLayout={onLayout}>
-                <>
+            <LinearGradient
+                colors={rainbowBorder ?
+                    ["#8FFFF8", "#85FF71", "#FAE84C", "#FF7D7D", "#8E00D0"]
+                    :
+                    ["white", "white"]
+                }
+                style={[styles.gradientContainer, { width: width }, style]}
+                onLayout={onLayout}
+            >
+                <View style={styles.contentBoxContainer}>
                     {ribbonTitle && (
                         <View style={styles.ribbonTitleConatiner}>
                             <RibbonTitle stars={false} topText={ribbonTitle.topText} bottomText={ribbonTitle.bottomText ? ribbonTitle.bottomText : title} />
@@ -96,8 +110,8 @@ export default function ContentBox(props: ContentBoxProps) {
                             </View>
                         </>
                     )}
-                </>
-            </View>
+                </View>
+            </LinearGradient>
         </View>
     )
 }
@@ -120,13 +134,19 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
 
-    contentBoxContainer: {
-        paddingHorizontal: 20,
-        paddingVertical: 14,
+    gradientContainer: {
+        padding: 6,
         borderRadius: 20,
         backgroundColor: componentColors.contentBox.background,
         minHeight: 100,
         gap: 10,
+    },
+
+    contentBoxContainer: {
+        paddingHorizontal: 16,
+        paddingVertical: 8,
+        borderRadius: 16,
+        backgroundColor: "white"
     },
 
     background: {

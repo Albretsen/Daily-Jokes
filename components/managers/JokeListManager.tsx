@@ -87,6 +87,8 @@ export default function JokeListManager({ initialCriteria = { sortBy: "-createTi
                         <JokeListItem
                             key={index}
                             boostable={joke.boostable}
+                            // TODO: Add logic for determining if a joke is boosted or not
+                            boosted={false}
                             joke={{
                                 avatarId: joke.user?.profile ? joke.user.profile : 0,
                                 username: joke.user?.name ? joke.user.name : "",

@@ -146,6 +146,7 @@ interface ListItemProps {
     * @property Whether the list item should have a content box container or not
     */
     noBox?: boolean;
+    boosted?: boolean;
 }
 
 export default function ListItem(props: ListItemProps) {
@@ -154,11 +155,12 @@ export default function ListItem(props: ListItemProps) {
         center,
         right,
         noBox,
+        boosted,
     } = props;
 
     const ParentTag = noBox ? View : ContentBox;
     return (
-        <ParentTag style={{ marginBottom: 18 }} fetchEnabled={false} >
+        <ParentTag style={{ marginBottom: 18 }} fetchEnabled={false} rainbowBorder={boosted} >
             <View style={listItemStyles.container}>
                 <View style={listItemStyles.left}>
                     {left}
