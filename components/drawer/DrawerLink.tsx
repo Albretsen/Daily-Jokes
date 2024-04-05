@@ -2,8 +2,10 @@ import { ReactNode } from "react";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 import Text from "../generalUI/Text";
 import { useNavigation, NavigationProp, ParamListBase } from "@react-navigation/native";
+import { colors } from "../misc/Colors";
 
 interface DrawerLinkProps {
+    title?: string;
     text?: string;
     icon?: ReactNode;
     linkTo: string;
@@ -12,7 +14,7 @@ interface DrawerLinkProps {
 }
 
 export default function DrawerLink(props: DrawerLinkProps) {
-    const { text, icon, linkTo, linkParams, onPress } = props;
+    const { title, text, icon, linkTo, linkParams, onPress } = props;
 
     const navigation = useNavigation<NavigationProp<ParamListBase>>();
 
@@ -21,16 +23,18 @@ export default function DrawerLink(props: DrawerLinkProps) {
             navigation.navigate(linkTo, linkParams);
             onPress();
         }}>
-            {icon}
-            <Text>{text}</Text>
+            <View style={{ flexDirection: "row", gap: 10 }}>
+                {icon}
+                <Text color={colors.yellow.dark} size={20}>{title}</Text>
+            </View>
+
+            <Text style={{ marginLeft: 30 }} size={14}>{text}</Text>
         </TouchableOpacity>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        flexDirection: "row",
-        gap: 10,
-        margin: 14,
+        padding: 14,
     }
 })
