@@ -12,7 +12,7 @@ export default function HomeNavigation() {
             <CircularButton variant="hamburger" onPress={() => navigationDrawerRef.current?.openDrawer()} />
             <Drawer
                 ref={navigationDrawerRef}
-                containerStyle={[]}
+                containerStyle={[{ paddingVertical: 50, paddingHorizontal: 10 }]}
                 side="left"
             >
                 <DrawerLink

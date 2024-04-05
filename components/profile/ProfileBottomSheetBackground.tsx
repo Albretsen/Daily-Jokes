@@ -3,6 +3,7 @@ import ProfileSection from "./ProfileSection";
 import { useSelector } from 'react-redux';
 import { RootState } from "../../state-management/reduxStore";
 import GradientBackground from "../layout/GradientBackground";
+import Button from "../buttons/Button";
 
 export default function BottomSheetBackground() {
     const { username, avatarId, backgroundId } = useSelector((state: RootState) => state.viewingUser);

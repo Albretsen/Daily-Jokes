@@ -16,15 +16,15 @@ export default function App() {
     return (
         <ReduxProvider store={store}>
             <GestureHandlerRootView style={{ flex: 1 }}>
-                <BottomSheetModalProvider>
-                    <NavigationContainer>
+                <NavigationContainer>
+                    <BottomSheetModalProvider>
                         <StatusBar style="auto" />
                         <AppNavigationStack />
                         <Toast />
                         <LoadingIndicatorGlobal />
                         <GoToStoreModal />
-                    </NavigationContainer>
-                </BottomSheetModalProvider>
+                    </BottomSheetModalProvider>
+                </NavigationContainer>
             </GestureHandlerRootView>
         </ReduxProvider>
     );

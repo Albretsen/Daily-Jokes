@@ -28,6 +28,7 @@ interface JokeListItemProps {
             likes?: number;
         }
         id: number;
+        userId: string;
     };
     titleColor?: string;
     textColor?: string;
@@ -40,12 +41,17 @@ interface JokeListItemProps {
     onMenuPress: () => void;
 }
 
+type UserData = {
+    role: string;
+    id: string;
+}
+
 export default function JokeListItem(props: JokeListItemProps) {
     let { joke, titleColor, textColor, noBox, boostable, onAvatarPress, onMenuPress } = props;
 
     const [modalVisible, setModalVisible] = useState(false);
 
-    const [userData, setUserData] = useState({});
+    const [userData, setUserData] = useState<UserData>({ role: "", id: "" });
 
     const [isVisible, setIsVisible] = useState(true);
 
@@ -55,7 +61,7 @@ export default function JokeListItem(props: JokeListItemProps) {
             setUserData(userData_);
         }
         fetchUserData();
-    },[])
+    }, [])
 
     const onBoost = async () => {
         try {
@@ -71,13 +77,14 @@ export default function JokeListItem(props: JokeListItemProps) {
     const onDelete = async () => {
         try {
             await deleteJoke(joke.id);
-            setIsVisible(false); 
+            setIsVisible(false);
         } catch (error) {
             console.error("Failed to delete joke:", error);
             showToast("Error deleting joke.");
         }
     };
 
+    // Shows delete button if user is moderator, admin or author of the joke
     const canDelete = userData.role === "moderator" || userData.role === "admin" || joke.userId === userData.id;
 
     if (!isVisible) return null;

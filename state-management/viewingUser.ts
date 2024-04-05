@@ -1,8 +1,9 @@
 import { store } from './reduxStore';
-import { updateUsername, updateAvatarId, updateBackgroundId } from './viewingUserSlice';
+import { updateUserId, updateUsername, updateAvatarId, updateBackgroundId } from './viewingUserSlice';
 
-export function updateViewingUser(username: string, avatarId: number, backgroundId: number) {
+export function updateViewingUser(username: string, avatarId: number, backgroundId: number, userId: number | string) {
     store.dispatch(updateUsername(username));
     store.dispatch(updateAvatarId(avatarId));
     store.dispatch(updateBackgroundId(backgroundId));
+    store.dispatch(updateUserId(userId + ""));
 }

@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
 import ScreenView from '../components/layout/ScreenView';
-import ContentBox from '../components/layout/ContentBox';
-import ContestListItem from '../components/listItem/ContestListItem';
 import { backgroundImageHeight } from '../components/profile/ProfileBackground';
 import ScrollToTopView from '../components/layout/ScrollToTopView';
 import { RootState } from '../state-management/reduxStore';

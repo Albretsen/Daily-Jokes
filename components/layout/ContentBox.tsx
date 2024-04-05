@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         backgroundColor: componentColors.contentBox.background,
         minHeight: 100,
-        gap: 10
+        gap: 10,
     },
 
     background: {
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
     textContainer: {
         justifyContent: "center",
         alignItems: "center",
-        minHeight: 60,
+        minHeight: 40,
     },
 
     bottomContainer: {
