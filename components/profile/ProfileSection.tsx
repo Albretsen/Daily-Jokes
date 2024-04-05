@@ -10,11 +10,11 @@ import Text from "../generalUI/Text";
 import CoinCount from "../misc/CoinCount";
 import CircularButton from "../buttons/CircularButton";
 import ContentTab from "../layout/ContentTab";
-import { FontAwesome6 } from '@expo/vector-icons';
 import Modal from "../generalUI/Modal";
 import InputField from "../generalUI/InputField";
 import { SCREEN_HEIGHT } from "../layout/ScreenView";
 import ContentBox from "../layout/ContentBox";
+import { colors } from "../misc/Colors";
 
 interface ProfileSectionProps {
     avatarId: number;
@@ -32,31 +32,43 @@ export default function ProfileSection({ avatarId, backgroundId, name, backgroun
     const inputRef = useRef<TextInput>(null);
 
     return (
-        <View style={{
-            position: "absolute",
-            top: 0,
-        }}>
-            <ProfileBackground height={backgroundHeight ? backgroundHeight : null} imageId={backgroundId}>
-                {customizable && (
-                    <Button
-                        label="Customize your profile"
-                        width={250}
-                        variant="blue"
-                        height={32}
-                        onPress={() => customizeDrawer.current?.openDrawer()}
-                    />
-                )}
+        <View>
+            <ProfileBackground height={backgroundHeight ? backgroundHeight : 175} imageId={backgroundId}>
             </ProfileBackground>
             <View style={styles.profilePictureContainer}>
                 <View style={styles.profilePictureInner}>
                     <Avatar id={avatarId} />
                     <Text size={20}>{name}</Text>
-                    {customizable && (
-                        <TouchableOpacity onPress={() => setNameModalVisible(true)}>
-                            <FontAwesome6 name="edit" size={20} color="white" />
-                        </TouchableOpacity>
-                    )}
                 </View>
+            </View>
+            <View style={{
+                width: "88%",
+                alignSelf: "center",
+                flexDirection: "row",
+                gap: 10,
+                flexWrap: "wrap",
+                justifyContent: "space-between"
+            }}>
+                {customizable && (
+                    <>
+                        <Button
+                            label="Customize profile"
+                            width={170}
+                            variant="blue"
+                            fontSize={15}
+                            height={30}
+                            onPress={() => customizeDrawer.current?.openDrawer()}
+                        />
+                        <Button
+                            label="Edit profile details"
+                            width={170}
+                            variant="submit"
+                            fontSize={15}
+                            height={30}
+                            onPress={() => null}
+                        />
+                    </>
+                )}
             </View>
 
             <Modal
@@ -120,7 +132,8 @@ const styles = StyleSheet.create({
     profilePictureContainer: {
         height: 75,
         width: "88%",
-        alignSelf: "center"
+        alignSelf: "center",
+        marginBottom: -25,
     },
 
     profilePictureInner: {

@@ -46,6 +46,11 @@ export const colors = {
     },
 
     border: "white",
+
+    background: {
+        start: "#A559FE",
+        end: "#7053FD",
+    }
 }
 
 // Colors named "highlight" for buttons denote the bottom section of an element, used to create a 3d effect
