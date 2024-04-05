@@ -3,7 +3,7 @@ import CircularButton from "../buttons/CircularButton";
 import Drawer, { DrawerRef } from "../drawer/Drawer";
 import DrawerLink from "../drawer/DrawerLink";
 import { AntDesign, Ionicons } from '@expo/vector-icons';
-
+import { Entypo } from '@expo/vector-icons';
 
 export default function HomeNavigation() {
     const navigationDrawerRef = useRef<DrawerRef>(null);
@@ -32,6 +32,14 @@ export default function HomeNavigation() {
                     text="Store"
                     linkTo="Store"
                     icon={<AntDesign name="star" size={20} color={"white"} />}
+                    linkParams={{ date: new Date().toISOString() }}
+                    onPress={() => navigationDrawerRef.current?.closeDrawer()}
+                />
+
+                <DrawerLink
+                    text="Sign in"
+                    linkTo="Sign in"
+                    icon={<Entypo name="login" size={20} color={"white"} />}
                     linkParams={{ date: new Date().toISOString() }}
                     onPress={() => navigationDrawerRef.current?.closeDrawer()}
                 />
