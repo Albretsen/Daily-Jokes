@@ -36,7 +36,7 @@ export default function PlayersDisplay(props: PlayersDisplayProps) {
             <View style={styles.avatarContainer}>
                 {displayedUsers.map((user) => (
                     <Pressable key={user.id} onPress={async () => {
-                        updateViewingUser(user.name, user.avatarId, user.backgroundId, user.id);
+                        updateViewingUser(user.name, user.avatarId, user.backgroundId, Number(user.id));
                         bottomSheetRef.current?.present();
                     }}>
                         <Avatar size={54} id={user.avatarId} />

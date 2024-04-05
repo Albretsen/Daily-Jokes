@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface InitialState {
-    userId: number | string | undefined;
+    userId: number | undefined;
     username: string;
     avatarId: number,
     backgroundId: number,
@@ -18,7 +18,7 @@ export const viewingUserSlice = createSlice({
     name: "viewingUser",
     initialState,
     reducers: {
-        updateUserId: (state, action: PayloadAction<number | string>) => {
+        updateUserId: (state, action: PayloadAction<number>) => {
             state.userId = action.payload;
         },
         updateUsername: (state, action: PayloadAction<string>) => {

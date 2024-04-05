@@ -100,11 +100,11 @@ export default function JokeListManager({ initialCriteria = { sortBy: "-createTi
                             }}
                             onAvatarPress={() => {
                                 bottomSheetRef.current?.present();
-                                updateViewingUser(joke.user?.name ? joke.user.name : "", joke.user?.profile ? joke.user.profile : 0, joke.user?.backgroundId ? joke.user.backgroundId : 0, joke.userId);
+                                updateViewingUser(joke.user?.name ? joke.user.name : "", joke.user?.profile ? joke.user.profile : 0, joke.user?.backgroundId ? joke.user.backgroundId : 0, Number(joke.userId));
                             }}
                             onMenuPress={() => {
                                 bottomSheetRef.current?.present();
-                                updateViewingUser(joke.user?.name ? joke.user.name : "", joke.user?.profile ? joke.user.profile : 0, joke.user?.backgroundId ? joke.user.backgroundId : 0, joke.userId);
+                                updateViewingUser(joke.user?.name ? joke.user.name : "", joke.user?.profile ? joke.user.profile : 0, joke.user?.backgroundId ? joke.user.backgroundId : 0, Number(joke.userId));
                             }}
                         />
                     ))}
