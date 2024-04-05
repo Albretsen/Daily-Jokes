@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { View, ScrollView, TouchableOpacity } from "react-native";
 import ListItem, { ListItemCenter, ListItemRight } from "./ListItem";
 import Avatar from "../profile/Avatar";
@@ -45,6 +45,18 @@ export default function JokeListItem(props: JokeListItemProps) {
 
     const [modalVisible, setModalVisible] = useState(false);
 
+    const [userData, setUserData] = useState({});
+
+    const [isVisible, setIsVisible] = useState(true);
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            const userData_ = await UserDataManager.getUserDetails();
+            setUserData(userData_);
+        }
+        fetchUserData();
+    },[])
+
     const onBoost = async () => {
         try {
             let result = await api("POST", `/joke/boost/${joke.id}`, undefined, await UserDataManager.getToken());
@@ -55,6 +67,20 @@ export default function JokeListItem(props: JokeListItemProps) {
             showToast("Error boosting joke.");
         }
     }
+
+    const onDelete = async () => {
+        try {
+            await deleteJoke(joke.id);
+            setIsVisible(false); 
+        } catch (error) {
+            console.error("Failed to delete joke:", error);
+            showToast("Error deleting joke.");
+        }
+    };
+
+    const canDelete = userData.role === "moderator" || userData.role === "admin" || joke.userId === userData.id;
+
+    if (!isVisible) return null;
 
     return (
         <>
@@ -99,7 +125,7 @@ export default function JokeListItem(props: JokeListItemProps) {
                                 onPress: onMenuPress,
                             }}
                         >
-                            <CircularButton onPress={() => deleteJoke(joke.id)} size={30} variant="delete" />
+                            {canDelete && <CircularButton onPress={onDelete} size={30} variant="delete" />}
                         </ListItemRight>
                     </>
                 }
