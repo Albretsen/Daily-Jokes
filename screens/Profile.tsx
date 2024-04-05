@@ -61,7 +61,7 @@ export default function Profile() {
 
             </ScreenView >
 
-            <ProfileSection customizeButton avatarId={profile.user.profile} backgroundId={profile.user.backgroundId} name={profile.user.name} />
+            <ProfileSection customizable avatarId={profile.user.profile} backgroundId={profile.user.backgroundId} name={profile.user.name} />
         </View>
     )
 }

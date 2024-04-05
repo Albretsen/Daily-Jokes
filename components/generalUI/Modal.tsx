@@ -8,16 +8,18 @@ interface ModalProps {
     modalVisible: boolean;
     onRequestClose?: () => void;
     noExit?: boolean;
+    onShow?: () => void;
 }
 
 export default function Modal(props: ModalProps) {
-    const { children, modalVisible, onRequestClose, noExit } = props;
+    const { children, modalVisible, onRequestClose, noExit, onShow } = props;
 
     return (
         <RNModal
             animationType="fade"
             transparent={true}
             visible={modalVisible}
+            onShow={onShow}
             onRequestClose={onRequestClose}>
             <View style={styles.fullScreenView}>
                 <View style={styles.modalView}>

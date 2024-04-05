@@ -7,7 +7,7 @@ import ContentTab from "../../components/layout/ContentTab";
 
 export default function Daily() {
     return (
-        <ScreenView style={[styles.container, { justifyContent: "flex-start" }]}>
+        <ScreenView scrollView={false} style={[styles.container, { justifyContent: "flex-start" }]}>
             <ContentTab contentSpacing={10}
                 tabs={[
                     {
