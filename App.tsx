@@ -9,6 +9,7 @@ import LoadingIndicatorGlobal from "./components/misc/LoadingIndicatorGlobal";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import GoToStoreModal from './components/misc/GoToStoreModal';
+import { navigationRef } from './services/navigation';
 
 export default function App() {
     initialize();
@@ -16,7 +17,7 @@ export default function App() {
     return (
         <ReduxProvider store={store}>
             <GestureHandlerRootView style={{ flex: 1 }}>
-                <NavigationContainer>
+                <NavigationContainer ref={navigationRef}>
                     <BottomSheetModalProvider>
                         <StatusBar style="auto" />
                         <AppNavigationStack />

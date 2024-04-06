@@ -4,10 +4,23 @@ import SmallInputField from "../components/generalUI/SmallInputField";
 import Button from "../components/buttons/Button";
 import { View } from "react-native";
 import { useState } from "react";
+import { login } from "../services/auth";
+import NavigationService from "../services/navigation";
 
 export default function SignIn() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    const signIn = async () => {
+        try {
+            await login(email, password);
+
+            NavigationService.navigate("Home");
+        } catch {
+            console.log("Error logging in");
+        }
+    }
+
     return (
         <ScreenView scrollView={false}>
             <ContentBox title="Sign in">

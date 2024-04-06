@@ -3,6 +3,7 @@ import { UserDataManager } from "./userDataManager";
 import { generateRandomCredentials } from "../utils/random";
 import { registerForPushNotificationsAsync } from "./notification";
 import { loadProfileToState } from "../state-management/profile";
+import NavigationService from "./navigation";
 
 export const login = async (email, password) => {
     try {
@@ -97,6 +98,7 @@ export const update = async (data) => {
 
 export const initialize = async () => {
     //await UserDataManager.storeToken("eUGlqdtZFnWhJ3mj.k.De62fnCFM5AWjxQSirUSOKAgyDu7K8.X56Ko2TGoF5VuC");
+    //await UserDataManager.storeToken("eUGlqdtZFnWhJ3mj.k.De62fnCFM5AWjxQSirUSOKAgyDu7K8.X56Ko2TGoF5Vu");
     let token = await UserDataManager.getToken();
 
     if (token && await validateToken(token)) {
@@ -105,6 +107,7 @@ export const initialize = async () => {
 
     if (token) {
         console.log("COULD NOT VALIDATE LOCAL TOKEN");
+        NavigationService.navigate("Sign in");
         return;
     }
 
