@@ -6,6 +6,7 @@ import { View } from "react-native";
 import { useState } from "react";
 import { login } from "../services/auth";
 import NavigationService from "../services/navigation";
+import { showToast } from "../state-management/toast";
 
 export default function SignIn() {
     const [email, setEmail] = useState("");
@@ -17,7 +18,7 @@ export default function SignIn() {
 
             NavigationService.navigate("Home");
         } catch {
-            console.log("Error logging in");
+            showToast("Wrong email or passord.");
         }
     }
 
@@ -45,7 +46,7 @@ export default function SignIn() {
                         onChangeText={setPassword}
                         style={{ width: "80%" }}
                     />
-                    <Button height={35} label="OK" variant="blue" />
+                    <Button height={35} label="OK" variant="blue" onPress={signIn}/>
                 </View>
             </ContentBox>
         </ScreenView>

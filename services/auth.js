@@ -85,7 +85,7 @@ export const update = async (data) => {
 
         let response = await api("POST", "/auth/update", data, token);
 
-        if (response.ok) {
+        if (response.success) {
             return true;
         } else {
             throw new Error('Update user info failed');
@@ -95,6 +95,25 @@ export const update = async (data) => {
         return false;
     }
 };
+
+export const updatePassword = async (password) => {
+    try {
+        let token = await UserDataManager.getToken();
+
+        if (!token) throw new Error('No stored token');
+
+        let response = await api("POST", "/auth/password", { password }, token);
+
+        if (response.success) {
+            return true;
+        } else {
+            throw new Error('Update password failed');
+        }
+    } catch (error) {
+        console.error(error);
+        return false;
+    }
+}
 
 export const initialize = async () => {
     //await UserDataManager.storeToken("eUGlqdtZFnWhJ3mj.k.De62fnCFM5AWjxQSirUSOKAgyDu7K8.X56Ko2TGoF5VuC");
