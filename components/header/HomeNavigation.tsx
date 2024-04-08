@@ -34,7 +34,7 @@ export default function HomeNavigation() {
                     />
                     {/* <DrawerLink
                         title="Results"
-                        text="See the results of yesterday's challenge."
+                        text="See the results of yesterday's contest."
                         linkTo="Results"
                         icon={<AntDesign name="star" size={20} color={"#ffbf00"} />}
                         linkParams={{ date: new Date().toISOString() }}
