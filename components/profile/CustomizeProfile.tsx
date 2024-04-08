@@ -22,11 +22,11 @@ export default function CustomizeProfile() {
                 flexDirection: "row",
                 gap: 10,
                 flexWrap: "wrap",
-                justifyContent: "space-between"
+                justifyContent: "space-evenly"
             }}>
                 <Button
                     label="Customize profile"
-                    width={170}
+                    width={150}
                     variant="blue"
                     fontSize={15}
                     height={30}
@@ -34,7 +34,7 @@ export default function CustomizeProfile() {
                 />
                 <Button
                     label="Edit profile details"
-                    width={170}
+                    width={165}
                     variant="submit"
                     fontSize={15}
                     height={30}

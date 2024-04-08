@@ -33,7 +33,7 @@ export default function BaseButton(props: BaseButtonProps) {
         label,
         widthPercentage = 100,
         heightPercentage = 40,
-        borderWidth = 2.5,
+        borderWidth = 3,
         fontSize = 18,
         shadowHeight = 8,
         style = null,
@@ -66,7 +66,7 @@ export default function BaseButton(props: BaseButtonProps) {
                 styles.container,
                 {
                     borderWidth: borderWidth,
-                    borderTopWidth: 2.5,
+                    borderTopWidth: 3,
                     width: buttonContainerWidth,
                     height: buttonHeight + 10,
                     borderRadius: borderRadius
