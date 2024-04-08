@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import { Modal as RNModal, View, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import CircularButton from '../buttons/CircularButton';
 
@@ -20,17 +20,22 @@ export default function Modal(props: ModalProps) {
             transparent={true}
             visible={modalVisible}
             onShow={onShow}
-            onRequestClose={onRequestClose}>
-            <View style={styles.fullScreenView}>
-                <View style={styles.modalView}>
-                    {children}
+            onRequestClose={onRequestClose}
+        >
+            <TouchableWithoutFeedback onPress={onRequestClose}>
+                <View style={styles.fullScreenView}>
+                    <TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
+                        <View style={styles.modalView}>
+                            {children}
+                        </View>
+                    </TouchableWithoutFeedback>
+                    {!noExit && (
+                        <View style={styles.closeButton}>
+                            <CircularButton size={36} variant="close" onPress={onRequestClose} />
+                        </View>
+                    )}
                 </View>
-            </View>
-            {!noExit && (
-                <View style={styles.closeButton}>
-                    <CircularButton size={36} variant="close" onPress={onRequestClose} />
-                </View>
-            )}
+            </TouchableWithoutFeedback>
         </RNModal>
     );
 }
@@ -46,10 +51,11 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         alignItems: "center",
         width: '88%',
+        backgroundColor: 'white',
     },
     closeButton: {
         position: "absolute",
         right: 10,
-        top: 10,
+        top: 50,
     },
 });

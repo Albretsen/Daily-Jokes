@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, ScrollView, TouchableOpacity } from "react-native";
+import { View, ScrollView, TouchableOpacity, Pressable } from "react-native";
 import ListItem, { ListItemCenter, ListItemRight } from "./ListItem";
 import Avatar from "../profile/Avatar";
 import Modal from "../generalUI/Modal";
@@ -146,7 +146,9 @@ export default function JokeListItem(props: JokeListItemProps) {
             <Modal modalVisible={modalVisible} onRequestClose={() => setModalVisible(false)}>
                 <ContentBox width={"105%"}>
                     <ScrollView style={{ maxHeight: SCREEN_HEIGHT - 100 }}>
-                        <Text shadow={false} color={componentColors.contentBox.text}>{joke.text}</Text>
+                        <Pressable>
+                            <Text shadow={false} color={componentColors.contentBox.text}>{joke.text}</Text>
+                        </Pressable>
                     </ScrollView>
                     <ListItem
                         left={<Avatar size={60} id={joke.avatarId} />}
