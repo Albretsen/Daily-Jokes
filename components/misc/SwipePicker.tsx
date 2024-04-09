@@ -10,6 +10,10 @@ import { useJokesSearchSwipe } from '../../hooks/useJokesSearchSwipe';
 import { api } from '../../api/api';
 import { UserDataManager } from '../../services/userDataManager';
 import PriceDisplay from './PriceDisplay';
+import { showToast } from '../../state-management/toast';
+import { store } from '../../state-management/reduxStore';
+import { decrementCoins } from '../../state-management/coinSlice';
+import { toggleGoToStore } from '../../state-management/goToStore';
 
 interface CardProps {
     text: string;
@@ -212,15 +216,27 @@ export default function SwipePicker() {
     };
 
     const rate = async (jokeId: Number, action: string) => {
-        await api("POST", `/joke/rate/${jokeId}/${action}`, undefined, await UserDataManager.getToken());
+        return await api("POST", `/joke/rate/${jokeId}/${action}`, undefined, await UserDataManager.getToken());
     }
 
     const translateY = new Animated.Value(0);
 
-    const animateCardAway = (direction: number, action: string) => {
+    const animateCardAway = async (direction: number, action: string) => {
         const jokeId = jokes[currentIndex] ? jokes[currentIndex].id : null;
 
-        rate(jokeId, action);
+        try {
+            let result = await rate(jokeId, action);
+            if (result.error) {
+                toggleGoToStore(true);
+                return;
+            }
+            if (action === 'superlike' && result.price) {
+                store.dispatch(decrementCoins(result.price));
+            }
+        } catch {
+            console.log("Rate error");
+            return;
+        }
         if (action === 'superlike') {
             const toValue = -SCREEN_HEIGHT; // Move the card off the screen upwards
             Animated.timing(translateY, {

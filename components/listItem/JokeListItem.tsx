@@ -67,6 +67,10 @@ export default function JokeListItem(props: JokeListItemProps) {
     const onBoost = async () => {
         try {
             let result = await api("POST", `/joke/boost/${joke.id}`, undefined, await UserDataManager.getToken());
+            if (result.error) {
+                showToast("Not enough coins.");
+                return;
+            }
             if (result.price)
                 store.dispatch(decrementCoins(parseInt(result.price)))
             showToast("Joke boosted.");

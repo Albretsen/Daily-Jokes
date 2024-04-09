@@ -4,10 +4,12 @@ import SmallInputField from "../components/generalUI/SmallInputField";
 import Button from "../components/buttons/Button";
 import { View } from "react-native";
 import { useEffect, useState } from "react";
-import { update , updatePassword} from "../services/auth";
+import Text from "../components/generalUI/Text";
+import { update, updatePassword } from "../services/auth";
 import NavigationService from "../services/navigation";
 import { showToast } from "../state-management/toast";
 import { UserDataManager } from "../services/userDataManager";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default function FirstSignIn() {
     const [email, setEmail] = useState(null);
@@ -20,36 +22,36 @@ export default function FirstSignIn() {
         const getUserDetails = async () => {
             let userDetails = await UserDataManager.getUserDetails();
             if (userDetails.name) setNameHint(userDetails.name);
-            console.log("Setting to: " + userDetails.name);
-        }
+        };
         getUserDetails();
-    })
+    }, []);
 
     const createAccount = async () => {
         try {
             const updateData = {};
             if (name) updateData.name = name;
             if (email) updateData.email = email;
-    
+
             if (Object.keys(updateData).length !== 0) {
                 let result = await update(updateData);
                 console.log(result);
                 if (!result.success) {
-                    if (result == false) {
-                        showToast(result.error);
-                        return;
-                    }
+                    showToast(result.error);
+                    return;
                 }
             }
 
-            if (password) await updatePassword(password);  
+            if (password) await updatePassword(password);
 
             NavigationService.navigate("Home");
         } catch {
-            console.log("CATCH")
             showToast("Error editing account details.");
         }
-    }
+    };
+
+    const navigateToSignIn = () => {
+        NavigationService.navigate("Sign in");
+    };
 
     return (
         <ScreenView scrollView={false}>
@@ -84,9 +86,15 @@ export default function FirstSignIn() {
                         onChangeText={setPassword}
                         style={{ width: "80%" }}
                     />
-                    <Button height={35} label="OK" variant="blue" onPress={createAccount}/>
+                    <Button height={35} label="OK" variant="blue" onPress={createAccount} />
+                    {/* Add a button for users to navigate to the Sign In screen if they already have an account */}
+                    <TouchableOpacity onPress={navigateToSignIn} style={{ marginTop: 10 }}>
+                        <Text style={{ color: '#007AFF', fontSize: 16 }}>
+                            Already have an account? Sign In
+                        </Text>
+                    </TouchableOpacity>
                 </View>
             </ContentBox>
         </ScreenView>
-    )
+    );
 }
