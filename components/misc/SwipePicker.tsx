@@ -68,7 +68,7 @@ function Card({ text, animateCardAway }: CardProps) {
                             }} />
                             <Text shadow={false} size={14} color={colors.blue.dark}>Superlike</Text>
                         </View>
-                        <PriceDisplay price={50} textColor={colors.blue.dark} />
+                        <PriceDisplay price={50} style={{ color: colors.blue.dark }} />
                     </View>
                     <View style={cardStyles.buttonWithLabel}>
                         <CircularButton variant="yes" onPress={() => {

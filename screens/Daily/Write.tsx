@@ -49,30 +49,30 @@ export default function Write() {
 
     }, []);
 
-    return(
-            <View style={[
-                styles.container,
-                {
-                    // paddingBottom: keyboardHeight,
-                    // maxHeight: SCREEN_HEIGHT - keyboardHeight,
-                    justifyContent: keyboardVisible ? "flex-start" : "center",
-                    paddingTop: 20,
-                }
-            ]}>
-                <ContentBox title="Write" style={{maxHeight: SCREEN_HEIGHT - 100}} headerColor={colors.yellow.dark}>
-                    <InputField
-                        style={{maxHeight: SCREEN_HEIGHT - (350)}}
-                        placeholder="Write your joke here..." 
-                        value={inputValue}
-                        onChangeText={setInputValue}
-                    />
-                    <View style={{alignItems: "center"}}>
-                        <Button variant="submit" shadowHeight={8} fontSize={16} width={100} height={28} onPress={submitJoke}  label="Sumbit" />
-                    </View>
-                </ContentBox>
-                <JokesLeftIndicator ref={jokesLeftIndicatorRef}/>
-                {/* <MascotTip /> */}
-            </View>
+    return (
+        <View style={[
+            styles.container,
+            {
+                // paddingBottom: keyboardHeight,
+                // maxHeight: SCREEN_HEIGHT - keyboardHeight,
+                justifyContent: keyboardVisible ? "flex-start" : "center",
+                paddingTop: 20,
+            }
+        ]}>
+            <ContentBox title="Write" style={{ maxHeight: SCREEN_HEIGHT - 100 }} headerColor={colors.yellow.dark}>
+                <InputField
+                    style={{ maxHeight: SCREEN_HEIGHT - (350) }}
+                    placeholder="Write your joke here..."
+                    value={inputValue}
+                    onChangeText={setInputValue}
+                />
+                <View style={{ alignItems: "center" }}>
+                    <Button variant="submit" shadowHeight={8} fontSize={16} width={100} height={28} onPress={submitJoke} label="Sumbit" />
+                </View>
+            </ContentBox>
+            <JokesLeftIndicator ref={jokesLeftIndicatorRef} />
+            {/* <MascotTip /> */}
+        </View>
     )
 }
 

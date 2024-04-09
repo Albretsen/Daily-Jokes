@@ -118,7 +118,7 @@ export default function JokeListItem(props: JokeListItemProps) {
                                     gap: 10,
                                 }}>
                                     <Button height={30} shadowHeight={0} fontSize={15} borderRadius={12} variant="play" label="Boost joke" onPress={onBoost} />
-                                    <PriceDisplay textColor={colors.purple.medium} price={50} />
+                                    <PriceDisplay style={{ color: colors.purple.medium }} price={50} />
                                 </View>
                                 <Text size={14} shadow={false} color={colors.purple.dark}>Boosting a joke makes every like it gets count double!</Text>
                             </>
