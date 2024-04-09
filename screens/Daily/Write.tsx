@@ -100,7 +100,6 @@ export default function Write() {
                                     <PriceDisplay style={{ fontSize: 16 }} price={50} />
                                 </View>
                             </Button>
-
                         </View>
                     </View>
                 </ContentBox>

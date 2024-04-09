@@ -1,5 +1,5 @@
 import React, { useImperativeHandle, forwardRef } from 'react';
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { componentColors } from "./Colors";
 import { useJokeSubmission } from "../../hooks/useJokeSubmission";
 import PriceDisplay from './PriceDisplay';
@@ -17,23 +17,22 @@ const JokesLeftIndicator = forwardRef((props, ref) => {
 
     return (
         <View>
-            <View style={styles.container}>
-                <View style={styles.line} />
-                <View style={[styles.circle, jokeSubmission.jokesSubmitted - (3 + jokeSubmission.additionalSlotsPurchased) <= -1 ? styles.used : null]} />
-                <View style={[styles.circle, jokeSubmission.jokesSubmitted - (3 + jokeSubmission.additionalSlotsPurchased) <= -2 ? styles.used : null]} />
-                <View style={[styles.circle, jokeSubmission.jokesSubmitted - (3 + jokeSubmission.additionalSlotsPurchased) <= -3 ? styles.used : null]} />
+            <View style={styles.outerContainer}>
+                <View style={styles.container}>
+                    <View style={styles.line} />
+                    <View style={[styles.circle, jokeSubmission.jokesSubmitted - (3 + jokeSubmission.additionalSlotsPurchased) <= -1 ? styles.used : null]} />
+                    <View style={[styles.circle, jokeSubmission.jokesSubmitted - (3 + jokeSubmission.additionalSlotsPurchased) <= -2 ? styles.used : null]} />
+                    <View style={[styles.circle, jokeSubmission.jokesSubmitted - (3 + jokeSubmission.additionalSlotsPurchased) <= -3 ? styles.used : null]} />
+                    <CircularButton onPress={() => {/* TODO: Add buy function */ }} size={24} backgroundColor={componentColors.playButton.bgRight} highlightColor={"transparent"} variant="add" />
+                </View>
+                <PriceDisplay style={{ fontSize: 15 }} price={50} />
             </View>
             {/* TODO: Not sure if this conditional is correct */}
             {jokeSubmission.jokesSubmitted - (3 + jokeSubmission.additionalSlotsPurchased) == 0 && (
                 <View style={{ marginTop: 10 }}>
-                    <View style={{ justifyContent: "center", }}>
-                        <Text style={{ textAlign: "center" }} size={15}>Your are out of joke submissions for today! </Text>
+                    <View style={{ alignItems: "center" }}>
+                        <Text style={{ textAlign: "center", width: "80%" }} size={15}>Your are out of joke submissions for today. Press the green button to buy more.</Text>
                     </View>
-                    <TouchableOpacity style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", marginTop: 10 }}>
-                        <CircularButton noPress size={36} backgroundColor={componentColors.playButton.bgRight} highlightColor={componentColors.playButton.highlight} variant="add" />
-                        <Text style={{ marginLeft: 10 }} size={15}>Buy another submission for </Text>
-                        <PriceDisplay style={{ fontSize: 15 }} price={50} />
-                    </TouchableOpacity>
                 </View>
             )}
         </View>
@@ -43,10 +42,16 @@ const JokesLeftIndicator = forwardRef((props, ref) => {
 export default JokesLeftIndicator;
 
 const styles = StyleSheet.create({
+    outerContainer: {
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 16,
+        gap: 6
+    },
     container: {
         flexDirection: "row",
         alignSelf: "center",
-        marginTop: 16,
         gap: 6,
         overflow: "hidden",
     },
