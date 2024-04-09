@@ -34,7 +34,6 @@ const JokesLeftIndicator = forwardRef((props, ref) => {
                         <Text style={{ marginLeft: 10 }} size={15}>Buy another submission for </Text>
                         <PriceDisplay style={{ fontSize: 15 }} price={50} />
                     </TouchableOpacity>
-
                 </View>
             )}
         </View>
