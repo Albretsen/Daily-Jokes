@@ -25,7 +25,6 @@ export const useJokesPreferences = (criteria?: object) => {
 
                     const endpoint = `/joke/preferences?userId=${userId}&contestId=${contestId}`;
                     const jokes_result = await api("GET", endpoint, undefined, token);
-                    console.log(jokes_result);
 
                     if (isMounted) {
                         setJokes(jokes_result); 

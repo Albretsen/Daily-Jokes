@@ -46,7 +46,6 @@ export default function FirstSignIn() {
 
             NavigationService.navigate("Home");
         } catch {
-            console.log("CATCH")
             showToast("Error editing account details.");
         }
     }

@@ -35,7 +35,7 @@ export default function ContestListItem(props: ContestListItemProps) {
             center={
                 <ListItemCenter
                     title={contest.name}
-                    text={contest.winner ? `#1 ${contest.winner}` : "TODO: Add text here"}
+                    text={contest.winner ? `#1 ${contest.winner}` : ""}
                     stats={contest.stats}
                     button={{
                         label: "See contest",

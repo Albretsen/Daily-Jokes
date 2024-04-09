@@ -148,9 +148,5 @@ const validateToken = async (token) => {
 
     let user = await loginWithToken(token);
 
-    console.log(token);
-    console.log(user);
-    console.log(user.token)
-
     return user?.token === token;
 }
