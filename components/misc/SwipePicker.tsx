@@ -218,6 +218,9 @@ export default function SwipePicker() {
     const translateY = new Animated.Value(0);
 
     const animateCardAway = (direction: number, action: string) => {
+        const jokeId = jokes[currentIndex] ? jokes[currentIndex].id : null;
+
+        rate(jokeId, action);
         if (action === 'superlike') {
             const toValue = -SCREEN_HEIGHT; // Move the card off the screen upwards
             Animated.timing(translateY, {
