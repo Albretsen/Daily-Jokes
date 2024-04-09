@@ -17,10 +17,17 @@ export default function EditAccount() {
         const setUserDetails = async () => {
             const userDetails = await UserDataManager.getUserDetails();
             setUsername(userDetails.name);
-            setEmail(userDetails.email);
+            if (!userDetails.email.includes('@dailyjokes.app')) {
+                setEmail(userDetails.email);
+            }
         }
         setUserDetails();
-    },[])
+    }, [])
+
+    const isValidEmail = (email) => {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email);
+    }
 
     const onSubmit = async () => {
         try {
@@ -30,7 +37,15 @@ export default function EditAccount() {
 
             let userData = {};
             if (username) userData.name = username;
-            if (email) userData.email = email;
+
+            // Check if email is not empty and valid before adding to userData
+            if (email && !isValidEmail(email)) {
+                showToast("Please enter a valid email address.");
+                return; // Exit the function to prevent updating with invalid email
+            } else if (email) {
+                userData.email = email;
+            }
+
             await update(userData);
             showToast("Account details updated.");
             loginWithToken(await UserDataManager.getToken());
@@ -46,7 +61,7 @@ export default function EditAccount() {
                     gap: 10
                 }}>
                     <SmallInputField
-                        label="Username (optional)"
+                        label="Username"
                         inputMode="text"
                         keyboardType="default"
                         textContentType="username"
@@ -55,7 +70,7 @@ export default function EditAccount() {
                         style={{ width: "80%" }}
                     />
                     <SmallInputField
-                        label="Email (optional)"
+                        label="Email"
                         inputMode="email"
                         keyboardType="email-address"
                         textContentType="emailAddress"
@@ -64,7 +79,7 @@ export default function EditAccount() {
                         style={{ width: "80%" }}
                     />
                     <SmallInputField
-                        label="Password (optional)"
+                        label="Password"
                         inputMode="text"
                         textContentType="newPassword"
                         secureTextEntry

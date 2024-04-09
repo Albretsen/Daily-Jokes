@@ -10,6 +10,7 @@ import Store from "./Store";
 import ViewProfile from "./ViewProfile";
 import SignIn from "./SignIn";
 import ContestResultChecker from "../components/misc/ContestResultChecker";
+import FirstSignIn from "./FirstSignIn";
 
 export type StackParamsList = {
     Home: undefined;
@@ -19,8 +20,9 @@ export type StackParamsList = {
     Profile: undefined;
     Notifications: undefined;
     Store: undefined;
-    User: undefined
+    User: undefined;
     "Sign in": undefined;
+    "First sign in": undefined;
 }
 
 const Stack = createStackNavigator<StackParamsList>();
@@ -73,6 +75,11 @@ export default function AppNavigationStack() {
                 <Stack.Screen
                     name="Sign in"
                     component={SignIn}
+                    options={({ navigation, route }) => HeaderOptions({ navigation, route })}
+                />
+                <Stack.Screen
+                    name="First sign in"
+                    component={FirstSignIn}
                     options={({ navigation, route }) => HeaderOptions({ navigation, route })}
                 />
             </Stack.Navigator>

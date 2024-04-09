@@ -5,8 +5,8 @@ import { UserDataManager } from '../services/userDataManager';
 export const generateRandomCredentials = async () => {
     const deviceID = await generateDeviceID();
 
-    const name = generateUsername() + `-${deviceID.substring(0, 4)}`; 
-    const email = `${deviceID}@temporary.email`; 
+    const name = generateUsername() + `_${deviceID.substring(0, 2)}`; 
+    const email = `${deviceID}@dailyjokes.app`; 
     const password = uuidv4();
 
     return { name, email, password, deviceID };
