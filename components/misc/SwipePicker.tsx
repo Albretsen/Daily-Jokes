@@ -13,6 +13,7 @@ import PriceDisplay from './PriceDisplay';
 import { showToast } from '../../state-management/toast';
 import { store } from '../../state-management/reduxStore';
 import { decrementCoins } from '../../state-management/coinSlice';
+import { toggleGoToStore } from '../../state-management/goToStore';
 
 interface CardProps {
     text: string;
@@ -226,7 +227,7 @@ export default function SwipePicker() {
         try {
             let result = await rate(jokeId, action);
             if (result.error) {
-                showToast(result.error);
+                toggleGoToStore(true);
                 return;
             }
             if (action === 'superlike' && result.price) {
