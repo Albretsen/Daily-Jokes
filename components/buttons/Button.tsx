@@ -3,7 +3,7 @@ import BaseButton from "./BaseButton";
 import { componentColors, colors } from "../misc/Colors";
 import { ReactNode } from "react";
 
-export type ButtonVariantType = "play" | "toggle" | "submit" | "blue" | "pink";
+export type ButtonVariantType = "play" | "toggle" | "submit" | "blue" | "pink" | "red";
 
 interface ButtonProps {
     label?: string;
@@ -55,6 +55,13 @@ const variants = {
         leftColor: colors.pink.light,
         rightColor: colors.pink.medium,
         highlightColor: colors.pink.dark,
+        borderRadius: 10,
+    },
+
+    "red": {
+        leftColor: colors.red.light,
+        rightColor: colors.red.dark,
+        highlightColor: colors.red.highlight,
         borderRadius: 10,
     },
 
