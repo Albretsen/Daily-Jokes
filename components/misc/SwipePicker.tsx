@@ -9,6 +9,7 @@ import { SCREEN_HEIGHT } from '../layout/ScreenView';
 import { useJokesSearchSwipe } from '../../hooks/useJokesSearchSwipe';
 import { api } from '../../api/api';
 import { UserDataManager } from '../../services/userDataManager';
+import PriceDisplay from './PriceDisplay';
 
 interface CardProps {
     text: string;
@@ -35,29 +36,69 @@ function Card({ text, animateCardAway }: CardProps) {
     }, []);
 
     return (
-        <ContentBox title={"Rate"} headerColor={colors.green.dark} containerStyle={{ marginTop: 50 }} style={{ overflow: "hidden" }}>
-            <ScrollView persistentScrollbar={true} ref={scrollViewRef} style={{ maxHeight: SCREEN_HEIGHT - 250 }}>
-                <Text shadow={false} color={componentColors.text.contentBox}>
-                    {text}
-                </Text>
-            </ScrollView>
-            <View style={styles.buttonsContainer}>
-                <CircularButton variant="no" onPress={() => {
-                    animateCardAway(-200, 'dislike');
-                    flashScrollbar();
-                }} />
-                <CircularButton variant="superlike" onPress={() => {
-                    animateCardAway(0, 'superlike');
-                    flashScrollbar();
-                }} />
-                <CircularButton variant="yes" onPress={() => {
-                    animateCardAway(200, 'like');
-                    flashScrollbar();
-                }} />
-            </View>
-        </ContentBox>
+        <>
+            <ContentBox title={"Rate"} headerColor={colors.green.dark} containerStyle={{ marginTop: 50 }} style={{ overflow: "hidden" }}>
+                <ScrollView persistentScrollbar={true} ref={scrollViewRef} style={{ maxHeight: SCREEN_HEIGHT - 280 }}>
+                    <Text shadow={false} color={componentColors.text.contentBox}>
+                        {text}
+                    </Text>
+                </ScrollView>
+                <View style={cardStyles.buttonsContainer}>
+                    <View style={cardStyles.buttonWithLabel}>
+                        <CircularButton variant="undo" onPress={() => {
+                            animateCardAway(-200, 'dislike');
+                            flashScrollbar();
+                        }} />
+                        <Text shadow={false} size={14} color={colors.yellow.dark}>Undo</Text>
+                    </View>
+                    <View style={cardStyles.buttonWithLabel}>
+                        <CircularButton variant="no" onPress={() => {
+                            animateCardAway(-200, 'dislike');
+                            flashScrollbar();
+                        }} />
+                        <Text shadow={false} size={14} color={colors.red.medium}>Dislike</Text>
+                    </View>
+                    <View style={{
+                        gap: 0,
+                    }}>
+                        <View style={cardStyles.buttonWithLabel}>
+                            <CircularButton variant="superlike" onPress={() => {
+                                animateCardAway(0, 'superlike');
+                                flashScrollbar();
+                            }} />
+                            <Text shadow={false} size={14} color={colors.blue.dark}>Superlike</Text>
+                        </View>
+                        <PriceDisplay price={50} textColor={colors.blue.dark} />
+                    </View>
+                    <View style={cardStyles.buttonWithLabel}>
+                        <CircularButton variant="yes" onPress={() => {
+                            animateCardAway(200, 'like');
+                            flashScrollbar();
+                        }} />
+                        <Text shadow={false} size={14} color={colors.green.dark}>Like</Text>
+                    </View>
+                </View>
+            </ContentBox>
+        </>
     )
 }
+
+const cardStyles = StyleSheet.create({
+    buttonsContainer: {
+        flexDirection: "row",
+        gap: 20,
+        width: "100%",
+        justifyContent: "center",
+        alignItems: "flex-start",
+    },
+
+    buttonWithLabel: {
+        flexDirection: "column",
+        gap: 4,
+        justifyContent: "center",
+        alignItems: "center",
+    }
+});
 
 interface joke {
     id: Number;
@@ -157,7 +198,7 @@ export default function SwipePicker() {
     const handleSwipe = (translationX: number) => {
         let swipeDirection = translationX > 0 ? 'right' : 'left';
 
-        if (Math.abs(translationX) > 140) {
+        if (Math.abs(translationX) > 75) {
             const jokeId = jokes[currentIndex] ? jokes[currentIndex].id : null;
             const action = swipeDirection === 'right' ? 'like' : 'dislike';
 
@@ -174,35 +215,35 @@ export default function SwipePicker() {
         await api("POST", `/joke/rate/${jokeId}/${action}`, undefined, await UserDataManager.getToken());
     }
 
+    const translateY = new Animated.Value(0);
+
     const animateCardAway = (direction: number, action: string) => {
-        const toValue = direction !== 0 ? (direction > 0 ? 500 : -500) : 0; // For superlike, we don't move the card to the sides.
         const jokeId = jokes[currentIndex] ? jokes[currentIndex].id : null;
 
-        if (jokeId) {
-            rate(jokeId, action).then(() => {
-                Animated.timing(translateX, {
-                    toValue: toValue,
-                    duration: 200,
-                    useNativeDriver: true,
-                }).start(() => {
-                    translateX.setValue(0);
-                    setCurrentIndex(currentIndex + 1);
-                });
+        rate(jokeId, action);
+        if (action === 'superlike') {
+            const toValue = -SCREEN_HEIGHT; // Move the card off the screen upwards
+            Animated.timing(translateY, {
+                toValue: toValue,
+                duration: 200,
+                useNativeDriver: true,
+            }).start(() => {
+                translateY.setValue(0); // Reset translateY after the animation
+                setCurrentIndex(currentIndex + 1); // Move to the next card
             });
         } else {
-            // In case there's no jokeId, just proceed with the animation.
+            const toValue = direction !== 0 ? (direction > 0 ? 500 : -500) : 0; // Existing logic for like/dislike
             Animated.timing(translateX, {
                 toValue: toValue,
                 duration: 200,
                 useNativeDriver: true,
             }).start(() => {
-                translateX.setValue(0);
-                setCurrentIndex(currentIndex + 1);
+                translateX.setValue(0); // Reset translateX after the animation
+                setCurrentIndex(currentIndex + 1); // Move to the next card
             });
         }
     };
 
-    const joke = "I DONT GIVE A FUCK ABOUT THE FUCKING CODE! i just want to download this stupid fucking application and use it. WHY IS THERE CODE??? MAKE A FUCKING .EXE FILE AND GIVE IT TO ME. these dumbfucks think that everyone is a developer and understands code. well i am not and i don't understand it. I only know to download and install applications. SO WHY THE FUCK IS THERE CODE? make an EXE file and give it to me. STUPID FUCKING SMELLY NERD"
 
     return (
         <View style={styles.container}>
@@ -216,7 +257,7 @@ export default function SwipePicker() {
                 onHandlerStateChange={onHandlerStateChange}>
                 {jokes[currentIndex] ? (
                     <Animated.View style={{
-                        transform: [{ translateX: translateX }, { rotateZ: rotateZ }],
+                        transform: [{ translateX: translateX }, { rotateZ: rotateZ }, { translateY: translateY }],
                         position: 'absolute',
                         width: '100%',
                     }}>
@@ -224,7 +265,6 @@ export default function SwipePicker() {
                     </Animated.View>
                 ) : (
                     <View>
-                        {/* You can customize this view as needed */}
                         <Text>No more jokes!</Text>
                     </View>
                 )}
@@ -244,20 +284,5 @@ const styles = StyleSheet.create({
         position: 'absolute',
         width: '100%',
         alignItems: 'center',
-    },
-
-    buttonsContainer: {
-        flexDirection: "row",
-        gap: 10,
-        width: "100%",
-        justifyContent: "center"
-    },
-
-    closeButton: {
-        backgroundColor: "#2196F3",
-        borderRadius: 20,
-        padding: 10,
-        elevation: 2,
-        marginTop: 15,
-    },
+    }
 });

@@ -20,7 +20,7 @@ export function Toast() {
 
     return (
         <Animated.View style={[styles.container, { bottom: bottomValue }]}>
-            <ContentBox style={{ minHeight: 0 }} text={message} />
+            <ContentBox width={"100%"} style={{ minHeight: 0, gap: 0 }} text={message} />
         </Animated.View>
     );
 }

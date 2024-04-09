@@ -4,13 +4,14 @@ import Text from "../generalUI/Text";
 import { colors } from "../misc/Colors";
 import { BottomSheetView, BottomSheetModal } from '@gorhom/bottom-sheet';
 import BottomSheetBackground from './ProfileBottomSheetBackground';
+import ProfileBottomSheetContent from "./ProfileBottomSheetContent";
 import CircularButton from '../buttons/CircularButton';
 import { useRef } from "react";
 import { updateViewingUser } from "../../state-management/viewingUser";
 
 interface User {
     name: string,
-    id: number;
+    id: string | number;
     backgroundId: number;
     avatarId: number;
 }
@@ -35,7 +36,7 @@ export default function PlayersDisplay(props: PlayersDisplayProps) {
             <View style={styles.avatarContainer}>
                 {displayedUsers.map((user) => (
                     <Pressable key={user.id} onPress={async () => {
-                        updateViewingUser(user.name, user.avatarId, user.backgroundId);
+                        updateViewingUser(user.name, user.avatarId, user.backgroundId, Number(user.id));
                         bottomSheetRef.current?.present();
                     }}>
                         <Avatar size={54} id={user.avatarId} />
@@ -59,9 +60,11 @@ export default function PlayersDisplay(props: PlayersDisplayProps) {
                     <View style={{
                         alignSelf: "flex-end",
                         marginHorizontal: 20,
+                        height: 50,
                     }}>
                         <CircularButton onPress={() => bottomSheetRef.current?.close()} variant="close" />
                     </View>
+                    <ProfileBottomSheetContent closeMethod={() => bottomSheetRef.current?.close()} />
                 </BottomSheetView>
             </BottomSheetModal>
         </View>

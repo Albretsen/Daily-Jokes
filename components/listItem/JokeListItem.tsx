@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, ScrollView, TouchableOpacity } from "react-native";
+import { View, ScrollView, TouchableOpacity, Pressable } from "react-native";
 import ListItem, { ListItemCenter, ListItemRight } from "./ListItem";
 import Avatar from "../profile/Avatar";
 import Modal from "../generalUI/Modal";
@@ -28,6 +28,7 @@ interface JokeListItemProps {
             likes?: number;
         }
         id: number;
+        userId: string;
     };
     titleColor?: string;
     textColor?: string;
@@ -36,16 +37,22 @@ interface JokeListItemProps {
     */
     noBox?: boolean;
     boostable?: boolean;
+    boosted?: boolean;
     onAvatarPress?: () => void;
     onMenuPress: () => void;
 }
 
+type UserData = {
+    role: string;
+    id: string;
+}
+
 export default function JokeListItem(props: JokeListItemProps) {
-    let { joke, titleColor, textColor, noBox, boostable, onAvatarPress, onMenuPress } = props;
+    let { joke, titleColor, textColor, noBox, boostable, boosted, onAvatarPress, onMenuPress } = props;
 
     const [modalVisible, setModalVisible] = useState(false);
 
-    const [userData, setUserData] = useState({});
+    const [userData, setUserData] = useState<UserData>({ role: "", id: "" });
 
     const [isVisible, setIsVisible] = useState(true);
 
@@ -55,7 +62,7 @@ export default function JokeListItem(props: JokeListItemProps) {
             setUserData(userData_);
         }
         fetchUserData();
-    },[])
+    }, [])
 
     const onBoost = async () => {
         try {
@@ -71,13 +78,14 @@ export default function JokeListItem(props: JokeListItemProps) {
     const onDelete = async () => {
         try {
             await deleteJoke(joke.id);
-            setIsVisible(false); 
+            setIsVisible(false);
         } catch (error) {
             console.error("Failed to delete joke:", error);
             showToast("Error deleting joke.");
         }
     };
 
+    // Shows delete button if user is moderator, admin or author of the joke
     const canDelete = userData.role === "moderator" || userData.role === "admin" || joke.userId === userData.id;
 
     if (!isVisible) return null;
@@ -115,6 +123,9 @@ export default function JokeListItem(props: JokeListItemProps) {
                                 <Text size={14} shadow={false} color={colors.purple.dark}>Boosting a joke makes every like it gets count double!</Text>
                             </>
                         )}
+                        {boosted && (
+                            <Button noPress height={30} shadowHeight={0} fontSize={15} borderRadius={16} variant="play" label="Boosted" />
+                        )}
                     </ListItemCenter>
                 }
                 right={
@@ -130,11 +141,14 @@ export default function JokeListItem(props: JokeListItemProps) {
                     </>
                 }
                 noBox={noBox}
+                boosted={boosted}
             />
             <Modal modalVisible={modalVisible} onRequestClose={() => setModalVisible(false)}>
                 <ContentBox width={"105%"}>
                     <ScrollView style={{ maxHeight: SCREEN_HEIGHT - 100 }}>
-                        <Text shadow={false} color={componentColors.contentBox.text}>{joke.text}</Text>
+                        <Pressable>
+                            <Text shadow={false} color={componentColors.contentBox.text}>{joke.text}</Text>
+                        </Pressable>
                     </ScrollView>
                     <ListItem
                         left={<Avatar size={60} id={joke.avatarId} />}

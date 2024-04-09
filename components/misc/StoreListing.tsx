@@ -60,21 +60,23 @@ export default function StoreListing(props: StoreListingProps) {
     }
 
     return (
-        <ContentBox
-            title={title}
-            width={"100%"}
-            containerStyle={{ width: "42%" }}
-        >
-            <View style={styles.listingContainer}>
-                <Image style={{ height: 85, width: 85, marginTop: 6, }} source={images[icon]} />
-                <View style={styles.textContainer}>
-                    {oldPrice && (
-                        <Text size={15} style={{ textDecorationLine: "line-through", textDecorationStyle: 'solid' }} shadow={false} color={colors.metals.silver}>{oldPrice}</Text>
-                    )}
-                    <Text shadow={false} color={colors.purple.medium}>{price}</Text>
+        <View style={{ width: "42%" }}>
+            <ContentBox
+                title={title}
+                width={"100%"}
+                containerStyle={{ width: "100%" }}
+            >
+                <View style={styles.listingContainer}>
+                    <Image style={{ height: 85, width: 85, marginTop: 6, }} source={images[icon]} />
+                    <View style={styles.textContainer}>
+                        {oldPrice && (
+                            <Text size={15} style={{ textDecorationLine: "line-through", textDecorationStyle: 'solid' }} shadow={false} color={colors.metals.silver}>{oldPrice}</Text>
+                        )}
+                        <Text shadow={false} color={colors.purple.medium}>{price}</Text>
+                    </View>
+                    <Button height={36} label="Buy" variant="blue" onPress={handlePurchase} />
                 </View>
-                <Button height={36} label="Buy" variant="blue" onPress={handlePurchase} />
-            </View>
+            </ContentBox>
             {discount && (
                 <View style={styles.discountContainer}>
                     <PulseAnimation>
@@ -82,7 +84,7 @@ export default function StoreListing(props: StoreListingProps) {
                     </PulseAnimation>
                 </View>
             )}
-        </ContentBox>
+        </View>
     )
 }
 
@@ -103,8 +105,8 @@ const styles = StyleSheet.create({
 
     discountContainer: {
         position: "absolute",
-        top: -50,
-        right: -30,
+        // top: -50,
+        right: -16,
         transform: [{ rotate: '20deg' }],
         zIndex: 9999,
     }

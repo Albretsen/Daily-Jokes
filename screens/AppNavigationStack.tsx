@@ -7,6 +7,8 @@ import Results from "./Results/Results";
 import Profile from "./Profile";
 import Notifications from "./Notifications";
 import Store from "./Store";
+import ViewProfile from "./ViewProfile";
+import SignIn from "./SignIn";
 import ContestResultChecker from "../components/misc/ContestResultChecker";
 import { AdsWrapper } from "../services/ads";
 
@@ -18,6 +20,8 @@ export type StackParamsList = {
     Profile: undefined;
     Notifications: undefined;
     Store: undefined;
+    User: undefined
+    "Sign in": undefined;
 }
 
 const Stack = createStackNavigator<StackParamsList>();
@@ -60,6 +64,16 @@ export default function AppNavigationStack() {
                 <Stack.Screen
                     name="Store"
                     component={Store}
+                    options={({ navigation, route }) => HeaderOptions({ navigation, route })}
+                />
+                <Stack.Screen
+                    name="User"
+                    component={ViewProfile}
+                    options={({ navigation, route }) => HeaderOptions({ navigation, route })}
+                />
+                <Stack.Screen
+                    name="Sign in"
+                    component={SignIn}
                     options={({ navigation, route }) => HeaderOptions({ navigation, route })}
                 />
             </Stack.Navigator>

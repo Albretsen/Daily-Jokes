@@ -1,5 +1,5 @@
 import { View, Image, StyleSheet } from "react-native";
-import ContentBox from "../layout/ContentBox";
+import ContentBoxRibbon from "../layout/ContentBoxRibbon";
 import Text from "../generalUI/Text";
 import Button from "../buttons/Button";
 import Modal from "../generalUI/Modal";
@@ -25,11 +25,11 @@ export default function Results(props: ResultsProps) {
 
     return (
         <Modal modalVisible={visible} onRequestClose={onRequestClose} >
-            <ContentBox ribbonTitle={{
-                topText: results.date ? results.date : "",
-                bottomText: "Results",
-                stars: true,
-            }}>
+            <ContentBoxRibbon
+                topText={results.date ? results.date : ""}
+                bottomText="Results"
+                stars={true}
+            >
                 <View style={styles.container}>
                     <View style={styles.section}>
                         <Text shadow={false} style={styles.text}>Theme</Text>
@@ -61,7 +61,7 @@ export default function Results(props: ResultsProps) {
                         }}></Button>
                     </View>
                 </View>
-            </ContentBox>
+            </ContentBoxRibbon>
         </Modal>
     )
 }

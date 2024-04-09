@@ -1,9 +1,9 @@
 import { ReactNode } from "react";
 import { TouchableOpacity, View, StyleSheet, Image } from "react-native";
-import { componentColors } from "../misc/Colors";
+import { componentColors, colors } from "../misc/Colors";
 import { percentageOf as p } from "../../utils/utils";
 
-export type VariantType = "yes" | "no" | "close" | "back" | "hamburger" | "superlike" | "no-ads" | "chest" | "boost" | "history" | "add" | "delete"
+export type VariantType = "yes" | "no" | "close" | "back" | "hamburger" | "superlike" | "no-ads" | "chest" | "boost" | "history" | "add" | "delete" | "info" | "undo"
 
 interface CircularButtonProps {
     onPress?: () => void;
@@ -11,8 +11,10 @@ interface CircularButtonProps {
     iconComponent?: ReactNode;
     backgroundColor?: string;
     highlightColor?: string;
+    borderColor?: string;
     size?: number;
     noPress?: boolean;
+    disabled?: boolean;
 }
 
 const variants = {
@@ -86,17 +88,29 @@ const variants = {
         icon: require("../../assets/icons/delete.png"),
         backgroundColor: componentColors.noButton.background,
         highlightColor: componentColors.noButton.highlight,
-    }
+    },
+
+    info: {
+        icon: require("../../assets/icons/info.png"),
+        backgroundColor: componentColors.superlikeButton.background,
+        highlightColor: componentColors.superlikeButton.highlight,
+    },
+
+    undo: {
+        icon: require("../../assets/icons/undo.png"),
+        backgroundColor: colors.yellow.medium,
+        highlightColor: colors.yellow.dark,
+    },
 }
 
 export default function CircularButton(props: CircularButtonProps) {
-    const { onPress, variant, iconComponent, backgroundColor, highlightColor, size = 40, noPress } = props;
+    const { onPress, variant, iconComponent, backgroundColor, highlightColor, borderColor, size = 40, noPress, disabled } = props;
 
     const borderWidth = p(7.5, size);
     const backgroundOffset = p(7, size);
 
     return (
-        <TouchableOpacity disabled={noPress} onPress={onPress}>
+        <TouchableOpacity disabled={noPress || disabled} onPress={onPress}>
             <View style={[
                 styles.container,
                 { width: size }
@@ -104,7 +118,7 @@ export default function CircularButton(props: CircularButtonProps) {
                 <View style={[
                     styles.background,
                     {
-                        backgroundColor: variant ? variants[variant].highlightColor : highlightColor,
+                        backgroundColor: disabled ? "gainsboro" : highlightColor ? highlightColor : variant ? variants[variant].highlightColor : highlightColor,
                         width: size,
                         height: size,
                         top: backgroundOffset,
@@ -113,10 +127,11 @@ export default function CircularButton(props: CircularButtonProps) {
                 <View style={[
                     styles.innerButtonContainer,
                     {
-                        backgroundColor: variant ? variants[variant].backgroundColor : backgroundColor,
+                        backgroundColor: disabled ? "darkgray" : backgroundColor ? backgroundColor : variant ? variants[variant].backgroundColor : backgroundColor,
                         width: size,
                         height: size,
                         borderWidth: borderWidth,
+                        borderColor: borderColor ? borderColor : componentColors.button.border,
                     }
                 ]}>
                     {variant && (
@@ -150,7 +165,6 @@ const styles = StyleSheet.create({
     },
 
     innerButtonContainer: {
-        borderColor: componentColors.button.border,
         borderRadius: 100,
         justifyContent: "center",
         alignItems: "center"

@@ -1,10 +1,10 @@
-import { TextInput, TextInputProps, StyleSheet, StyleProp, ViewStyle } from "react-native";
+import { TextInput, TextInputProps, StyleSheet, StyleProp, TextStyle } from "react-native";
 import { textStyles } from "./Text";
 import { componentColors } from "../misc/Colors";
 
 interface InputFieldProps extends TextInputProps {
     placeholderTextColor?: string;
-    style?: StyleProp<ViewStyle>;
+    style?: StyleProp<TextStyle>;
 }
 
 export default function InputField(props: InputFieldProps) {

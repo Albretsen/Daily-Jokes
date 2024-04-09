@@ -20,6 +20,7 @@ interface BaseButtonProps {
     shadowHeight?: number;
     style?: StyleProp<ViewStyle>;
     disabled?: boolean;
+    noPress?: boolean;
 }
 
 export default function BaseButton(props: BaseButtonProps) {
@@ -32,11 +33,12 @@ export default function BaseButton(props: BaseButtonProps) {
         label,
         widthPercentage = 100,
         heightPercentage = 40,
-        borderWidth = 2.5,
+        borderWidth = 3,
         fontSize = 18,
         shadowHeight = 8,
         style = null,
         disabled,
+        noPress,
     } = props;
 
     const buttonWidth = p(widthPercentage, 100);
@@ -58,13 +60,13 @@ export default function BaseButton(props: BaseButtonProps) {
         ${p(widthPercentage, 100)},${p(heightPercentage, 100)}`;
 
     return (
-        <TouchableOpacity disabled={disabled} style={style} onPress={onPress}>
+        <TouchableOpacity disabled={disabled || disabled} style={style} onPress={onPress}>
             <Shadow height={buttonHeight + shadowHeight} width={buttonContainerWidth} borderRadius={borderRadius} />
             <View style={[
                 styles.container,
                 {
                     borderWidth: borderWidth,
-                    borderTopWidth: 2.5,
+                    borderTopWidth: 3,
                     width: buttonContainerWidth,
                     height: buttonHeight + 10,
                     borderRadius: borderRadius

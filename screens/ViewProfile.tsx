@@ -1,23 +1,18 @@
-import React, { useState } from 'react';
-import { View } from 'react-native';
-import ScreenView, { SCREEN_HEIGHT, HEADER_HEIGHT } from '../components/layout/ScreenView';
-import ScrollToTopView from '../components/layout/ScrollToTopView';
+import { View } from "react-native";
+import { useState } from "react";
+import ScrollToTopView from "../components/layout/ScrollToTopView";
+import ScreenView, { SCREEN_HEIGHT, HEADER_HEIGHT } from "../components/layout/ScreenView";
+import Text from "../components/generalUI/Text";
+import FilterToggle from "../components/generalUI/FilterToggle";
+import JokeListManager from "../components/managers/JokeListManager";
+import ProfileSection from "../components/profile/ProfileSection";
 import { RootState } from '../state-management/reduxStore';
 import { useSelector } from 'react-redux';
-import { useProfile } from '../hooks/useProfile';
-import ProfileSection from '../components/profile/ProfileSection';
-import JokeListManager from '../components/managers/JokeListManager';
-import Text from '../components/generalUI/Text';
-import FilterToggle from '../components/generalUI/FilterToggle';
 
-export default function Profile() {
-
-    const profile = useProfile();
-
-    const { avatarId } = useSelector((state: RootState) => state.profile);
+export default function ViewProfile() {
+    const { avatarId, userId, username, backgroundId } = useSelector((state: RootState) => state.viewingUser);
 
     const [activeFilter, setActiveFilter] = useState(0);
-
     return (
         <ScreenView style={{
             marginTop: 0,
@@ -27,7 +22,7 @@ export default function Profile() {
             scrollView={false}
         >
             <ScrollToTopView scrollToTopThreshold={Infinity}>
-                <ProfileSection customizable avatarId={profile.user.profile} backgroundId={profile.user.backgroundId} name={profile.user.name} />
+                <ProfileSection avatarId={avatarId} backgroundId={backgroundId} name={username} />
                 <View style={{
                     justifyContent: "center",
                     width: "100%",
@@ -35,7 +30,7 @@ export default function Profile() {
                     marginTop: 40,
                     marginBottom: 10,
                 }}>
-                    <Text size={24}>Jokes by {profile.user.name}</Text>
+                    <Text size={24}>Jokes by {username}</Text>
                 </View>
                 <FilterToggle
                     options={[
@@ -45,7 +40,7 @@ export default function Profile() {
                     activeFilter={activeFilter}
                     setActiveFilter={setActiveFilter}
                 />
-                <JokeListManager initialCriteria={{ filters: { userId: profile.user.id }, sortBy: activeFilter == 0 ? "-createTimeStamp" : "-score" }} />
+                <JokeListManager initialCriteria={{ filters: { userId: userId }, sortBy: activeFilter == 0 ? "-createTimeStamp" : "-score" }} />
             </ScrollToTopView>
         </ScreenView >
     )

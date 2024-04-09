@@ -1,10 +1,8 @@
 import { View, Image, StyleSheet } from "react-native";
-import ContentBox from "../layout/ContentBox";
+import ContentBoxRibbon from "../layout/ContentBoxRibbon";
 import Button from "../buttons/Button";
 import Text from "../generalUI/Text";
 import { colors } from "./Colors";
-import PulseAnimation from "../animations/PulseAnimation";
-import CircularButton from "../buttons/CircularButton";
 
 interface PremiumStoreListingProps {
     title: string;
@@ -18,11 +16,9 @@ export default function PremiumStoreListing(props: PremiumStoreListingProps) {
     const { title, price, discount, oldPrice, offers } = props;
 
     return (
-        <ContentBox
-            ribbonTitle={{
-                topText: title,
-                bottomText: "Premium",
-            }}
+        <ContentBoxRibbon
+            topText={title}
+            bottomText="Premium"
             width={"80%"}
         >
             <View style={styles.listingContainer}>
@@ -41,7 +37,7 @@ export default function PremiumStoreListing(props: PremiumStoreListingProps) {
                     </PulseAnimation>
                 </View>
             )} */}
-        </ContentBox>
+        </ContentBoxRibbon>
     )
 }
 

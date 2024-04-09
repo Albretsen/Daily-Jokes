@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import { Modal as RNModal, View, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import CircularButton from '../buttons/CircularButton';
 
@@ -8,27 +8,34 @@ interface ModalProps {
     modalVisible: boolean;
     onRequestClose?: () => void;
     noExit?: boolean;
+    onShow?: () => void;
 }
 
 export default function Modal(props: ModalProps) {
-    const { children, modalVisible, onRequestClose, noExit } = props;
+    const { children, modalVisible, onRequestClose, noExit, onShow } = props;
 
     return (
         <RNModal
             animationType="fade"
             transparent={true}
             visible={modalVisible}
-            onRequestClose={onRequestClose}>
-            <View style={styles.fullScreenView}>
-                <View style={styles.modalView}>
-                    {children}
+            onShow={onShow}
+            onRequestClose={onRequestClose}
+        >
+            <TouchableWithoutFeedback onPress={onRequestClose}>
+                <View style={styles.fullScreenView}>
+                    <TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
+                        <View style={styles.modalView}>
+                            {children}
+                        </View>
+                    </TouchableWithoutFeedback>
+                    {!noExit && (
+                        <View style={styles.closeButton}>
+                            <CircularButton size={36} variant="close" onPress={onRequestClose} />
+                        </View>
+                    )}
                 </View>
-            </View>
-            {!noExit && (
-                <View style={styles.closeButton}>
-                    <CircularButton size={36} variant="close" onPress={onRequestClose} />
-                </View>
-            )}
+            </TouchableWithoutFeedback>
         </RNModal>
     );
 }
@@ -44,10 +51,11 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         alignItems: "center",
         width: '88%',
+        backgroundColor: 'white',
     },
     closeButton: {
         position: "absolute",
         right: 10,
-        top: 10,
+        top: 50,
     },
 });

@@ -32,7 +32,7 @@ export default function Rate() {
     useEffect(() => {
         setCriteria(prev => ({ ...prev, key: Math.random() }));
     }, [showHistory]);
-
+    
     return (
         <View style={{
             justifyContent: "flex-start",

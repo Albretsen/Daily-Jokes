@@ -23,12 +23,12 @@ export const useJokesPreferences = (criteria?: object) => {
                         return;
                     }
 
-                    // Build the API endpoint with query parameters
                     const endpoint = `/joke/preferences?userId=${userId}&contestId=${contestId}`;
                     const jokes_result = await api("GET", endpoint, undefined, token);
-                    
+                    console.log(jokes_result);
+
                     if (isMounted) {
-                        setJokes(jokes_result); // Assumes the API returns an object { liked: [], disliked: [] }
+                        setJokes(jokes_result); 
                     }
                 } catch (error) {
                     console.error("Failed to fetch jokes preferences:", error);

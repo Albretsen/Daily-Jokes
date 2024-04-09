@@ -14,7 +14,14 @@ interface ButtonProps {
     style?: StyleProp<ViewStyle>;
     borderRadius?: number;
     variant?: ButtonVariantType;
+    /** 
+    * @property Button has disabled appearance and give no feedback when pressed
+    */
     disabled?: boolean;
+    /** 
+    * @property The button retains its style, but gives no feedback when pressed
+    */
+    noPress?: boolean;
 }
 
 const variants = {
@@ -57,7 +64,7 @@ const variants = {
     }
 }
 
-export default function Button({ label, onPress, height, width, fontSize, shadowHeight, style, borderRadius, variant = "play", disabled }: ButtonProps) {
+export default function Button({ label, onPress, height, width, fontSize, shadowHeight, style, borderRadius, variant = "play", disabled, noPress }: ButtonProps) {
     return (
         <BaseButton
             onPress={onPress}
@@ -72,6 +79,7 @@ export default function Button({ label, onPress, height, width, fontSize, shadow
             shadowHeight={shadowHeight}
             style={style}
             disabled={disabled}
+            noPress={noPress}
         />
     );
 }

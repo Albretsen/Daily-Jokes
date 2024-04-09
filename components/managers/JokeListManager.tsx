@@ -7,6 +7,7 @@ import LoadingIndicator from '../generalUI/LoadingIndicator';
 import Button from '../buttons/Button';
 import { BottomSheetView, BottomSheetModal } from '@gorhom/bottom-sheet';
 import BottomSheetBackground from '../profile/ProfileBottomSheetBackground';
+import ProfileBottomSheetContent from '../profile/ProfileBottomSheetContent';
 import CircularButton from '../buttons/CircularButton';
 import { updateViewingUser } from "../../state-management/viewingUser";
 import { useContest } from '../../hooks/useContest';
@@ -86,6 +87,8 @@ export default function JokeListManager({ initialCriteria = { sortBy: "-createTi
                         <JokeListItem
                             key={index}
                             boostable={joke.boostable}
+                            // TODO: Add logic for determining if a joke is boosted or not
+                            boosted={joke.boost != 0}
                             joke={{
                                 avatarId: joke.user?.profile ? joke.user.profile : 0,
                                 username: joke.user?.name ? joke.user.name : "",
@@ -99,11 +102,11 @@ export default function JokeListManager({ initialCriteria = { sortBy: "-createTi
                             }}
                             onAvatarPress={() => {
                                 bottomSheetRef.current?.present();
-                                updateViewingUser(joke.user?.name ? joke.user.name : "", joke.user?.profile ? joke.user.profile : 0, joke.user?.backgroundId ? joke.user.backgroundId : 0);
+                                updateViewingUser(joke.user?.name ? joke.user.name : "", joke.user?.profile ? joke.user.profile : 0, joke.user?.backgroundId ? joke.user.backgroundId : 0, Number(joke.userId));
                             }}
                             onMenuPress={() => {
                                 bottomSheetRef.current?.present();
-                                updateViewingUser(joke.user?.name ? joke.user.name : "", joke.user?.profile ? joke.user.profile : 0, joke.user?.backgroundId ? joke.user.backgroundId : 0);
+                                updateViewingUser(joke.user?.name ? joke.user.name : "", joke.user?.profile ? joke.user.profile : 0, joke.user?.backgroundId ? joke.user.backgroundId : 0, Number(joke.userId));
                             }}
                         />
                     ))}
@@ -131,9 +134,11 @@ export default function JokeListManager({ initialCriteria = { sortBy: "-createTi
                     <View style={{
                         alignSelf: "flex-end",
                         marginHorizontal: 20,
+                        height: 50,
                     }}>
                         <CircularButton onPress={() => bottomSheetRef.current?.close()} variant="close" />
                     </View>
+                    <ProfileBottomSheetContent closeMethod={() => bottomSheetRef.current?.close()} />
                 </BottomSheetView>
             </BottomSheetModal>
         </View>
