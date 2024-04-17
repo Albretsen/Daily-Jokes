@@ -1,15 +1,15 @@
-import { View, Image, StyleSheet } from "react-native";
+import { View, Image, StyleSheet, TextStyle } from "react-native";
 import Text from "../generalUI/Text";
 
 interface PriceDisplayProps {
     price: number | string;
-    textColor?: string;
+    style?: TextStyle
 }
 
-export default function PriceDisplay({ price, textColor }: PriceDisplayProps) {
+export default function PriceDisplay({ price, style }: PriceDisplayProps) {
     return (
         <View style={styles.container}>
-            <Text color={textColor} size={16}>{price}</Text>
+            <Text style={style} size={16}>{price}</Text>
             <Image style={styles.image} source={require("../../assets/icons/coin.png")} />
         </View>
     )

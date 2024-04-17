@@ -9,11 +9,15 @@ import JokesLeftIndicator from "../../components/misc/JokesLeftIndicator";
 import { colors } from '../../components/misc/Colors';
 import ActiveTabContext from '../../context/ActiveTabContext';
 import { SCREEN_HEIGHT } from '../../components/layout/ScreenView';
+import Modal from '../../components/generalUI/Modal';
+import Text from '../../components/generalUI/Text';
+import PriceDisplay from '../../components/misc/PriceDisplay';
 
 export default function Write() {
     const { activeTab } = useContext(ActiveTabContext);
     const [inputValue, setInputValue] = useState('');
     const jokesLeftIndicatorRef = useRef<{ refreshIndicator: () => void }>(null);
+    const [noSubmissionsModalVisiable, setNoSubmissionsModalVisible] = useState(false);
 
     useEffect(() => {
         if (activeTab === 0) {
@@ -23,6 +27,8 @@ export default function Write() {
 
     let submitJoke = async () => {
         let result = await uploadJoke(inputValue);
+
+        // TODO: open modal if no submission available
 
         setInputValue('');
 
@@ -49,30 +55,57 @@ export default function Write() {
 
     }, []);
 
-    return(
-            <View style={[
-                styles.container,
-                {
-                    // paddingBottom: keyboardHeight,
-                    // maxHeight: SCREEN_HEIGHT - keyboardHeight,
-                    justifyContent: keyboardVisible ? "flex-start" : "center",
-                    paddingTop: 20,
-                }
-            ]}>
-                <ContentBox title="Write" style={{maxHeight: SCREEN_HEIGHT - 100}} headerColor={colors.yellow.dark}>
-                    <InputField
-                        style={{maxHeight: SCREEN_HEIGHT - (350)}}
-                        placeholder="Write your joke here..." 
-                        value={inputValue}
-                        onChangeText={setInputValue}
-                    />
-                    <View style={{alignItems: "center"}}>
-                        <Button variant="submit" shadowHeight={8} fontSize={16} width={100} height={28} onPress={submitJoke}  label="Sumbit" />
+    return (
+        <View style={[
+            styles.container,
+            {
+                // paddingBottom: keyboardHeight,
+                // maxHeight: SCREEN_HEIGHT - keyboardHeight,
+                justifyContent: keyboardVisible ? "flex-start" : "center",
+                paddingTop: 20,
+            }
+        ]}>
+            <ContentBox title="Write" style={{ maxHeight: SCREEN_HEIGHT - 100 }} headerColor={colors.yellow.dark}>
+                <InputField
+                    style={{ maxHeight: SCREEN_HEIGHT - (350) }}
+                    placeholder="Write your joke here..."
+                    value={inputValue}
+                    onChangeText={setInputValue}
+                />
+                <View style={{ alignItems: "center" }}>
+                    <Button variant="submit" shadowHeight={8} fontSize={16} width={100} height={28} onPress={submitJoke} label="Sumbit" />
+                </View>
+            </ContentBox>
+            <JokesLeftIndicator ref={jokesLeftIndicatorRef} />
+            <Modal onRequestClose={() => setNoSubmissionsModalVisible(false)} modalVisible={noSubmissionsModalVisiable}>
+                <ContentBox title="Out of submissions!">
+                    <View style={{ marginTop: 10 }}>
+                        <View style={{ alignItems: "center", gap: 10 }}>
+                            <Text shadow={false} style={{ textAlign: "center", color: colors.purple.medium }} size={15}>Your are out of joke submissions for today. Buy another to post your joke! </Text>
+                            <Button
+                                onPress={() => {
+                                    // TODO: function for buying another submission
+                                    setNoSubmissionsModalVisible(false);
+                                }}
+                                width={190}
+                                variant="play"
+                                borderRadius={14}
+                            >
+                                <View style={{
+                                    justifyContent: "center",
+                                    flexDirection: "row",
+                                    gap: 4,
+                                }}>
+                                    <Text size={16}>Buy submission</Text>
+                                    <PriceDisplay style={{ fontSize: 16 }} price={50} />
+                                </View>
+                            </Button>
+                        </View>
                     </View>
                 </ContentBox>
-                <JokesLeftIndicator ref={jokesLeftIndicatorRef}/>
-                {/* <MascotTip /> */}
-            </View>
+            </Modal>
+            {/* <MascotTip /> */}
+        </View>
     )
 }
 

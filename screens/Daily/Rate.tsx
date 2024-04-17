@@ -7,6 +7,7 @@ import { useJokesPreferences } from "../../hooks/useJokesPreferences";
 import { useContest } from "../../hooks/useContest";
 import { UserDataManager } from "../../services/userDataManager";
 import JokeListItem from "../../components/listItem/JokeListItem";
+import { Joke } from "../../types/Joke";
 
 export default function Rate() {
     const [showHistory, setShowHistory] = useState(false);
@@ -15,7 +16,7 @@ export default function Rate() {
     const contest = useContest();
     const { jokes, isLoading } = useJokesPreferences(criteria);
 
-    const [localJokes, setLocalJokes] = useState({ liked: [], disliked: [] });
+    const [localJokes, setLocalJokes] = useState<Joke[]>({ liked: [], disliked: [] });
 
     useEffect(() => {
         const setCriteriaAsync = async () => {
@@ -32,7 +33,7 @@ export default function Rate() {
     useEffect(() => {
         setCriteria(prev => ({ ...prev, key: Math.random() }));
     }, [showHistory]);
-    
+
     return (
         <View style={{
             justifyContent: "flex-start",
@@ -48,7 +49,7 @@ export default function Rate() {
             </View>
             <View style={styles.container}>
                 {showHistory ? (
-                    <ContentTab contentSpacing={0}
+                    <ContentTab contentSpacing={20}
                         tabs={[
                             {
                                 name: "Liked",

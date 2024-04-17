@@ -3,8 +3,13 @@ import { api } from "../api/api";
 import { useIsFocused } from '@react-navigation/native';
 import { UserDataManager } from '../services/userDataManager';
 
+interface LocalJokesState {
+    liked: number[]; // Assuming these are IDs of liked jokes
+    disliked: number[]; // Assuming these are IDs of disliked jokes
+}
+
 export const useJokesPreferences = (criteria?: object) => {
-    const [jokes, setJokes] = useState({ liked: [], disliked: [] });
+    const [jokes, setJokes] = useState<LocalJokesState>({ liked: [], disliked: [] });
     const isFocused = useIsFocused();
     const [isLoading, setIsLoading] = useState(false);
 
@@ -27,7 +32,7 @@ export const useJokesPreferences = (criteria?: object) => {
                     const jokes_result = await api("GET", endpoint, undefined, token);
 
                     if (isMounted) {
-                        setJokes(jokes_result); 
+                        setJokes(jokes_result);
                     }
                 } catch (error) {
                     console.error("Failed to fetch jokes preferences:", error);
