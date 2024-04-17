@@ -90,7 +90,6 @@ export default function FirstSignIn() {
                         style={{ width: "80%" }}
                     />
                     <Button height={35} label="OK" variant="blue" onPress={createAccount} />
-                    {/* Add a button for users to navigate to the Sign In screen if they already have an account */}
                     <TouchableOpacity onPress={navigateToSignIn} style={{ marginTop: 10 }}>
                         <Text style={{ color: '#007AFF', fontSize: 16 }}>
                             Already have an account? Sign In

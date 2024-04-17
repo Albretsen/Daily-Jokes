@@ -12,6 +12,7 @@ import { SCREEN_HEIGHT } from '../../components/layout/ScreenView';
 import Modal from '../../components/generalUI/Modal';
 import Text from '../../components/generalUI/Text';
 import PriceDisplay from '../../components/misc/PriceDisplay';
+import { toggleGoToStore } from '../../state-management/goToStore';
 
 export default function Write() {
     const { activeTab } = useContext(ActiveTabContext);
@@ -26,9 +27,17 @@ export default function Write() {
     }, [activeTab]);
 
     let submitJoke = async () => {
-        let result = await uploadJoke(inputValue);
-
-        // TODO: open modal if no submission available
+        let result;
+        try {
+            result = await uploadJoke(inputValue);
+        } catch {
+            toggleGoToStore(true);
+            throw new Error();
+        }
+        console.log("Here: " + result.remainingSubmissions);
+        if (result.remainingSubmissions == 0) {
+            toggleGoToStore(true);
+        }
 
         setInputValue('');
 
