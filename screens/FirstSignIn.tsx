@@ -59,6 +59,9 @@ export default function FirstSignIn() {
                 <View style={{
                     gap: 10
                 }}>
+                    <Text style={{ color: '#007AFF', fontSize: 16 }}>
+                        Welcome to Daily Jokes! Here's your free account!
+                    </Text>
                     <SmallInputField
                         label="Username (required)"
                         placeholder={nameHint}
