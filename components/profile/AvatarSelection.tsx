@@ -56,10 +56,9 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         flexWrap: "wrap",
         justifyContent: "center",
-        gap: 10,
+        gap: 4,
         rowGap: 20,
     },
-
 
     avatarContainer: {
         gap: 10,

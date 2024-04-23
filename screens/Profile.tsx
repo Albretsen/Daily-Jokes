@@ -14,7 +14,7 @@ export default function Profile() {
 
     const profile = useProfile();
 
-    const { avatarId } = useSelector((state: RootState) => state.profile);
+    const { avatarId, backgroundId } = useSelector((state: RootState) => state.profile);
 
     const [activeFilter, setActiveFilter] = useState(0);
 
@@ -27,7 +27,7 @@ export default function Profile() {
             scrollView={false}
         >
             <ScrollToTopView scrollToTopThreshold={Infinity}>
-                <ProfileSection customizable avatarId={profile.user.profile} backgroundId={profile.user.backgroundId} name={profile.user.name} />
+                <ProfileSection customizable avatarId={avatarId} backgroundId={backgroundId} name={profile.user.name} />
                 <View style={{
                     justifyContent: "center",
                     width: "100%",
