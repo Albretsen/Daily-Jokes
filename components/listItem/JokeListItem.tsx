@@ -17,6 +17,7 @@ import { store } from "../../state-management/reduxStore";
 import { decrementCoins } from "../../state-management/coinSlice";
 import { deleteJoke } from "../../services/joke";
 import CircularButton from "../buttons/CircularButton";
+import { toggleGoToStore } from "../../state-management/goToStore";
 
 interface JokeListItemProps {
     joke: {
@@ -67,7 +68,7 @@ export default function JokeListItem(props: JokeListItemProps) {
         try {
             let result = await api("POST", `/joke/boost/${joke.id}`, undefined, await UserDataManager.getToken());
             if (result.error) {
-                showToast("Not enough coins.");
+                toggleGoToStore(true);
                 return;
             }
             if (result.price)

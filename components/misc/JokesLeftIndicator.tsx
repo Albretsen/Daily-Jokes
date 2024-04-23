@@ -23,7 +23,7 @@ const JokesLeftIndicator = forwardRef((props, ref) => {
                     <View style={[styles.circle, jokeSubmission.jokesSubmitted - (3 + jokeSubmission.additionalSlotsPurchased) <= -1 ? styles.used : null]} />
                     <View style={[styles.circle, jokeSubmission.jokesSubmitted - (3 + jokeSubmission.additionalSlotsPurchased) <= -2 ? styles.used : null]} />
                     <View style={[styles.circle, jokeSubmission.jokesSubmitted - (3 + jokeSubmission.additionalSlotsPurchased) <= -3 ? styles.used : null]} />
-                    <CircularButton onPress={() => {/* TODO: Add buy function */ }} size={24} backgroundColor={componentColors.playButton.bgRight} highlightColor={"transparent"} variant="add" />
+                    <CircularButton activeOpacity={1} onPress={() => {/* TODO: Add buy function */ }} size={24} backgroundColor={componentColors.playButton.bgRight} highlightColor={"transparent"} variant="add" />
                 </View>
                 <PriceDisplay style={{ fontSize: 15 }} price={50} />
             </View>
