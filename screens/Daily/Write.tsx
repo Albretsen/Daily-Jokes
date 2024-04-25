@@ -31,14 +31,9 @@ export default function Write() {
         try {
             result = await uploadJoke(inputValue);
         } catch {
-            toggleGoToStore(true);
+            setNoSubmissionsModalVisible(true);
             throw new Error();
         }
-        console.log("Here: " + result.remainingSubmissions);
-        if (result.remainingSubmissions == 0) {
-            toggleGoToStore(true);
-        }
-
         setInputValue('');
 
         jokesLeftIndicatorRef.current?.refreshIndicator();
