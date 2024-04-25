@@ -15,6 +15,10 @@ interface CircularButtonProps {
     size?: number;
     noPress?: boolean;
     disabled?: boolean;
+    /** 
+    * @property Opacity of the button when pressed. Value from 0 to 1
+    */
+    activeOpacity?: number;
 }
 
 const variants = {
@@ -104,13 +108,13 @@ const variants = {
 }
 
 export default function CircularButton(props: CircularButtonProps) {
-    const { onPress, variant, iconComponent, backgroundColor, highlightColor, borderColor, size = 40, noPress, disabled } = props;
+    const { onPress, variant, iconComponent, backgroundColor, highlightColor, borderColor, size = 40, noPress, disabled, activeOpacity } = props;
 
     const borderWidth = p(7.5, size);
     const backgroundOffset = p(7, size);
 
     return (
-        <TouchableOpacity disabled={noPress || disabled} onPress={onPress}>
+        <TouchableOpacity activeOpacity={activeOpacity} disabled={noPress || disabled} onPress={onPress}>
             <View style={[
                 styles.container,
                 { width: size }

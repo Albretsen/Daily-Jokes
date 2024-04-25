@@ -18,10 +18,10 @@ export interface profileTypes {
     profile: string,
     profileBackgrounds: [
         {
-          backgroundId: string,
-          createdAt: string,
-          id: number,
-          userId: number
+            backgroundId: string,
+            createdAt: string,
+            id: number,
+            userId: number
         }
     ],
     profilePictures: [
@@ -66,7 +66,7 @@ export async function buyAvatar(id: number) {
         store.dispatch(decrementCoins(result.price));
         showToast("Avatar purchased successfully!");
     } catch (error) {
-        
+
     }
 }
 
@@ -88,7 +88,7 @@ export async function buyBackground(id: number) {
         store.dispatch(decrementCoins(result.price));
         showToast("Background purchased successfully!");
     } catch (error) {
-        
+
     }
 }
 
@@ -98,7 +98,7 @@ export async function selectBackground(id: number) {
         store.dispatch(updateBackground(id));
         showToast("Background changed successfully!");
     } catch (error) {
-        
+
     }
 }
 
