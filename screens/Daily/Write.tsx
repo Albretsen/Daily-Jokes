@@ -14,6 +14,11 @@ import Text from '../../components/generalUI/Text';
 import PriceDisplay from '../../components/misc/PriceDisplay';
 import { toggleGoToStore } from '../../state-management/goToStore';
 import { showToast } from "../../state-management/toast";
+import { api } from '../../api/api';
+import { useDispatch } from 'react-redux';
+import { store } from '../../state-management/reduxStore';
+import { decrementCoins } from '../../state-management/coinSlice';
+import { UserDataManager } from '../../services/userDataManager';
 
 export default function Write() {
     const { activeTab } = useContext(ActiveTabContext);
@@ -42,6 +47,23 @@ export default function Write() {
         showToast('Your joke has been submitted! You can read it again by tapping on "My Jokes"!')
 
         jokesLeftIndicatorRef.current?.refreshIndicator();
+    }
+
+    let purchaseSubmission = async () => {
+        setNoSubmissionsModalVisible(false);
+        jokesLeftIndicatorRef.current?.refreshIndicator();
+        store.dispatch(decrementCoins(50)); 
+
+        try {
+            const result = await api('POST', '/jokeSubmission/purchase', null, await UserDataManager.getToken());
+            if (result.error) throw new Error(result.error);
+            showToast('Purchase successful! You can now submit more jokes.');
+        } catch (error) {
+            jokesLeftIndicatorRef.current?.refreshIndicator();
+            store.dispatch(decrementCoins(-50)); 
+            showToast('Purchase failed. Please try again.');
+            console.error(error);
+        }
     }
 
     const [keyboardVisible, setKeyboardVisible] = useState(false);
@@ -86,16 +108,15 @@ export default function Write() {
                         <Button variant="submit" shadowHeight={8} fontSize={16} width={100} height={28} onPress={submitJoke} label="Sumbit" />
                     </View>
                 </ContentBox>
-                <JokesLeftIndicator ref={jokesLeftIndicatorRef} />
+                <JokesLeftIndicator purchaseSubmission={purchaseSubmission} ref={jokesLeftIndicatorRef} />
                 <Modal onRequestClose={() => setNoSubmissionsModalVisible(false)} modalVisible={noSubmissionsModalVisiable}>
                     <ContentBox title="Out of submissions!">
                         <View style={{ marginTop: 10 }}>
                             <View style={{ alignItems: "center", gap: 10 }}>
-                                <Text shadow={false} style={{ textAlign: "center", color: colors.purple.medium }} size={15}>Your are out of joke submissions for today. Buy another to post your joke! </Text>
+                                <Text shadow={false} style={{ textAlign: "center", color: colors.purple.medium }} size={15}>You are out of joke submissions for today. Buy another to post your joke! </Text>
                                 <Button
                                     onPress={() => {
-                                        // TODO: function for buying another submission
-                                        setNoSubmissionsModalVisible(false);
+                                        purchaseSubmission();
                                     }}
                                     width={190}
                                     variant="play"
