@@ -16,6 +16,12 @@ const avatars: Record<number, AvatarSource> = {
     10: require("../../assets/avatars/10.png"),
     11: require("../../assets/avatars/11.png"),
     12: require("../../assets/avatars/12.png"),
+    13: require("../../assets/avatars/13.png"),
+    14: require("../../assets/avatars/14.png"),
+    15: require("../../assets/avatars/15.png"),
+    16: require("../../assets/avatars/16.png"),
+    17: require("../../assets/avatars/17.png"),
+    18: require("../../assets/avatars/18.png"),
 }
 
 interface AvatarProps {

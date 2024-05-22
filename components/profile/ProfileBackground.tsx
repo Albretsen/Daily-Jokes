@@ -6,6 +6,7 @@ const backgrounds: Record<number, ReturnType<typeof require>> = {
     0: require("../../assets/backgrounds/0.png"),
     1: require("../../assets/backgrounds/1.png"),
     2: require("../../assets/backgrounds/2.png"),
+    3: require("../../assets/backgrounds/3.png"),
 }
 
 interface ProfileBackgroundProps {
