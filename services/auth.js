@@ -119,32 +119,23 @@ export const updatePassword = async (password) => {
 }
 
 export const initialize = async () => {
-    //await UserDataManager.storeToken("eUGlqdtZFnWhJ3mj.k.De62fnCFM5AWjxQSirUSOKAgyDu7K8.X56Ko2TGoF5VuC");
-    //await UserDataManager.storeToken("eUGlqdtZFnWhJ3mj.k.De62fnCFM5AWjxQSirUSOKAgyDu7K8.X56Ko2TGoF5Vu");
     //await UserDataManager.clearAllData();
     let token = await UserDataManager.getToken();
 
     if (token && await validateToken(token)) {
-        //Alert.alert('Token exists and is valid.');
-        return;
-    }
-
-    if (token) {
-        Alert.alert('Token is not valid.');
-        NavigationService.navigate("Sign in");
         return;
     }
 
     let localDeviceID = await UserDataManager.getDeviceID();
 
-    if (!localDeviceID) {
-        Alert.alert('Auto registering new device...');
+    if (!localDeviceID && !token) {
         await autoRegisterDevice();
+        NavigationService.navigate("First sign in");
         return;
     } else {
-        Alert.alert('This device has already been registered.');
-        //await UserDataManager.clearAllData();
-        //await autoRegisterDevice();
+        console.log("COULD NOT VALIDATE LOCAL TOKEN");
+        NavigationService.navigate("Sign in");
+        return;
     }
 };
 

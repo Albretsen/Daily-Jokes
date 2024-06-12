@@ -42,7 +42,7 @@ export default function Store() {
                                             key={pkg.identifier}
                                             title={pkg.product.title}
                                             price={pkg.product.priceString}
-                                            productIdentifier={pkg.identifier} 
+                                            productIdentifier={pkg.identifier}
                                             onPurchase={onPurchase}
                                         />
                                     ))}
@@ -58,7 +58,7 @@ export default function Store() {
                                     title="Monthly"
                                     price="$5.99"
                                     offers={[
-                                        "No ads"
+                                        "Coming soon..."
                                     ]}
                                 />
                             </ScrollToTopView>
