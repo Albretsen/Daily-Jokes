@@ -48,13 +48,13 @@ function Card({ text, animateCardAway }: CardProps) {
                     </Text>
                 </ScrollView>
                 <View style={cardStyles.buttonsContainer}>
-                    <View style={cardStyles.buttonWithLabel}>
+                    {/* <View style={cardStyles.buttonWithLabel}>
                         <CircularButton variant="undo" onPress={() => {
                             animateCardAway(-200, 'dislike');
                             flashScrollbar();
                         }} />
                         <Text shadow={false} size={14} color={colors.yellow.dark}>Undo</Text>
-                    </View>
+                    </View> */}
                     <View style={cardStyles.buttonWithLabel}>
                         <CircularButton variant="no" onPress={() => {
                             animateCardAway(-200, 'dislike');

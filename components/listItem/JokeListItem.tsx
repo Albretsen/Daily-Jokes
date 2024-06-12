@@ -51,6 +51,9 @@ type UserData = {
 export default function JokeListItem(props: JokeListItemProps) {
     let { joke, titleColor, textColor, noBox, boostable, boosted, onAvatarPress, onMenuPress } = props;
 
+    const [boostedState, setBoostedState] = useState(boosted);
+    const [boostableState, setBoostableState] = useState(boostable);
+
     const [readModalVisible, setReadModalVisible] = useState(false);
     const [deleteModalVisible, setDeleteModalVisible] = useState(false);
     const [userData, setUserData] = useState<UserData>({ role: "", id: "" });
@@ -74,6 +77,8 @@ export default function JokeListItem(props: JokeListItemProps) {
             if (result.price)
                 store.dispatch(decrementCoins(parseInt(result.price)))
             showToast("Joke boosted.");
+            setBoostedState(true);
+            setBoostableState(false);
         } catch {
             showToast("Error boosting joke.");
         }
@@ -114,7 +119,7 @@ export default function JokeListItem(props: JokeListItemProps) {
                         }}
                         stats={joke.stats}
                     >
-                        {boostable && (
+                        {boostableState && (
                             <>
                                 <View style={{
                                     flexDirection: "row",
@@ -127,7 +132,7 @@ export default function JokeListItem(props: JokeListItemProps) {
                                 <Text size={14} shadow={false} color={colors.purple.dark}>Boosting a joke makes every like it gets count double!</Text>
                             </>
                         )}
-                        {boosted && (
+                        {boostedState && (
                             <Button noPress height={30} shadowHeight={0} fontSize={15} borderRadius={16} variant="play" label="Boosted" />
                         )}
                     </ListItemCenter>
@@ -169,7 +174,7 @@ export default function JokeListItem(props: JokeListItemProps) {
                     </>
                 }
                 noBox={noBox}
-                boosted={boosted}
+                boosted={boostedState}
             />
             <Modal modalVisible={readModalVisible} onRequestClose={() => setReadModalVisible(false)}>
                 <ContentBox width={"105%"}>

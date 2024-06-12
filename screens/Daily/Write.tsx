@@ -17,8 +17,9 @@ import { showToast } from "../../state-management/toast";
 import { api } from '../../api/api';
 import { useDispatch } from 'react-redux';
 import { store } from '../../state-management/reduxStore';
-import { decrementCoins } from '../../state-management/coinSlice';
+import { decrementCoins, incrementCoins, updateCoins } from '../../state-management/coinSlice';
 import { UserDataManager } from '../../services/userDataManager';
+import { loading } from '../../state-management/loading';
 
 export default function Write() {
     const { activeTab } = useContext(ActiveTabContext);
@@ -34,12 +35,15 @@ export default function Write() {
 
     let submitJoke = async () => {
         let result;
+        loading(true);
         try {
             result = await uploadJoke(inputValue);
         } catch {
             setNoSubmissionsModalVisible(true);
+            loading(false);
             throw new Error();
         }
+        loading(false);
         setInputValue('');
 
         Keyboard.dismiss();
@@ -51,16 +55,22 @@ export default function Write() {
 
     let purchaseSubmission = async () => {
         setNoSubmissionsModalVisible(false);
-        jokesLeftIndicatorRef.current?.refreshIndicator();
         store.dispatch(decrementCoins(50)); 
-
+        loading(true);
         try {
             const result = await api('POST', '/jokeSubmission/purchase', null, await UserDataManager.getToken());
-            if (result.error) throw new Error(result.error);
+            await new Promise(resolve => setTimeout(resolve, 50));
+            loading(false);
+            jokesLeftIndicatorRef.current?.refreshIndicator();
+            console.log(result);
+            if (result.error) { 
+                throw new Error(result.error);
+            }
             showToast('Purchase successful! You can now submit more jokes.');
         } catch (error) {
             jokesLeftIndicatorRef.current?.refreshIndicator();
-            store.dispatch(decrementCoins(-50)); 
+            store.dispatch(incrementCoins(50));
+            loading(false);
             showToast('Purchase failed. Please try again.');
             console.error(error);
         }

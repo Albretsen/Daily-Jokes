@@ -25,13 +25,13 @@ export default function HomeNavigation() {
                     }}>
                         <Text size={26}>Navigation</Text>
                     </View>
-                    <DrawerLink
+                    {/* <DrawerLink
                         title="Notifications"
                         text="See notifications you've gotten."
                         linkTo="Notifications"
                         icon={<Ionicons name="notifications" size={20} color={colors.blue.light} />}
                         onPress={() => navigationDrawerRef.current?.closeDrawer()}
-                    />
+                    /> */}
                     {/* <DrawerLink
                         title="Results"
                         text="See the results of yesterday's contest."

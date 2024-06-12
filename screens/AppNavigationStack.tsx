@@ -57,11 +57,11 @@ export default function AppNavigationStack() {
                     component={Profile}
                     options={({ navigation, route }) => HeaderOptions({ navigation, route })}
                 />
-                <Stack.Screen
+                {/* <Stack.Screen
                     name="Notifications"
                     component={Notifications}
                     options={({ navigation, route }) => HeaderOptions({ navigation, route })}
-                />
+                /> */}
                 <Stack.Screen
                     name="Store"
                     component={Store}
