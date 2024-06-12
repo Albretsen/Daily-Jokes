@@ -15,7 +15,7 @@ export const login = async (email, password) => {
 
         if (response.user.email === email) {
             await loadProfileToState(response.user);
-            UserDataManager.storeUserData(response.user);
+            await UserDataManager.storeUserData(response.user);
         } else {
             throw new Error('Login failed');
         }
@@ -31,7 +31,8 @@ export const loginWithToken = async (token) => {
 
         if (response.user?.token === token) {
             await loadProfileToState(response.user);
-            UserDataManager.storeUserData(response.user);
+            await UserDataManager.storeUserData(response.user);
+            response.user = { ...response.user, token: token }
             return response.user;
         } else {
             throw new Error('Login with token failed');
@@ -67,7 +68,7 @@ export const register = async (email, password, name, deviceID = "") => {
 
         if (response.user.email === email) {
             await loadProfileToState(response.user);
-            UserDataManager.storeUserData(response.user);
+            await UserDataManager.storeUserData(response.user);
             return response.user;
         } else {
             throw new Error('Register failed');
@@ -89,7 +90,7 @@ export const update = async (data) => {
         if (response.success) {
             return true;
         } else {
-            throw new Error('Update user info failed');
+            return response;
         }
     } catch (error) {
         console.error(error);
@@ -108,6 +109,7 @@ export const updatePassword = async (password) => {
         if (response.success) {
             return true;
         } else {
+            console.log("lol")
             throw new Error('Update password failed');
         }
     } catch (error) {
@@ -119,6 +121,7 @@ export const updatePassword = async (password) => {
 export const initialize = async () => {
     //await UserDataManager.storeToken("eUGlqdtZFnWhJ3mj.k.De62fnCFM5AWjxQSirUSOKAgyDu7K8.X56Ko2TGoF5VuC");
     //await UserDataManager.storeToken("eUGlqdtZFnWhJ3mj.k.De62fnCFM5AWjxQSirUSOKAgyDu7K8.X56Ko2TGoF5Vu");
+    //await UserDataManager.clearAllData();
     let token = await UserDataManager.getToken();
 
     if (token && await validateToken(token)) {

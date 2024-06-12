@@ -27,7 +27,7 @@ interface JokeListManagerProps {
     noJokesMessage?: string;
 }
 
-export default function JokeListManager({ initialCriteria = { sortBy: "-createTimeStamp", pagination: { page: 1 } }, noJokesMessage = "No jokes found." }: JokeListManagerProps) {
+export default function   JokeListManager({ initialCriteria = { sortBy: "-createTimeStamp", pagination: { page: 1 } }, noJokesMessage = "No jokes found." }: JokeListManagerProps) {
     const [localJokes, setLocalJokes] = useState<Joke[]>([]);
     const [page, setPage] = useState(1);
     const [criteria, setCriteria] = useState(initialCriteria);
@@ -90,11 +90,11 @@ export default function JokeListManager({ initialCriteria = { sortBy: "-createTi
                             // TODO: Add logic for determining if a joke is boosted or not
                             boosted={joke.boost != 0}
                             joke={{
-                                avatarId: joke.user?.profile ? joke.user.profile : 0,
-                                username: joke.user?.name ? joke.user.name : "",
-                                text: joke.textBody,
-                                position: 1,
-                                stats: {
+                                avatarId: joke.user?.profile ? joke.user.profile : 0,  
+                                username: joke.user?.name ? joke.user.name : "",  
+                                text: joke.textBody,  
+                                position: 1,  
+                                stats: {  
                                     likes: joke.score,
                                 },
                                 id: joke.id,

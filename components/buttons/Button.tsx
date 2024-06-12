@@ -1,8 +1,9 @@
 import { StyleProp, ViewStyle } from "react-native";
 import BaseButton from "./BaseButton";
 import { componentColors, colors } from "../misc/Colors";
+import { ReactNode } from "react";
 
-export type ButtonVariantType = "play" | "toggle" | "submit" | "blue" | "pink";
+export type ButtonVariantType = "play" | "toggle" | "submit" | "blue" | "pink" | "red";
 
 interface ButtonProps {
     label?: string;
@@ -22,6 +23,7 @@ interface ButtonProps {
     * @property The button retains its style, but gives no feedback when pressed
     */
     noPress?: boolean;
+    children?: ReactNode;
 }
 
 const variants = {
@@ -56,6 +58,13 @@ const variants = {
         borderRadius: 10,
     },
 
+    "red": {
+        leftColor: colors.red.light,
+        rightColor: colors.red.dark,
+        highlightColor: colors.red.highlight,
+        borderRadius: 10,
+    },
+
     "inactive": {
         leftColor: "gainsboro",
         rightColor: "silver",
@@ -64,7 +73,7 @@ const variants = {
     }
 }
 
-export default function Button({ label, onPress, height, width, fontSize, shadowHeight, style, borderRadius, variant = "play", disabled, noPress }: ButtonProps) {
+export default function Button({ label, onPress, height, width, fontSize, shadowHeight, style, borderRadius, variant = "play", disabled, noPress, children }: ButtonProps) {
     return (
         <BaseButton
             onPress={onPress}
@@ -80,6 +89,7 @@ export default function Button({ label, onPress, height, width, fontSize, shadow
             style={style}
             disabled={disabled}
             noPress={noPress}
+            children={children}
         />
     );
 }

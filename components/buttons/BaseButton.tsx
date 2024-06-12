@@ -4,6 +4,7 @@ import Text from "../generalUI/Text";
 import { componentColors } from "../misc/Colors";
 import Shadow from "../misc/Shadow";
 import { percentageOf as p } from "../../utils/utils";
+import { ReactNode } from "react";
 
 interface BaseButtonProps {
     leftColor?: string;
@@ -21,6 +22,7 @@ interface BaseButtonProps {
     style?: StyleProp<ViewStyle>;
     disabled?: boolean;
     noPress?: boolean;
+    children?: ReactNode;
 }
 
 export default function BaseButton(props: BaseButtonProps) {
@@ -39,6 +41,7 @@ export default function BaseButton(props: BaseButtonProps) {
         style = null,
         disabled,
         noPress,
+        children,
     } = props;
 
     const buttonWidth = p(widthPercentage, 100);
@@ -101,6 +104,9 @@ export default function BaseButton(props: BaseButtonProps) {
                         />
                     </Svg>
                     <Text shadow style={[styles.buttonText, { fontSize: fontSize }]}>{label}</Text>
+                    <View style={{ position: "absolute" }}>
+                        {children}
+                    </View>
                 </View>
             </View>
         </TouchableOpacity>

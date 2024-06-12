@@ -17,6 +17,7 @@ import { store } from "../../state-management/reduxStore";
 import { decrementCoins } from "../../state-management/coinSlice";
 import { deleteJoke } from "../../services/joke";
 import CircularButton from "../buttons/CircularButton";
+import { toggleGoToStore } from "../../state-management/goToStore";
 
 interface JokeListItemProps {
     joke: {
@@ -50,10 +51,12 @@ type UserData = {
 export default function JokeListItem(props: JokeListItemProps) {
     let { joke, titleColor, textColor, noBox, boostable, boosted, onAvatarPress, onMenuPress } = props;
 
-    const [modalVisible, setModalVisible] = useState(false);
+    const [boostedState, setBoostedState] = useState(boosted);
+    const [boostableState, setBoostableState] = useState(boostable);
 
+    const [readModalVisible, setReadModalVisible] = useState(false);
+    const [deleteModalVisible, setDeleteModalVisible] = useState(false);
     const [userData, setUserData] = useState<UserData>({ role: "", id: "" });
-
     const [isVisible, setIsVisible] = useState(true);
 
     useEffect(() => {
@@ -67,9 +70,15 @@ export default function JokeListItem(props: JokeListItemProps) {
     const onBoost = async () => {
         try {
             let result = await api("POST", `/joke/boost/${joke.id}`, undefined, await UserDataManager.getToken());
+            if (result.error) {
+                toggleGoToStore(true);
+                return;
+            }
             if (result.price)
                 store.dispatch(decrementCoins(parseInt(result.price)))
             showToast("Joke boosted.");
+            setBoostedState(true);
+            setBoostableState(false);
         } catch {
             showToast("Error boosting joke.");
         }
@@ -106,11 +115,11 @@ export default function JokeListItem(props: JokeListItemProps) {
                         textColor={textColor}
                         button={{
                             label: "Read joke",
-                            onPress: () => setModalVisible(true),
+                            onPress: () => setReadModalVisible(true),
                         }}
                         stats={joke.stats}
                     >
-                        {boostable && (
+                        {boostableState && (
                             <>
                                 <View style={{
                                     flexDirection: "row",
@@ -118,12 +127,12 @@ export default function JokeListItem(props: JokeListItemProps) {
                                     gap: 10,
                                 }}>
                                     <Button height={30} shadowHeight={0} fontSize={15} borderRadius={12} variant="play" label="Boost joke" onPress={onBoost} />
-                                    <PriceDisplay textColor={colors.purple.medium} price={50} />
+                                    <PriceDisplay style={{ color: colors.purple.medium }} price={50} />
                                 </View>
                                 <Text size={14} shadow={false} color={colors.purple.dark}>Boosting a joke makes every like it gets count double!</Text>
                             </>
                         )}
-                        {boosted && (
+                        {boostedState && (
                             <Button noPress height={30} shadowHeight={0} fontSize={15} borderRadius={16} variant="play" label="Boosted" />
                         )}
                     </ListItemCenter>
@@ -136,14 +145,38 @@ export default function JokeListItem(props: JokeListItemProps) {
                                 onPress: onMenuPress,
                             }}
                         >
-                            {canDelete && <CircularButton onPress={onDelete} size={30} variant="delete" />}
+                            {canDelete && (
+                                <>
+                                    <CircularButton onPress={() => setDeleteModalVisible(true)} size={30} variant="delete" />
+                                    <Modal modalVisible={deleteModalVisible} onRequestClose={() => setDeleteModalVisible(false)}>
+                                        <ContentBox title="Delete joke">
+                                            <Text style={{ textAlign: "center" }} shadow={false} color={colors.purple.medium}>Are you sure you want to delete this joke?</Text>
+                                            <View style={{
+                                                justifyContent: "center",
+                                                flexDirection: "row",
+                                                gap: 10,
+                                            }}>
+                                                <Button onPress={() => {
+                                                    onDelete();
+                                                    setDeleteModalVisible(false)
+                                                }}
+                                                    variant="red"
+                                                    label="Delete"
+                                                    height={34}
+                                                />
+                                                <Button onPress={() => setDeleteModalVisible(false)} height={34} variant="blue" label="Cancel" />
+                                            </View>
+                                        </ContentBox>
+                                    </Modal>
+                                </>
+                            )}
                         </ListItemRight>
                     </>
                 }
                 noBox={noBox}
-                boosted={boosted}
+                boosted={boostedState}
             />
-            <Modal modalVisible={modalVisible} onRequestClose={() => setModalVisible(false)}>
+            <Modal modalVisible={readModalVisible} onRequestClose={() => setReadModalVisible(false)}>
                 <ContentBox width={"105%"}>
                     <ScrollView style={{ maxHeight: SCREEN_HEIGHT - 100 }}>
                         <Pressable>

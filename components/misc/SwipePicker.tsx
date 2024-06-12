@@ -10,6 +10,10 @@ import { useJokesSearchSwipe } from '../../hooks/useJokesSearchSwipe';
 import { api } from '../../api/api';
 import { UserDataManager } from '../../services/userDataManager';
 import PriceDisplay from './PriceDisplay';
+import { showToast } from '../../state-management/toast';
+import { store } from '../../state-management/reduxStore';
+import { decrementCoins } from '../../state-management/coinSlice';
+import { toggleGoToStore } from '../../state-management/goToStore';
 
 interface CardProps {
     text: string;
@@ -44,13 +48,13 @@ function Card({ text, animateCardAway }: CardProps) {
                     </Text>
                 </ScrollView>
                 <View style={cardStyles.buttonsContainer}>
-                    <View style={cardStyles.buttonWithLabel}>
+                    {/* <View style={cardStyles.buttonWithLabel}>
                         <CircularButton variant="undo" onPress={() => {
                             animateCardAway(-200, 'dislike');
                             flashScrollbar();
                         }} />
                         <Text shadow={false} size={14} color={colors.yellow.dark}>Undo</Text>
-                    </View>
+                    </View> */}
                     <View style={cardStyles.buttonWithLabel}>
                         <CircularButton variant="no" onPress={() => {
                             animateCardAway(-200, 'dislike');
@@ -68,7 +72,7 @@ function Card({ text, animateCardAway }: CardProps) {
                             }} />
                             <Text shadow={false} size={14} color={colors.blue.dark}>Superlike</Text>
                         </View>
-                        <PriceDisplay price={50} textColor={colors.blue.dark} />
+                        <PriceDisplay price={50} style={{ color: colors.blue.dark }} />
                     </View>
                     <View style={cardStyles.buttonWithLabel}>
                         <CircularButton variant="yes" onPress={() => {
@@ -212,15 +216,27 @@ export default function SwipePicker() {
     };
 
     const rate = async (jokeId: Number, action: string) => {
-        await api("POST", `/joke/rate/${jokeId}/${action}`, undefined, await UserDataManager.getToken());
+        return await api("POST", `/joke/rate/${jokeId}/${action}`, undefined, await UserDataManager.getToken());
     }
 
     const translateY = new Animated.Value(0);
 
-    const animateCardAway = (direction: number, action: string) => {
+    const animateCardAway = async (direction: number, action: string) => {
         const jokeId = jokes[currentIndex] ? jokes[currentIndex].id : null;
 
-        rate(jokeId, action);
+        try {
+            let result = await rate(jokeId, action);
+            if (result.error) {
+                toggleGoToStore(true);
+                return;
+            }
+            if (action === 'superlike' && result.price) {
+                store.dispatch(decrementCoins(result.price));
+            }
+        } catch {
+            console.log("Rate error");
+            return;
+        }
         if (action === 'superlike') {
             const toValue = -SCREEN_HEIGHT; // Move the card off the screen upwards
             Animated.timing(translateY, {

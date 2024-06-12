@@ -12,4 +12,6 @@ export interface Joke {
     contestId: number;
     id: number;
     boost: number;
+    liked: number[];
+    disliked: number[];
 }

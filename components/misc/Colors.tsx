@@ -35,8 +35,10 @@ export const colors = {
     },
 
     red: {
+        light: "#e72653",
         medium: "#FF4672",
         dark: "#E90038",
+        highlight: "#880020",
     },
 
     metals: {
